@@ -10,6 +10,7 @@ import { CURRENCY, TIMEZONE } from "@/lib/finance";
 import { usePrefs } from "@/lib/ui-prefs";
 import { tutorialBus } from "@/lib/tutorial-bus";
 import { useComposer } from "@/components/composer";
+import { useConfirm } from "@/components/confirm";
 import { PageHeader } from "@/components/shell";
 import { PhotoThumb } from "@/components/photo";
 import { Input } from "@/components/ui/input";
@@ -38,6 +39,7 @@ function ProfilePage() {
   const { data: profile } = useProfile();
   const { hidden, toggle } = usePrefs();
   const { dirty } = useComposer();
+  const ask = useConfirm();
   const [name, setName] = useState("");
   const [bip, setBip] = useState<BIP | null>(null);
   const [ios, setIos] = useState(false);
@@ -67,7 +69,7 @@ function ProfilePage() {
     update({ avatar_path: path });
   }
   async function logout() {
-    if (dirty && !confirm("Có nội dung chưa lưu. Đăng xuất sẽ huỷ nội dung đó?")) return;
+    if (dirty && !(await ask({ title: "Đăng xuất?", body: "Có nội dung chưa lưu. Đăng xuất sẽ huỷ nội dung đó.", ok: "Đăng xuất", destructive: true }))) return;
     await supabase.auth.signOut();
     qc.clear();
     nav({ to: "/auth" });
