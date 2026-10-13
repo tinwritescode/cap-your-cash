@@ -51,7 +51,7 @@ function ProfilePage() {
     return () => window.removeEventListener("beforeinstallprompt", h);
   }, []);
 
-  async function update(patch: Record<string, unknown>) {
+  async function update(patch: { display_name?: string | null; avatar_path?: string; theme?: string }) {
     const { error } = await supabase.from("profiles").update(patch).eq("id", user!.id);
     if (error) toast.error(error.message); else qc.invalidateQueries({ queryKey: ["profile"] });
   }
