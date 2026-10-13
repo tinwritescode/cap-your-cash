@@ -5,6 +5,7 @@ import { useComposer } from "./composer";
 import { useOnline } from "@/hooks/use-online";
 import { useWallets } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import { PullToRefresh } from "./pull-to-refresh";
 
 const TABS = [
   { to: "/", label: "Trang chủ", icon: Home },
@@ -40,7 +41,8 @@ export function AppShell({ children }: { children: ReactNode }) {
         )}
       </aside>
 
-      <main className="mx-auto w-full max-w-3xl px-4 pb-32 pt-safe md:pb-10">
+      {online && <PullToRefresh />}
+      <main className="mx-auto w-full max-w-3xl px-4 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-[max(0.25rem,env(safe-area-inset-top))] md:pb-10">
         {online ? children : <Offline />}
       </main>
 
