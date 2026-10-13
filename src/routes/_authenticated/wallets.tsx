@@ -13,6 +13,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/lib/auth";
+import { AppSelect } from "@/components/pickers";
 
 export const Route = createFileRoute("/_authenticated/wallets")({
   head: () => ({
@@ -144,12 +145,10 @@ function Categories() {
         ))}
       </div>
       <div className="mt-3 grid grid-cols-[4rem_1fr] gap-2 rounded-3xl bg-surface p-3">
-        <Input className="h-11 text-center" value={icon} maxLength={4} onChange={(e) => setIcon(e.target.value)} aria-label="Biểu tượng" />
-        <Input className="h-11" value={name} maxLength={40} onChange={(e) => setName(e.target.value)} placeholder="Tên danh mục mới" />
-        <select className="field-select col-span-2" value={parent} onChange={(e) => setParent(e.target.value)} aria-label="Danh mục cha">
-          <option value="">Danh mục chính</option>
-          {roots.filter((r) => !r.archived_at).map((r) => <option key={r.id} value={r.id}>Con của: {r.icon} {r.name}</option>)}
-        </select>
+        <Input className="text-center" value={icon} maxLength={4} onChange={(e) => setIcon(e.target.value)} aria-label="Biểu tượng" />
+        <Input value={name} maxLength={40} onChange={(e) => setName(e.target.value)} placeholder="Tên danh mục mới" />
+        <AppSelect className="col-span-2" aria-label="Danh mục cha" value={parent} onChange={setParent}
+          options={[{ value: "", label: "Danh mục chính" }, ...roots.filter((r) => !r.archived_at).map((r) => ({ value: r.id, label: `Con của: ${r.icon} ${r.name}` }))]} />
         <Button className="col-span-2 h-11" onClick={add}>Thêm danh mục</Button>
       </div>
     </section>

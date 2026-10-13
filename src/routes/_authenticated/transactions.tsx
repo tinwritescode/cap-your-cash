@@ -16,6 +16,7 @@ import { PhotoThumb } from "@/components/photo";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { AppSelect, DatePicker } from "@/components/pickers";
 
 const search = z.object({ view: z.enum(["list", "gallery"]).optional() });
 
@@ -141,18 +142,15 @@ function TxPage() {
       } />
 
       <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
-        <Input className="col-span-2 h-11 sm:col-span-3" placeholder="Tìm trong ghi chú…" value={f.q} onChange={(e) => setF({ ...f, q: e.target.value })} aria-label="Tìm ghi chú" />
-        <Input type="date" className="h-11" value={f.from} onChange={(e) => setF({ ...f, from: e.target.value })} aria-label="Từ ngày" />
-        <Input type="date" className="h-11" value={f.to} onChange={(e) => setF({ ...f, to: e.target.value })} aria-label="Đến ngày" />
-        <select className="field-select" value={f.type} onChange={(e) => setF({ ...f, type: e.target.value })} aria-label="Loại">
-          <option value="">Mọi loại</option><option value="expense">Chi</option><option value="income">Thu</option><option value="transfer">Chuyển ví</option><option value="journal">Nhật ký</option>
-        </select>
-        <select className="field-select" value={f.wallet} onChange={(e) => setF({ ...f, wallet: e.target.value })} aria-label="Ví">
-          <option value="">Mọi ví</option>{wallets.map((w) => <option key={w.id} value={w.id}>{w.name}</option>)}
-        </select>
-        <select className="field-select" value={f.category} onChange={(e) => setF({ ...f, category: e.target.value })} aria-label="Danh mục">
-          <option value="">Mọi danh mục</option>{categories.map((c) => <option key={c.id} value={c.id}>{c.icon} {c.name}</option>)}
-        </select>
+        <Input className="col-span-2 sm:col-span-3" placeholder="Tìm trong ghi chú…" value={f.q} onChange={(e) => setF({ ...f, q: e.target.value })} aria-label="Tìm ghi chú" />
+        <DatePicker clearable placeholder="Từ ngày" value={f.from} onChange={(v) => setF({ ...f, from: v })} aria-label="Từ ngày" />
+        <DatePicker clearable placeholder="Đến ngày" value={f.to} onChange={(v) => setF({ ...f, to: v })} aria-label="Đến ngày" />
+        <AppSelect aria-label="Loại" value={f.type} onChange={(v) => setF({ ...f, type: v })}
+          options={[{ value: "", label: "Mọi loại" }, { value: "expense", label: "Chi" }, { value: "income", label: "Thu" }, { value: "transfer", label: "Chuyển ví" }, { value: "journal", label: "Nhật ký" }]} />
+        <AppSelect aria-label="Ví" value={f.wallet} onChange={(v) => setF({ ...f, wallet: v })}
+          options={[{ value: "", label: "Mọi ví" }, ...wallets.map((w) => ({ value: w.id, label: w.name }))]} />
+        <AppSelect aria-label="Danh mục" className="col-span-2 sm:col-span-1" value={f.category} onChange={(v) => setF({ ...f, category: v })}
+          options={[{ value: "", label: "Mọi danh mục" }, ...categories.map((c) => ({ value: c.id, label: `${c.icon} ${c.name}` }))]} />
       </div>
 
       {q.isLoading && <p className="text-sm text-muted-foreground">Đang tải…</p>}

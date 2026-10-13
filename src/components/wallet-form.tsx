@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { invalidateFinance } from "@/lib/data";
 import { fromLocalInput, parseVnd, toLocalInput } from "@/lib/finance";
+import { DateTimePicker } from "./pickers";
 
 export const KIND_LABEL: Record<string, string> = { cash: "💵 Tiền mặt", bank: "🏦 Ngân hàng", credit: "💳 Thẻ tín dụng" };
 
@@ -56,7 +57,7 @@ export function WalletForm({ onDone }: { onDone?: () => void }) {
         </div>
         <p className="mt-1 text-xs text-muted-foreground">Chỉ nhập lúc tạo. Sau này hãy dùng giao dịch để thay đổi.</p>
       </div>
-      <div><Label htmlFor="oa">Bắt đầu theo dõi từ</Label><Input id="oa" type="datetime-local" className="mt-1 h-11" value={at} onChange={(e) => setAt(e.target.value)} /></div>
+      <div><Label htmlFor="oa">Bắt đầu theo dõi từ</Label><div className="mt-1"><DateTimePicker id="oa" value={at} onChange={setAt} /></div></div>
       {err && <p role="alert" className="text-sm text-destructive">{err}</p>}
       <Button className="h-12 rounded-2xl" disabled={busy} onClick={save}>Tạo ví</Button>
     </div>
