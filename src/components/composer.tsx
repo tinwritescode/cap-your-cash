@@ -17,6 +17,7 @@ import { PhotoThumb } from "./photo";
 import { cn } from "@/lib/utils";
 import { useConfirm } from "./confirm";
 import { CameraCapture } from "./camera-capture";
+import { AppSelect, DateTimePicker } from "./pickers";
 
 type TxType = "expense" | "income" | "transfer" | "journal";
 type PhotoItem = {
@@ -80,7 +81,7 @@ export function ComposerProvider({ children }: { children: ReactNode }) {
     <ComposerCtx.Provider value={useMemo(() => ({ openNew, openEdit, dirty }), [openNew, openEdit, dirty])}>
       {children}
       <Dialog open={open} onOpenChange={(o) => !o && close()}>
-        <DialogContent className="max-h-[96dvh] overflow-y-auto rounded-[2rem] border-border bg-surface p-0 sm:max-w-lg [&>button:last-child]:hidden">
+        <DialogContent className="overflow-y-auto rounded-[2rem] border-border bg-surface p-0 sm:max-w-lg [&>button:last-child]:hidden">
           {open && (
             <TxForm key={session} editing={editing} initialType={initialType} onDirty={setDirty} onDone={() => close(true)} onCancel={() => close()} />
           )}
@@ -340,32 +341,24 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
 
         {(type === "expense" || type === "transfer" || type === "journal") && (
           <Field label={type === "transfer" ? "Từ ví" : type === "journal" ? "Ví (tuỳ chọn)" : "Ví"}>
-            <select className="field-select" value={src} onChange={(e) => setSrc(e.target.value)}>
-              {type === "journal" && <option value="">— Không chọn —</option>}
-              {usable("src", editing?.source_wallet_id).map((w) => <option key={w.id} value={w.id}>{w.name}{w.archived_at ? " (đã lưu trữ)" : ""}</option>)}
-            </select>
+            <AppSelect value={src} onChange={setSrc} placeholder="— Chọn ví —"
+              options={[...(type === "journal" ? [{ value: "", label: "— Không chọn —" }] : []), ...usable("src", editing?.source_wallet_id).map((w) => ({ value: w.id, label: `${w.name}${w.archived_at ? " (đã lưu trữ)" : ""}` }))]} />
           </Field>
         )}
         {(type === "income" || type === "transfer") && (
           <Field label={type === "transfer" ? "Đến ví" : "Ví nhận"}>
-            <select className="field-select" value={dst} onChange={(e) => setDst(e.target.value)}>
-              <option value="">— Chọn ví —</option>
-              {usable("dst", editing?.dest_wallet_id).map((w) => <option key={w.id} value={w.id}>{w.name}{w.archived_at ? " (đã lưu trữ)" : ""}</option>)}
-            </select>
+            <AppSelect value={dst} onChange={setDst} placeholder="— Chọn ví —"
+              options={usable("dst", editing?.dest_wallet_id).map((w) => ({ value: w.id, label: `${w.name}${w.archived_at ? " (đã lưu trữ)" : ""}` }))} />
           </Field>
         )}
         {type !== "transfer" && (
           <Field label={type === "journal" ? "Danh mục (tuỳ chọn)" : "Danh mục"}>
-            <select className="field-select" value={cat} onChange={(e) => setCat(e.target.value)}>
-              <option value="">— Chọn danh mục —</option>
-              {catOptions.filter((c) => !c.parent_id).flatMap((p) => [p, ...catOptions.filter((c) => c.parent_id === p.id)]).map((c) => (
-                <option key={c.id} value={c.id}>{catLabel(c, categories)}</option>
-              ))}
-            </select>
+            <AppSelect value={cat} onChange={setCat} placeholder="— Chọn danh mục —"
+              options={[...(type === "journal" ? [{ value: "", label: "— Không chọn —" }] : []), ...catOptions.filter((c) => !c.parent_id).flatMap((p) => [p, ...catOptions.filter((c) => c.parent_id === p.id)]).map((c) => ({ value: c.id, label: catLabel(c, categories) }))]} />
           </Field>
         )}
         <Field label="Thời gian">
-          <Input type="datetime-local" value={when} onChange={(e) => setWhen(e.target.value)} className="h-11" />
+          <DateTimePicker value={when} onChange={setWhen} />
         </Field>
         <Field label="Ghi chú">
           <Textarea maxLength={500} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Ví dụ: Cơm trưa với đồng nghiệp" />

@@ -5,6 +5,7 @@ import { useComposer } from "./composer";
 import { useOnline } from "@/hooks/use-online";
 import { useWallets } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import { PullToRefresh } from "./pull-to-refresh";
 
 const TABS = [
   { to: "/", label: "Trang chủ", icon: Home },
@@ -40,7 +41,8 @@ export function AppShell({ children }: { children: ReactNode }) {
         )}
       </aside>
 
-      <main className="mx-auto w-full max-w-3xl px-4 pb-32 pt-safe md:pb-10">
+      {online && <PullToRefresh />}
+      <main className="mx-auto w-full max-w-3xl px-4 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-[max(0.25rem,env(safe-area-inset-top))] md:pb-10">
         {online ? children : <Offline />}
       </main>
 
@@ -87,11 +89,11 @@ export function PageHeader({ title, right }: { title: string; right?: ReactNode 
 
 export function Empty({ title, body, action, icon }: { title: string; body: string; action?: ReactNode; icon?: ReactNode }) {
   return (
-    <div className="flex flex-col items-center gap-2 rounded-3xl bg-surface px-6 py-10 text-center">
+    <div className="flex flex-col items-center gap-1.5 rounded-3xl bg-surface p-7 text-center">
       {icon && <div className="mb-2 grid size-14 place-items-center rounded-full bg-surface-2 text-muted-foreground">{icon}</div>}
       <p className="text-base font-semibold">{title}</p>
       <p className="max-w-xs text-sm text-muted-foreground">{body}</p>
-      {action && <div className="mt-3">{action}</div>}
+      {action && <div className="mt-4">{action}</div>}
     </div>
   );
 }

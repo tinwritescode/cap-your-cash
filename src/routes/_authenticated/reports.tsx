@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, BarChart3 } from "lucide-react";
 import { Bar, BarChart, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
@@ -103,6 +103,13 @@ function Reports() {
 
       <section className="rounded-3xl bg-surface p-4">
         <h2 className="mb-3 font-semibold">Chi tiêu hằng ngày</h2>
+        {!(daily.data ?? []).some((d) => d.expense > 0 || d.income > 0) ? (
+          <div className="flex flex-col items-center gap-2 rounded-2xl bg-surface-2 px-4 py-8 text-center">
+            <BarChart3 className="size-7 text-muted-foreground" />
+            <p className="text-sm font-medium">Chưa có thu chi trong tháng này</p>
+            <p className="text-xs text-muted-foreground">Biểu đồ sẽ hiện khi bạn ghi giao dịch.</p>
+          </div>
+        ) : (<>
         <div className="h-48" aria-hidden>
           <ResponsiveContainer>
             <BarChart data={daily.data ?? []}>
@@ -117,9 +124,10 @@ function Reports() {
           <summary className="cursor-pointer text-primary">Xem bảng số liệu</summary>
           <table className="mt-2 w-full">
             <thead><tr className="text-muted-foreground"><th className="text-left">Ngày</th><th className="text-right">Chi</th><th className="text-right">Thu</th></tr></thead>
-            <tbody>{(daily.data ?? []).map((d) => <tr key={d.day} className="border-t"><td className="py-1">{d.day}/{ym.m}</td><td className="text-right"><Money value={d.expense} /></td><td className="text-right"><Money value={d.income} /></td></tr>)}</tbody>
+            <tbody>{(daily.data ?? []).filter((d) => d.expense > 0 || d.income > 0).map((d) => <tr key={d.day} className="border-t"><td className="py-1">{d.day}/{ym.m}</td><td className="text-right"><Money value={d.expense} /></td><td className="text-right"><Money value={d.income} /></td></tr>)}</tbody>
           </table>
         </details>
+        </>)}
       </section>
     </div>
   );

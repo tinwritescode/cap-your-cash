@@ -66,7 +66,7 @@ export function CameraCapture({ onCapture, onPickFiles, onSkip, onClose, title }
   }
 
   return (
-    <div className="flex min-h-[86dvh] flex-col bg-background px-5 pb-6 pt-5">
+    <div className="flex min-h-[86dvh] flex-col bg-background px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-5">
       <div className="mb-5 flex items-center justify-between">
         <button type="button" onClick={onClose} aria-label="Đóng" className="grid size-11 place-items-center rounded-full bg-surface-2"><X className="size-5" /></button>
         <p className="rounded-full bg-surface-2 px-4 py-2 text-sm font-semibold">{title}</p>
