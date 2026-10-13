@@ -14,13 +14,395 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      categories: {
+        Row: {
+          archived_at: string | null
+          color: string
+          created_at: string
+          icon: string
+          id: string
+          name: string
+          owner_id: string
+          parent_id: string | null
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          archived_at?: string | null
+          color?: string
+          created_at?: string
+          icon?: string
+          id?: string
+          name: string
+          owner_id?: string
+          parent_id?: string | null
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          archived_at?: string | null
+          color?: string
+          created_at?: string
+          icon?: string
+          id?: string
+          name?: string
+          owner_id?: string
+          parent_id?: string | null
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "categories_owner_id_parent_id_fkey"
+            columns: ["owner_id", "parent_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["owner_id", "id"]
+          },
+        ]
+      }
+      cleanup_jobs: {
+        Row: {
+          attempts: number
+          completed_at: string | null
+          created_at: string
+          id: string
+          kind: string
+          last_error: string | null
+          object_paths: string[]
+          state: string
+          transaction_id: string | null
+        }
+        Insert: {
+          attempts?: number
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          kind: string
+          last_error?: string | null
+          object_paths?: string[]
+          state?: string
+          transaction_id?: string | null
+        }
+        Update: {
+          attempts?: number
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          last_error?: string | null
+          object_paths?: string[]
+          state?: string
+          transaction_id?: string | null
+        }
+        Relationships: []
+      }
+      monthly_budgets: {
+        Row: {
+          amount_vnd: number
+          created_at: string
+          id: string
+          month: string
+          owner_id: string
+          updated_at: string
+        }
+        Insert: {
+          amount_vnd: number
+          created_at?: string
+          id?: string
+          month: string
+          owner_id?: string
+          updated_at?: string
+        }
+        Update: {
+          amount_vnd?: number
+          created_at?: string
+          id?: string
+          month?: string
+          owner_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_path: string | null
+          created_at: string
+          display_name: string | null
+          hide_amounts: boolean
+          id: string
+          theme: string
+          tutorial_status: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_path?: string | null
+          created_at?: string
+          display_name?: string | null
+          hide_amounts?: boolean
+          id: string
+          theme?: string
+          tutorial_status?: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_path?: string | null
+          created_at?: string
+          display_name?: string | null
+          hide_amounts?: boolean
+          id?: string
+          theme?: string
+          tutorial_status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      transaction_photos: {
+        Row: {
+          created_at: string
+          id: string
+          original_path: string
+          owner_id: string
+          sort_order: number
+          thumb_path: string
+          transaction_id: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          original_path: string
+          owner_id: string
+          sort_order?: number
+          thumb_path: string
+          transaction_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          original_path?: string
+          owner_id?: string
+          sort_order?: number
+          thumb_path?: string
+          transaction_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transaction_photos_owner_id_transaction_id_fkey"
+            columns: ["owner_id", "transaction_id"]
+            isOneToOne: false
+            referencedRelation: "transactions"
+            referencedColumns: ["owner_id", "id"]
+          },
+        ]
+      }
+      transactions: {
+        Row: {
+          amount_vnd: number
+          category_id: string | null
+          create_fingerprint: string
+          created_at: string
+          deleted_at: string | null
+          dest_wallet_id: string | null
+          id: string
+          note: string | null
+          occurred_at: string
+          owner_id: string
+          source_wallet_id: string | null
+          type: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          amount_vnd: number
+          category_id?: string | null
+          create_fingerprint: string
+          created_at?: string
+          deleted_at?: string | null
+          dest_wallet_id?: string | null
+          id: string
+          note?: string | null
+          occurred_at: string
+          owner_id: string
+          source_wallet_id?: string | null
+          type: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          amount_vnd?: number
+          category_id?: string | null
+          create_fingerprint?: string
+          created_at?: string
+          deleted_at?: string | null
+          dest_wallet_id?: string | null
+          id?: string
+          note?: string | null
+          occurred_at?: string
+          owner_id?: string
+          source_wallet_id?: string | null
+          type?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_owner_id_category_id_fkey"
+            columns: ["owner_id", "category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["owner_id", "id"]
+          },
+          {
+            foreignKeyName: "transactions_owner_id_dest_wallet_id_fkey"
+            columns: ["owner_id", "dest_wallet_id"]
+            isOneToOne: false
+            referencedRelation: "wallets"
+            referencedColumns: ["owner_id", "id"]
+          },
+          {
+            foreignKeyName: "transactions_owner_id_source_wallet_id_fkey"
+            columns: ["owner_id", "source_wallet_id"]
+            isOneToOne: false
+            referencedRelation: "wallets"
+            referencedColumns: ["owner_id", "id"]
+          },
+        ]
+      }
+      wallets: {
+        Row: {
+          archived_at: string | null
+          created_at: string
+          id: string
+          kind: string
+          name: string
+          opening_at: string
+          opening_balance_vnd: number
+          owner_id: string
+          updated_at: string
+        }
+        Insert: {
+          archived_at?: string | null
+          created_at?: string
+          id?: string
+          kind: string
+          name: string
+          opening_at?: string
+          opening_balance_vnd?: number
+          owner_id?: string
+          updated_at?: string
+        }
+        Update: {
+          archived_at?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          name?: string
+          opening_at?: string
+          opening_balance_vnd?: number
+          owner_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      _photos_validate: {
+        Args: { _photos: Json; _tx: string; _uid: string }
+        Returns: undefined
+      }
+      _tx_validate: {
+        Args: {
+          _amount: number
+          _at: string
+          _cat: string
+          _dst: string
+          _note: string
+          _old_cat: string
+          _old_dst: string
+          _old_src: string
+          _src: string
+          _type: string
+          _uid: string
+        }
+        Returns: undefined
+      }
+      claim_expired_trash: { Args: { p_limit?: number }; Returns: number }
+      commit_transaction: {
+        Args: {
+          p_amount: number
+          p_category: string
+          p_dest: string
+          p_id: string
+          p_note: string
+          p_occurred_at: string
+          p_photos: Json
+          p_source: string
+          p_type: string
+        }
+        Returns: Json
+      }
+      find_orphan_objects: {
+        Args: { p_limit?: number }
+        Returns: {
+          name: string
+        }[]
+      }
+      month_category_expense: {
+        Args: { p_month: string }
+        Returns: {
+          category_id: string
+          total_vnd: number
+        }[]
+      }
+      month_daily: {
+        Args: { p_month: string }
+        Returns: {
+          day: string
+          expense_vnd: number
+          income_vnd: number
+        }[]
+      }
+      month_summary: {
+        Args: { p_month: string; p_wallet?: string }
+        Returns: {
+          all_wallets_expense_vnd: number
+          budget_vnd: number
+          expense_vnd: number
+          income_vnd: number
+        }[]
+      }
+      restore_transaction: {
+        Args: { p_id: string; p_version: number }
+        Returns: Json
+      }
+      trash_transaction: {
+        Args: { p_id: string; p_version: number }
+        Returns: Json
+      }
+      update_transaction: {
+        Args: {
+          p_amount: number
+          p_category: string
+          p_dest: string
+          p_id: string
+          p_note: string
+          p_occurred_at: string
+          p_photos: Json
+          p_source: string
+          p_version: number
+        }
+        Returns: Json
+      }
+      wallet_balances: {
+        Args: never
+        Returns: {
+          balance_vnd: number
+          wallet_id: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
