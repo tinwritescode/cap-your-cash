@@ -9,6 +9,7 @@ import { PrefsProvider } from "@/lib/ui-prefs";
 import { useAuth } from "@/lib/auth";
 import { useProfile, useRealtimeInvalidation, useWallets } from "@/lib/data";
 import { useQueryClient } from "@tanstack/react-query";
+import { tutorialBus } from "@/lib/tutorial-bus";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -19,8 +20,6 @@ export const Route = createFileRoute("/_authenticated")({
   component: Layout,
 });
 
-// Opening the tutorial from Profile does not change the stored status.
-export const tutorialBus = { open: () => {} };
 
 function Layout() {
   const { user, loading } = useAuth();
