@@ -12,4 +12,11 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    // Pre-bundle lazily-discovered deps so the dev server never re-optimizes mid-session
+    // (a re-optimize leaves open tabs with two React copies → "reading 'useState'" crash).
+    optimizeDeps: {
+      include: ["@radix-ui/react-popover", "@radix-ui/react-select", "date-fns/locale", "react-day-picker"],
+    },
+  },
 });
