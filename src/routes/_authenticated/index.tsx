@@ -187,21 +187,26 @@ function DayCell({ day, isToday, txs, categories, onOpen }: { day: number; isTod
   const items = txs.slice(0, 2);
   const extra = txs.length - items.length;
   return (
-    <button onClick={onOpen} aria-label={`Ngày ${day}, ${txs.length} giao dịch`} className="flex flex-col items-center gap-1">
-      <div className="relative h-12 w-12">
-        {items.length === 0 && <div className="size-full" />}
-        {items.map((t, i) => {
-          const p = t.transaction_photos?.slice().sort((a, b) => a.sort_order - b.sort_order)[0];
-          const icon = categories.find((c) => c.id === t.category_id)?.icon ?? (t.type === "transfer" ? "⇄" : "📷");
-          return (
-            <div key={t.id} className={cn("absolute size-10 overflow-hidden rounded-xl border-2 border-foreground/80 bg-surface-2", i === 0 ? "left-0 top-0" : "bottom-0 right-0")}>
-              {p ? <PhotoThumb path={p.thumb_path} className="size-full" /> : <span className="grid size-full place-items-center text-lg">{icon}</span>}
-            </div>
-          );
-        })}
-        {extra > 0 && <span className="absolute -right-2 -top-2 rounded-full bg-surface-2 px-1.5 text-[10px] font-semibold">+{extra}</span>}
-      </div>
-      <span className={cn("text-sm", isToday && "rounded-full bg-primary px-2 text-primary-foreground")}>{day}</span>
+    <button onClick={onOpen} aria-label={`Ngày ${day}, ${txs.length} giao dịch`} className="flex h-16 flex-col items-center justify-center gap-1 rounded-2xl transition-colors hover:bg-surface-2">
+      {items.length === 0 ? (
+        <span className={cn("grid size-10 place-items-center rounded-full text-base font-semibold", isToday ? "bg-primary text-primary-foreground" : "text-foreground")}>{day}</span>
+      ) : (
+        <>
+          <span className={cn("grid h-5 min-w-5 place-items-center rounded-full px-1 text-xs font-bold leading-none", isToday ? "bg-primary text-primary-foreground" : "text-muted-foreground")}>{day}</span>
+          <div className="relative size-10">
+            {items.map((t, i) => {
+              const p = t.transaction_photos?.slice().sort((a, b) => a.sort_order - b.sort_order)[0];
+              const icon = categories.find((c) => c.id === t.category_id)?.icon ?? (t.type === "transfer" ? "⇄" : "📷");
+              return (
+                <div key={t.id} className={cn("absolute overflow-hidden rounded-xl border-2 border-foreground/80 bg-surface-2", items.length === 1 ? "inset-0" : cn("size-8", i === 0 ? "left-0 top-0" : "bottom-0 right-0"))}>
+                  {p ? <PhotoThumb path={p.thumb_path} className="size-full" /> : <span className="grid size-full place-items-center text-base">{icon}</span>}
+                </div>
+              );
+            })}
+            {extra > 0 && <span className="absolute -right-2 -top-2 rounded-full bg-primary px-1.5 text-[10px] font-semibold text-primary-foreground">+{extra}</span>}
+          </div>
+        </>
+      )}
     </button>
   );
 }
