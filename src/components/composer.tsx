@@ -311,7 +311,7 @@ function TxForm({ editing, initialType, onDirty, onDone }: { editing: TxWithPhot
 
         {(type === "expense" || type === "transfer" || type === "journal") && (
           <Field label={type === "transfer" ? "Từ ví" : type === "journal" ? "Ví (tuỳ chọn)" : "Ví"}>
-            <select className="select" value={src} onChange={(e) => setSrc(e.target.value)}>
+            <select className="field-select" value={src} onChange={(e) => setSrc(e.target.value)}>
               {type === "journal" && <option value="">— Không chọn —</option>}
               {usable("src", editing?.source_wallet_id).map((w) => <option key={w.id} value={w.id}>{w.name}{w.archived_at ? " (đã lưu trữ)" : ""}</option>)}
             </select>
@@ -319,7 +319,7 @@ function TxForm({ editing, initialType, onDirty, onDone }: { editing: TxWithPhot
         )}
         {(type === "income" || type === "transfer") && (
           <Field label={type === "transfer" ? "Đến ví" : "Ví nhận"}>
-            <select className="select" value={dst} onChange={(e) => setDst(e.target.value)}>
+            <select className="field-select" value={dst} onChange={(e) => setDst(e.target.value)}>
               <option value="">— Chọn ví —</option>
               {usable("dst", editing?.dest_wallet_id).map((w) => <option key={w.id} value={w.id}>{w.name}{w.archived_at ? " (đã lưu trữ)" : ""}</option>)}
             </select>
@@ -327,7 +327,7 @@ function TxForm({ editing, initialType, onDirty, onDone }: { editing: TxWithPhot
         )}
         {type !== "transfer" && (
           <Field label={type === "journal" ? "Danh mục (tuỳ chọn)" : "Danh mục"}>
-            <select className="select" value={cat} onChange={(e) => setCat(e.target.value)}>
+            <select className="field-select" value={cat} onChange={(e) => setCat(e.target.value)}>
               <option value="">— Chọn danh mục —</option>
               {catOptions.filter((c) => !c.parent_id).flatMap((p) => [p, ...catOptions.filter((c) => c.parent_id === p.id)]).map((c) => (
                 <option key={c.id} value={c.id}>{catLabel(c, categories)}</option>
