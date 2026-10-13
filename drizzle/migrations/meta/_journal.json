@@ -8,6 +8,13 @@
       "when": 1791869476024,
       "tag": "0000_capmoney_core",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791869508696,
+      "tag": "0001_photos_storage_policies",
+      "breakpoints": true
     }
   ]
 }
