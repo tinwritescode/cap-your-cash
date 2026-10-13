@@ -148,10 +148,10 @@
   box-shadow: var(--shadow-fab);
 }
 @utility pb-safe {
-  padding-bottom: max(env(safe-area-inset-bottom), 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 @utility pt-safe {
-  padding-top: max(env(safe-area-inset-top), 0px);
+  padding-top: env(safe-area-inset-top, 0px);
 }
 @utility amount-hidden {
   filter: blur(7px);
@@ -167,13 +167,23 @@
   }
 }
 
-@utility field-select {
+/* One flat look for every form field: no shadows, same height/radius/fill */
+@utility field {
   height: 2.75rem;
   width: 100%;
-  border-radius: calc(var(--radius) - 2px);
-  border: 1px solid var(--input);
-  background: var(--background);
+  border-radius: 0.875rem;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
   color: var(--foreground);
-  padding: 0 0.75rem;
-  font-size: 0.875rem;
+  padding: 0 0.875rem;
+  font-size: 0.9375rem;
+  box-shadow: none;
+  outline: none;
+  &:focus-visible {
+    border-color: var(--ring);
+  }
+}
+
+html, body {
+  overscroll-behavior-y: none;
 }
