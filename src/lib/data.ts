@@ -35,7 +35,7 @@ export function useProfile() {
   return useQuery({
     queryKey: qk.profile,
     enabled: !!user,
-    queryFn: async () => must(await supabase.from("profiles").select("*").eq("id", user!.id).maybeSingle()),
+    queryFn: async () => must(await supabase.from("profiles").select("*").eq("id", user!.id).maybeSingle()) as Profile | null,
   });
 }
 

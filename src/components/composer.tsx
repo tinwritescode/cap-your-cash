@@ -58,7 +58,7 @@ export function ComposerProvider({ children }: { children: ReactNode }) {
     setOpen(true);
   }, []);
 
-  useEffect(() => onAccountChange(() => { setOpen(false); setEditing(null); setDirty(false); setSession((s) => s + 1); }), []);
+  useEffect(() => { const off = onAccountChange(() => { setOpen(false); setEditing(null); setDirty(false); setSession((s) => s + 1); }); return () => { off(); }; }, []);
 
   useEffect(() => {
     if (!dirty) return;
