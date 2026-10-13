@@ -30,7 +30,7 @@ function Reset() {
     nav({ to: "/" });
   }
   return (
-    <div className="flex min-h-dvh items-center justify-center p-5">
+    <div className="flex min-h-dvh items-center justify-center px-5 pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(1.25rem,env(safe-area-inset-bottom))]">
       <div className="flex w-full max-w-sm flex-col gap-3">
         <h1 className="text-2xl font-bold">Đặt mật khẩu mới</h1>
         <Label htmlFor="np">Mật khẩu mới</Label>

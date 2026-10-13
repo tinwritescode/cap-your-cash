@@ -81,7 +81,7 @@ export function ComposerProvider({ children }: { children: ReactNode }) {
     <ComposerCtx.Provider value={useMemo(() => ({ openNew, openEdit, dirty }), [openNew, openEdit, dirty])}>
       {children}
       <Dialog open={open} onOpenChange={(o) => !o && close()}>
-        <DialogContent className="max-h-[96dvh] overflow-y-auto rounded-[2rem] border-border bg-surface p-0 sm:max-w-lg [&>button:last-child]:hidden">
+        <DialogContent className="overflow-y-auto rounded-[2rem] border-border bg-surface p-0 sm:max-w-lg [&>button:last-child]:hidden">
           {open && (
             <TxForm key={session} editing={editing} initialType={initialType} onDirty={setDirty} onDone={() => close(true)} onCancel={() => close()} />
           )}
