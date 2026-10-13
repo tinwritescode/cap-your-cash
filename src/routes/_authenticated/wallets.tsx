@@ -34,11 +34,20 @@ function WalletsPage() {
   const [showArchived, setShowArchived] = useState(false);
   const total = wallets.filter((w) => !w.archived_at).reduce((s, w) => s + (balances[w.id] ?? 0), 0);
 
-  async function rename(id: string, current: string) {
-    const name = prompt("Tên ví mới", current)?.trim();
-    if (!name) return;
-    const { error } = await supabase.from("wallets").update({ name }).eq("id", id);
-    if (error) toast.error(error.message); else invalidateFinance(qc);
+  const [renaming, setRenaming] = useState<{ id: string; name: string } | null>(null);
+  const [savingName, setSavingName] = useState(false);
+  function rename(id: string, current: string) { setRenaming({ id, name: current }); }
+  async function saveRename(e: React.FormEvent) {
+    e.preventDefault();
+    const name = renaming?.name.trim();
+    if (!renaming || !name) return;
+    setSavingName(true);
+    const { error } = await supabase.from("wallets").update({ name }).eq("id", renaming.id);
+    setSavingName(false);
+    if (error) return toast.error(error.message);
+    invalidateFinance(qc);
+    toast.success("Đã đổi tên ví");
+    setRenaming(null);
   }
   async function archive(id: string, on: boolean) {
     const { error } = await supabase.from("wallets").update({ archived_at: on ? new Date().toISOString() : null }).eq("id", id);
@@ -76,6 +85,19 @@ function WalletsPage() {
         <DialogContent className="rounded-3xl bg-surface sm:max-w-md">
           <DialogTitle>Ví mới</DialogTitle>
           <WalletForm onDone={() => setAdding(false)} />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!renaming} onOpenChange={(o) => !o && setRenaming(null)}>
+        <DialogContent className="rounded-3xl bg-surface sm:max-w-sm">
+          <DialogTitle>Đổi tên ví</DialogTitle>
+          <form onSubmit={saveRename} className="flex flex-col gap-4">
+            <Input autoFocus maxLength={40} className="h-12 text-base" value={renaming?.name ?? ""} onChange={(e) => setRenaming((r) => r && { ...r, name: e.target.value })} aria-label="Tên ví" placeholder="Ví dụ: Tiền mặt" />
+            <div className="flex gap-2">
+              <Button type="button" variant="secondary" className="h-12 flex-1 rounded-2xl" onClick={() => setRenaming(null)}>Huỷ</Button>
+              <Button type="submit" className="h-12 flex-1 rounded-2xl" disabled={savingName || !renaming?.name.trim()}>Lưu</Button>
+            </div>
+          </form>
         </DialogContent>
       </Dialog>
     </div>

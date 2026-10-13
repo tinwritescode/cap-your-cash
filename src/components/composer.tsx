@@ -15,6 +15,8 @@ import { checkFile, MAX_PHOTOS, prepareImage } from "@/lib/image";
 import { useOnline } from "@/hooks/use-online";
 import { PhotoThumb } from "./photo";
 import { cn } from "@/lib/utils";
+import { useConfirm } from "./confirm";
+import { CameraCapture } from "./camera-capture";
 
 type TxType = "expense" | "income" | "transfer" | "journal";
 type PhotoItem = {
@@ -67,8 +69,9 @@ export function ComposerProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("beforeunload", h);
   }, [dirty]);
 
-  const close = (force = false) => {
-    if (dirty && !force && !confirm("Bỏ nội dung chưa lưu? Nội dung này chỉ nằm trong trang và sẽ mất.")) return;
+  const ask = useConfirm();
+  const close = async (force = false) => {
+    if (dirty && !force && !(await ask({ title: "Bỏ nội dung chưa lưu?", body: "Nội dung này chỉ nằm trong trang và sẽ mất.", ok: "Bỏ", cancel: "Tiếp tục ghi", destructive: true }))) return;
     setOpen(false);
     setDirty(false);
   };
@@ -77,9 +80,9 @@ export function ComposerProvider({ children }: { children: ReactNode }) {
     <ComposerCtx.Provider value={useMemo(() => ({ openNew, openEdit, dirty }), [openNew, openEdit, dirty])}>
       {children}
       <Dialog open={open} onOpenChange={(o) => !o && close()}>
-        <DialogContent className="max-h-[92dvh] overflow-y-auto rounded-3xl border-border bg-surface p-0 sm:max-w-lg">
+        <DialogContent className="max-h-[96dvh] overflow-y-auto rounded-[2rem] border-border bg-surface p-0 sm:max-w-lg [&>button:last-child]:hidden">
           {open && (
-            <TxForm key={session} editing={editing} initialType={initialType} onDirty={setDirty} onDone={() => close(true)} />
+            <TxForm key={session} editing={editing} initialType={initialType} onDirty={setDirty} onDone={() => close(true)} onCancel={() => close()} />
           )}
         </DialogContent>
       </Dialog>
@@ -92,7 +95,7 @@ function catLabel(c: Category, all: Category[]) {
   return `${c.icon} ${p ? `${p.name} › ` : ""}${c.name}`;
 }
 
-function TxForm({ editing, initialType, onDirty, onDone }: { editing: TxWithPhotos | null; initialType: TxType; onDirty: (d: boolean) => void; onDone: () => void }) {
+function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: TxWithPhotos | null; initialType: TxType; onDirty: (d: boolean) => void; onDone: () => void; onCancel: () => void }) {
   const { user } = useAuth();
   const qc = useQueryClient();
   const online = useOnline();
@@ -114,6 +117,7 @@ function TxForm({ editing, initialType, onDirty, onDone }: { editing: TxWithPhot
         .sort((a, b) => a.sort_order - b.sort_order)
         .map((p) => ({ id: p.id, existingThumb: p.thumb_path, original_path: p.original_path, thumb_path: p.thumb_path, uploaded: true })) ?? [],
   );
+  const [stage, setStage] = useState<"camera" | "form">(editing ? "form" : "camera");
   const [phase, setPhase] = useState<Phase>("idle");
   const [progress, setProgress] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -141,7 +145,7 @@ function TxForm({ editing, initialType, onDirty, onDone }: { editing: TxWithPhot
   const catType = type === "income" ? "income" : "expense";
   const catOptions = categories.filter((c) => c.type === catType && (!c.archived_at || c.id === editing?.category_id));
 
-  async function addFiles(list: FileList | null) {
+  async function addFiles(list: FileList | File[] | null) {
     if (!list || !user) return;
     const files = Array.from(list);
     const room = MAX_PHOTOS - photos.length;
@@ -279,8 +283,33 @@ function TxForm({ editing, initialType, onDirty, onDone }: { editing: TxWithPhot
   }
 
   const isEditingType = !!editing;
+  if (stage === "camera") {
+    return (
+      <>
+        <DialogTitle className="sr-only">Chụp ảnh giao dịch</DialogTitle>
+        <DialogDescription className="sr-only">Chụp ảnh rồi nhập số tiền.</DialogDescription>
+        <CameraCapture title={TYPES.find((t) => t.v === type)?.label ?? "Ghi"} onClose={onCancel}
+          onCapture={(f) => { setStage("form"); void addFiles([f]); }}
+          onPickFiles={(l) => { if (l?.length) { setStage("form"); void addFiles(l); } }}
+          onSkip={() => setStage("form")} />
+      </>
+    );
+  }
+  const hero = photos[0];
   return (
     <div className="flex flex-col gap-4 p-5">
+      <div className="flex items-center justify-between">
+        <button type="button" onClick={onCancel} aria-label="Đóng" className="grid size-11 place-items-center rounded-full bg-surface-2"><X className="size-5" /></button>
+        {!editing && <button type="button" disabled={locked} onClick={() => setStage("camera")} className="flex min-h-11 items-center gap-2 rounded-full bg-surface-2 px-4 text-sm font-medium"><Camera className="size-4" /> Chụp thêm</button>}
+      </div>
+      {hero && (
+        <div className="relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-[2.5rem] bg-surface-2">
+          {hero.blobs ? <img src={hero.blobs.preview} alt="" className="size-full object-cover" /> : <PhotoThumb path={hero.existingThumb!} className="size-full" />}
+          {type !== "journal" && amount && (
+            <span className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-overlay px-4 py-1.5 text-base font-bold text-overlay-foreground">{formatVnd(parseVnd(amount) ?? 0)}</span>
+          )}
+        </div>
+      )}
       <DialogHeader>
         <DialogTitle>{editing ? "Sửa giao dịch" : "Ghi giao dịch"}</DialogTitle>
         <DialogDescription className="text-xs">Chưa lưu cho tới khi máy chủ xác nhận. Tải lại trang sẽ mất nội dung đang nhập.</DialogDescription>
@@ -302,7 +331,7 @@ function TxForm({ editing, initialType, onDirty, onDone }: { editing: TxWithPhot
         {type !== "journal" ? (
           <div>
             <Label htmlFor="amt">Số tiền (VND)</Label>
-            <Input id="amt" inputMode="numeric" autoFocus placeholder="0" className={cn("mt-1 h-14 text-2xl font-semibold", type === "expense" ? "text-expense" : type === "income" ? "text-income" : "")}
+            <Input id="amt" inputMode="numeric" autoFocus placeholder="0" className={cn("mt-1 h-16 rounded-2xl text-center text-3xl font-bold", type === "expense" ? "text-expense" : type === "income" ? "text-income" : "")}
               value={amount ? (parseVnd(amount) ?? 0).toLocaleString("en-US") : ""} onChange={(e) => setAmount(e.target.value)} />
           </div>
         ) : (

@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { Download, List, Images, Loader2 } from "lucide-react";
+import { Download, List, Images, Loader2, SearchX, Camera } from "lucide-react";
+import { useComposer } from "@/components/composer";
 import { toast } from "sonner";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
@@ -121,6 +122,7 @@ function TxPage() {
     }
   }
 
+  const { openNew } = useComposer();
   const q = view === "list" ? list : gallery;
   const items = (q.data?.pages ?? []).flat();
 
@@ -155,9 +157,13 @@ function TxPage() {
 
       {q.isLoading && <p className="text-sm text-muted-foreground">Đang tải…</p>}
       {q.isError && <p className="text-sm text-destructive">Không tải được. Kiểm tra kết nối.</p>}
-      {!q.isLoading && items.length === 0 && <Empty title="Không có kết quả" body="Thử đổi bộ lọc, hoặc bấm + để ghi giao dịch mới." />}
+      {!q.isLoading && !q.isError && items.length === 0 && (
+        Object.values(f).some(Boolean)
+          ? <Empty icon={<SearchX className="size-6" />} title="Không có kết quả" body="Không có giao dịch nào khớp bộ lọc. Thử đổi điều kiện tìm kiếm." action={<Button variant="secondary" className="h-11 rounded-full" onClick={() => setF(Object.fromEntries(Object.keys(f).map((k) => [k, ""])) as typeof f)}>Xoá bộ lọc</Button>} />
+          : <Empty icon={<Camera className="size-6" />} title={view === "gallery" ? "Chưa có ảnh nào" : "Chưa có giao dịch"} body="Chụp một tấm ảnh để ghi khoản chi tiêu đầu tiên." action={<Button className="h-11 rounded-full" onClick={() => openNew()}><Camera /> Chụp & ghi</Button>} />
+      )}
 
-      {view === "list" ? (
+      {items.length === 0 ? null : view === "list" ? (
         <div className="flex flex-col rounded-3xl bg-surface p-2">
           {(items as TxWithPhotos[]).map((t) => <TxRow key={t.id} tx={t} categories={categories} wallets={wallets} />)}
         </div>

@@ -65,7 +65,7 @@ function AuthPage() {
   return (
     <div className="flex min-h-dvh items-center justify-center p-5">
       <div className="w-full max-w-sm">
-        <img src="/icon-192.png" alt="" className="mb-4 size-16 rounded-2xl" />
+        <img src="/icon-192.png?v=2" alt="" className="mb-4 size-16 rounded-2xl object-cover" />
         <h1 className="text-3xl font-bold">CapMoney</h1>
         <p className="mb-6 mt-1 text-muted-foreground">Chụp lại, biết tiền đi đâu.</p>
         <form onSubmit={submit} className="flex flex-col gap-3">
