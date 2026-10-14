@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { BookOpen, ChevronRight, Download, LogOut, Moon, Smartphone, Trash2, Eye } from "lucide-react";
+import { BookOpen, Check, ChevronRight, Download, LogOut, Moon, Smartphone, Trash2, Eye } from "lucide-react";
+import { ACCENTS, accentColor } from "@/lib/themes";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
@@ -54,7 +55,7 @@ function ProfilePage() {
     return () => window.removeEventListener("beforeinstallprompt", h);
   }, []);
 
-  async function update(patch: { display_name?: string | null; avatar_path?: string; theme?: string }) {
+  async function update(patch: { display_name?: string | null; avatar_path?: string; theme?: string; accent?: string }) {
     const { error } = await supabase.from("profiles").update(patch).eq("id", user!.id);
     if (error) toast.error(error.message); else qc.invalidateQueries({ queryKey: ["profile"] });
   }
@@ -94,6 +95,21 @@ function ProfilePage() {
       <div className="flex flex-col rounded-3xl bg-surface p-2">
         <Row icon={<Eye />} label="Ẩn số tiền"><Switch checked={hidden} onCheckedChange={toggle} /></Row>
         <Row icon={<Moon />} label="Giao diện tối"><Switch checked={profile?.theme !== "light"} onCheckedChange={(v) => update({ theme: v ? "dark" : "light" })} /></Row>
+        <div className="px-3 py-3">
+          <p className="mb-3 text-sm text-muted-foreground">Màu chủ đạo</p>
+          <div className="grid grid-cols-5 gap-3">
+            {ACCENTS.map((a) => {
+              const on = (profile?.accent ?? "ocean") === a.id;
+              return (
+                <button key={a.id} aria-label={a.name} aria-pressed={on} title={a.name} onClick={() => update({ accent: a.id })}
+                  className={`mx-auto grid size-10 place-items-center rounded-full ring-offset-2 ring-offset-surface ${on ? "ring-2 ring-foreground" : ""}`}
+                  style={{ background: accentColor(a) }}>
+                  {on && <Check className="size-4 text-background" />}
+                </button>
+              );
+            })}
+          </div>
+        </div>
         <Link to="/trash" className="contents"><Row icon={<Trash2 />} label="Thùng rác"><ChevronRight /></Row></Link>
         <Link to="/transactions" className="contents"><Row icon={<Download />} label="Xuất CSV (trong Giao dịch)"><ChevronRight /></Row></Link>
         <button className="contents text-left" onClick={() => tutorialBus.open()}><Row icon={<BookOpen />} label="Hướng dẫn sử dụng"><ChevronRight /></Row></button>

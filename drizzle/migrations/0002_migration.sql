@@ -1,0 +1,2 @@
+ALTER TABLE public.profiles ADD COLUMN accent text NOT NULL DEFAULT 'ocean';
+ALTER TABLE public.profiles ADD CONSTRAINT profiles_accent_check CHECK (accent = ANY (ARRAY['ocean','violet','rose','emerald','amber','coral','teal','indigo','lime','mono']));

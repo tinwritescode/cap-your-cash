@@ -24,6 +24,12 @@ export const Route = createFileRoute("/_authenticated/reports")({
 });
 
 const COLORS = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"];
+const TOOLTIP = {
+  cursor: { fill: "var(--surface-2)", radius: 8 },
+  contentStyle: { background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 12, color: "var(--popover-foreground)", fontSize: 12 },
+  labelStyle: { color: "var(--muted-foreground)" },
+  itemStyle: { color: "var(--popover-foreground)" },
+} as const;
 
 function Reports() {
   const { user } = useAuth();
@@ -82,7 +88,7 @@ function Reports() {
                   <Pie data={catRows} dataKey="total" nameKey="name" innerRadius={50} outerRadius={90} stroke="none">
                     {catRows.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                   </Pie>
-                  <Tooltip formatter={(v: number) => formatVnd(v)} />
+                  <Tooltip {...TOOLTIP} formatter={(v: number) => formatVnd(v)} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -116,8 +122,8 @@ function Reports() {
             <BarChart data={daily.data ?? []}>
               <XAxis dataKey="day" tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} />
               <YAxis hide />
-              <Tooltip formatter={(v: number) => formatVnd(v)} labelFormatter={(d) => `Ngày ${d}`} />
-              <Bar dataKey="expense" fill="var(--expense)" radius={[6, 6, 0, 0]} />
+              <Tooltip {...TOOLTIP} formatter={(v: number) => [formatVnd(v), "Chi"]} labelFormatter={(d) => `Ngày ${d}`} />
+              <Bar dataKey="expense" name="Chi" fill="var(--expense)" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
