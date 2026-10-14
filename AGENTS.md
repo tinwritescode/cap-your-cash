@@ -14,3 +14,4 @@
 - Totals, balances and reports come from SQL functions using Asia/Ho_Chi_Minh boundaries; client helpers in src/lib/finance.ts mirror them for display only. Why: one source of financial truth.
 - No financial data in localStorage/IndexedDB/service worker caches; unsaved forms live only in memory. Why: online-only product requirement.
 - Storage photos live at <uid>/<txId>/<photoId>; cleanup/purge runs from /api/public/jobs/cleanup on a daily schedule. Why: owner-scoped RLS and retryable deletion.
+- Accent contrast is auto-tuned per light/dark mode and checked with WCAG ratios in src/lib/themes.ts; its BG values must mirror src/styles.css. Why: theme colours stay readable.

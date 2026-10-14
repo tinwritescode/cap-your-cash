@@ -130,6 +130,7 @@ export type Database = {
           avatar_path: string | null
           created_at: string
           display_name: string | null
+          font: string
           hide_amounts: boolean
           id: string
           theme: string
@@ -141,6 +142,7 @@ export type Database = {
           avatar_path?: string | null
           created_at?: string
           display_name?: string | null
+          font?: string
           hide_amounts?: boolean
           id: string
           theme?: string
@@ -152,6 +154,7 @@ export type Database = {
           avatar_path?: string | null
           created_at?: string
           display_name?: string | null
+          font?: string
           hide_amounts?: boolean
           id?: string
           theme?: string
