@@ -16,6 +16,7 @@ import { useAuth } from "@/lib/auth";
 import { AppSelect } from "@/components/pickers";
 
 export const Route = createFileRoute("/_authenticated/wallets")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Ví & danh mục — CapMoney" },

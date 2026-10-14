@@ -4,6 +4,7 @@ import { authenticateCronRequest } from "@/integrations/supabase/cron-auth";
 // Daily job: purge Trash older than 30 days, then delete their storage objects,
 // photos removed during edits, and unreferenced uploads older than one day.
 export const Route = createFileRoute("/api/public/jobs/cleanup")({
+  staticData: { sitemap: false },
   server: {
     handlers: {
       POST: async ({ request }) => {

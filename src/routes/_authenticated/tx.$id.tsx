@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 export const Route = createFileRoute("/_authenticated/tx/$id")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Chi tiết giao dịch — CapMoney" },

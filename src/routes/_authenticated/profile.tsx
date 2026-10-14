@@ -19,6 +19,7 @@ import { Switch } from "@/components/ui/switch";
 import { checkFile, prepareImage } from "@/lib/image";
 
 export const Route = createFileRoute("/_authenticated/profile")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Cá nhân — CapMoney" },

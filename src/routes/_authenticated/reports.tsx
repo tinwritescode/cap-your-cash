@@ -11,6 +11,7 @@ import { Money } from "@/lib/ui-prefs";
 import { PageHeader } from "@/components/shell";
 
 export const Route = createFileRoute("/_authenticated/reports")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Báo cáo — CapMoney" },
