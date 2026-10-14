@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { BookOpen, Check, ChevronRight, Download, LogOut, Moon, Smartphone, Trash2, Eye } from "lucide-react";
+import { BookOpen, Check, ChevronRight, Download, LogOut, Moon, Smartphone, Trash2, Eye, TriangleAlert } from "lucide-react";
 import { ACCENTS, accentColor } from "@/lib/themes";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -48,6 +48,7 @@ function ProfilePage() {
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => { setName(profile?.display_name ?? ""); }, [profile?.display_name]);
+  useEffect(() => { FONTS.forEach(loadFont); }, []);
   useEffect(() => {
     setIos(/iphone|ipad|ipod/i.test(navigator.userAgent));
     const h = (e: Event) => { e.preventDefault(); setBip(e as BIP); };
@@ -106,7 +107,7 @@ function ProfilePage() {
                   className={`relative mx-auto grid size-10 place-items-center rounded-full ring-offset-2 ring-offset-surface ${on ? "ring-2 ring-foreground" : ""}`}
                   style={{ background: accentColor(a) }}>
                   {on && <Check className="size-4 text-background" />}
-                  {warn && <span aria-hidden className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full bg-warning-badge text-[10px] font-bold">!</span>}
+                  {warn && <span aria-hidden className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full bg-foreground text-background text-[10px] font-bold">!</span>}
                 </button>
               );
             })}
