@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/lib/auth";
 import { Toaster } from "@/components/ui/sonner";
 import { ConfirmProvider } from "@/components/confirm";
+import { RouteProgress } from "@/components/route-progress";
 
 function NotFoundComponent() {
   return (
@@ -108,6 +109,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <ConfirmProvider>
+          <RouteProgress />
           <Outlet />
           <Toaster position="top-center" />
         </ConfirmProvider>
