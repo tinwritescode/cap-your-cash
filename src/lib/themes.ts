@@ -24,9 +24,18 @@ const BG: Record<"dark" | "light", { bg: Oklch; surface: Oklch }> = {
   light: { bg: [0.97, 0.004, 260], surface: [1, 0, 0] },
 };
 
+const DARK_FG: Oklch = [0.2, 0.02, 260];
+const WHITE: Oklch = [0.99, 0, 0];
+
+/** Tunes accent lightness per mode so it reads on the page (≥4.5), then picks the better button text colour. */
 export function accentTokens(a: Accent, light: boolean) {
-  const main: Oklch = light && a.id === "mono" ? [0.3, 0, 0] : [a.l, a.c, a.h];
-  const fg: Oklch = main[0] >= 0.75 ? [0.2, 0.02, 260] : [0.99, 0, 0];
+  const bg = BG[light ? "light" : "dark"].bg;
+  let L = light && a.id === "mono" ? 0.3 : a.l;
+  const at = (l: number): Oklch => [+l.toFixed(3), a.c, a.h];
+  const step = light ? -0.01 : 0.01;
+  for (let i = 0; i < 40 && contrast(at(L), bg) < 4.5; i++) L += step;
+  const main = at(L);
+  const fg = contrast(main, WHITE) >= contrast(main, DARK_FG) ? WHITE : DARK_FG;
   return { main, fg };
 }
 
