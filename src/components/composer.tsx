@@ -317,12 +317,12 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
       </DialogHeader>
 
       {!isEditingType && (
-        <div className="grid grid-cols-4 gap-1 rounded-2xl bg-muted p-1" role="tablist">
+        <div className="grid min-w-0 grid-cols-4 gap-1 rounded-2xl bg-muted p-1" role="tablist">
           {TYPES.map((t) => (
             <button key={t.v} role="tab" aria-selected={type === t.v} disabled={locked}
               onClick={() => setType(t.v)}
-              className={cn("min-h-11 rounded-xl text-xs font-medium transition-colors", type === t.v ? "bg-primary text-primary-foreground" : "text-muted-foreground")}>
-              {t.label}
+              className={cn("min-w-0 min-h-11 overflow-hidden rounded-xl px-1 text-center text-[clamp(0.625rem,2.8vw,0.75rem)] font-medium leading-tight whitespace-nowrap transition-colors", type === t.v ? "bg-primary text-primary-foreground" : "text-muted-foreground")}>
+              <span className="block truncate">{t.label}</span>
             </button>
           ))}
         </div>

@@ -61,9 +61,9 @@ export function DatePicker({ value, onChange, placeholder = "Chọn ngày", clea
 export function DateTimePicker({ value, onChange, id }: { value: string; onChange: (v: string) => void; id?: string }) {
   const [d, t] = value ? value.split("T") : ["", "00:00"];
   return (
-    <div className="grid grid-cols-[1fr_6.5rem] gap-2">
-      <DatePicker value={d} onChange={(nd) => onChange(`${nd}T${t || "00:00"}`)} aria-label="Ngày" />
-      <input id={id} type="time" aria-label="Giờ" value={(t || "").slice(0, 5)} onChange={(e) => onChange(`${d}T${e.target.value}`)} className="field text-center" />
+    <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_6.5rem] gap-2">
+      <DatePicker value={d} onChange={(nd) => onChange(`${nd}T${t || "00:00"}`)} aria-label="Ngày" className="min-w-0" />
+      <input id={id} type="time" aria-label="Giờ" value={(t || "").slice(0, 5)} onChange={(e) => onChange(`${d}T${e.target.value}`)} className="field min-w-0 text-center" />
     </div>
   );
 }
