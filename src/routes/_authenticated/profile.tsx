@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { BookOpen, Check, ChevronRight, Download, LogOut, Moon, Smartphone, Trash2, Eye, TriangleAlert } from "lucide-react";
-import { ACCENTS, accentColor } from "@/lib/themes";
+import { ACCENTS, FONTS, accentColor, checkAccent, loadFont } from "@/lib/themes";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
@@ -56,7 +56,7 @@ function ProfilePage() {
     return () => window.removeEventListener("beforeinstallprompt", h);
   }, []);
 
-  async function update(patch: { display_name?: string | null; avatar_path?: string; theme?: string; accent?: string }) {
+  async function update(patch: { display_name?: string | null; avatar_path?: string; theme?: string; accent?: string; font?: string }) {
     const { error } = await supabase.from("profiles").update(patch).eq("id", user!.id);
     if (error) toast.error(error.message); else qc.invalidateQueries({ queryKey: ["profile"] });
   }
