@@ -11,6 +11,7 @@ import { PhotoThumb } from "@/components/photo";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/trash")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Thùng rác — CapMoney" },

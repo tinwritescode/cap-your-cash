@@ -21,6 +21,7 @@ import { AppSelect, DatePicker } from "@/components/pickers";
 const search = z.object({ view: z.enum(["list", "gallery"]).optional() });
 
 export const Route = createFileRoute("/_authenticated/transactions")({
+  staticData: { sitemap: false },
   validateSearch: search,
   head: () => ({
     meta: [

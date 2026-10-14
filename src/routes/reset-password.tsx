@@ -7,8 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/reset-password")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex" },
       { title: "Đặt lại mật khẩu — CapMoney" },
       { name: "description", content: "Đặt mật khẩu mới cho tài khoản CapMoney." },
       { property: "og:title", content: "Đặt lại mật khẩu — CapMoney" },

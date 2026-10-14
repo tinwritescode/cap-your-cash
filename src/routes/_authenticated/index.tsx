@@ -13,6 +13,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Trang chủ — CapMoney" },

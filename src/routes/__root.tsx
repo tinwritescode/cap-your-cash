@@ -55,6 +55,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -66,6 +67,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "CapMoney — Quản lý chi tiêu bằng ảnh" },
       { name: "description", content: "Ghi thu chi bằng ảnh, xem lịch chi tiêu và ngân sách tháng." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "CapMoney" },
+      { property: "og:title", content: "CapMoney — Quản lý chi tiêu bằng ảnh" },
+      { property: "og:description", content: "Ghi thu chi bằng ảnh, xem lịch chi tiêu và ngân sách tháng." },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
