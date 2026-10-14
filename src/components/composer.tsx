@@ -304,7 +304,7 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
         {!editing && <button type="button" disabled={locked} onClick={() => setStage("camera")} className="flex min-h-11 items-center gap-2 rounded-full bg-surface-2 px-4 text-sm font-medium"><Camera className="size-4" /> Chụp thêm</button>}
       </div>
       {hero && (
-        <div className="relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-[2.5rem] bg-surface-2">
+        <div className="relative mx-auto aspect-square w-full max-w-sm shrink-0 overflow-hidden rounded-[2.5rem] bg-surface-2">
           {hero.blobs ? <img src={hero.blobs.preview} alt="" className="size-full object-cover" /> : <PhotoThumb path={hero.existingThumb!} className="size-full" />}
           {type !== "journal" && amount && (
             <span className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-overlay px-4 py-1.5 text-base font-bold text-overlay-foreground">{formatVnd(parseVnd(amount) ?? 0)}</span>
