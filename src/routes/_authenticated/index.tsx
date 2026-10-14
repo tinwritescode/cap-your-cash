@@ -11,6 +11,7 @@ import { TxRow } from "@/components/tx-row";
 import { Onboarding } from "@/components/onboarding";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/_authenticated/")({
   staticData: { sitemap: false },
@@ -105,8 +106,8 @@ function Home() {
       <BudgetCard y={now.y} m={now.m} spent={curSummary.data?.allExpense ?? 0} budget={curSummary.data?.budget ?? null} />
 
       <div className="grid grid-cols-2 gap-3">
-        <StatCard icon={<ArrowUpRight />} tone="expense" label="Chi" value={summary.data?.expense ?? 0} />
-        <StatCard icon={<ArrowDownLeft />} tone="income" label="Thu" value={summary.data?.income ?? 0} />
+        <StatCard icon={<ArrowUpRight />} tone="expense" label="Chi" value={summary.data?.expense ?? 0} loading={summary.isLoading} />
+        <StatCard icon={<ArrowDownLeft />} tone="income" label="Thu" value={summary.data?.income ?? 0} loading={summary.isLoading} />
       </div>
 
       <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
@@ -126,18 +127,20 @@ function Home() {
       {monthTx.isError && <p className="text-sm text-destructive">Không tải được dữ liệu. Kiểm tra kết nối và thử lại.</p>}
 
       {view === "month" ? (
-        <div className="rounded-3xl bg-surface p-3">
+        <div key={`${ym.y}-${ym.m}`} className="rounded-3xl bg-surface p-3 fade-in">
           <div className="mb-2 grid grid-cols-7 text-center text-xs text-muted-foreground">
             {["T2", "T3", "T4", "T5", "T6", "T7", "CN"].map((d) => <span key={d}>{d}</span>)}
           </div>
-          <div className="grid grid-cols-7 gap-y-3">
+          {monthTx.isLoading ? (
+            <div className="grid grid-cols-7 gap-y-3">{Array.from({ length: 35 }).map((_, i) => <div key={i} className="grid h-16 place-items-center"><Skeleton className="size-10 rounded-full" /></div>)}</div>
+          ) : <div className="grid grid-cols-7 gap-y-3">
             {Array.from({ length: firstDow }).map((_, i) => <div key={`e${i}`} />)}
             {Array.from({ length: nDays }).map((_, i) => {
               const d = i + 1;
               const k = `${ym.y}-${String(ym.m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
               return <DayCell key={k} day={d} isToday={k === todayKey} txs={byDay.get(k) ?? []} categories={categories} onOpen={() => setOpenDay(k)} />;
             })}
-          </div>
+          </div>}
         </div>
       ) : (
         <DayList txs={isCurrent ? byDay.get(todayKey) ?? [] : filtered} label={isCurrent ? "Hôm nay" : `Tháng ${ym.m}`} />
@@ -163,12 +166,12 @@ function Home() {
   }
 }
 
-function StatCard({ icon, tone, label, value }: { icon: React.ReactNode; tone: "expense" | "income"; label: string; value: number }) {
+function StatCard({ icon, tone, label, value, loading }: { icon: React.ReactNode; tone: "expense" | "income"; label: string; value: number; loading?: boolean }) {
   return (
     <div className="flex items-center gap-3 rounded-3xl bg-surface p-4">
       <div className={cn("grid size-10 shrink-0 place-items-center rounded-full", tone === "expense" ? "bg-expense text-primary-foreground" : "bg-income text-primary-foreground")}>{icon}</div>
       <div className="min-w-0">
-        <Money value={value} className="block truncate text-lg font-bold" />
+        {loading ? <Skeleton className="my-1 h-5 w-24" /> : <Money value={value} className="block truncate text-lg font-bold fade-in" />}
         <p className="text-sm text-muted-foreground">{label}</p>
       </div>
     </div>

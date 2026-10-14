@@ -13,6 +13,7 @@ import { Money } from "@/lib/ui-prefs";
 import { PageHeader, Empty } from "@/components/shell";
 import { TxRow } from "@/components/tx-row";
 import { PhotoThumb } from "@/components/photo";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -154,7 +155,13 @@ function TxPage() {
           options={[{ value: "", label: "Mọi danh mục" }, ...categories.map((c) => ({ value: c.id, label: `${c.icon} ${c.name}` }))]} />
       </div>
 
-      {q.isLoading && <p className="text-sm text-muted-foreground">Đang tải…</p>}
+      {q.isLoading && (view === "gallery" ? (
+        <div className="grid grid-cols-3 gap-2">{Array.from({ length: 9 }).map((_, i) => <Skeleton key={i} className="aspect-square rounded-2xl" />)}</div>
+      ) : (
+        <div className="flex flex-col gap-1">{Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="flex items-center gap-3 p-2"><Skeleton className="size-12 rounded-xl" /><div className="flex-1 space-y-2"><Skeleton className="h-4 w-2/5" /><Skeleton className="h-3 w-3/5" /></div><Skeleton className="h-4 w-16" /></div>
+        ))}</div>
+      ))}
       {q.isError && <p className="text-sm text-destructive">Không tải được. Kiểm tra kết nối.</p>}
       {!q.isLoading && !q.isError && items.length === 0 && (
         Object.values(f).some(Boolean)
