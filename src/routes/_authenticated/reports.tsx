@@ -82,7 +82,7 @@ function Reports() {
                   <Pie data={catRows} dataKey="total" nameKey="name" innerRadius={50} outerRadius={90} stroke="none">
                     {catRows.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                   </Pie>
-                  <Tooltip formatter={(v: number) => formatVnd(v)} />
+                  <Tooltip {...TOOLTIP} formatter={(v: number) => formatVnd(v)} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -116,8 +116,8 @@ function Reports() {
             <BarChart data={daily.data ?? []}>
               <XAxis dataKey="day" tick={{ fill: "var(--muted-foreground)", fontSize: 11 }} axisLine={false} tickLine={false} />
               <YAxis hide />
-              <Tooltip formatter={(v: number) => formatVnd(v)} labelFormatter={(d) => `Ngày ${d}`} />
-              <Bar dataKey="expense" fill="var(--expense)" radius={[6, 6, 0, 0]} />
+              <Tooltip {...TOOLTIP} formatter={(v: number) => [formatVnd(v), "Chi"]} labelFormatter={(d) => `Ngày ${d}`} />
+              <Bar dataKey="expense" name="Chi" fill="var(--expense)" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

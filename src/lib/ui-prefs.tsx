@@ -4,6 +4,7 @@ import { useAuth } from "./auth";
 import { useProfile } from "./data";
 import { formatVnd } from "./finance";
 import { cn } from "./utils";
+import { applyAccent } from "./themes";
 
 // Display preference only (not access control). Persisted on the profile row.
 type Prefs = { hidden: boolean; toggle: () => void };
@@ -19,7 +20,8 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const light = profile?.theme === "light";
     document.documentElement.classList.toggle("light", light);
-  }, [profile?.theme]);
+    applyAccent(profile?.accent, light);
+  }, [profile?.theme, profile?.accent]);
   const toggle = () => {
     const next = !hidden;
     setHidden(next);
