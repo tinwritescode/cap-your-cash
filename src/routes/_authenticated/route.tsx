@@ -7,7 +7,7 @@ import { ComposerProvider } from "@/components/composer";
 import { Tutorial } from "@/components/tutorial";
 import { PrefsProvider } from "@/lib/ui-prefs";
 import { useAuth } from "@/lib/auth";
-import { useProfile, useRealtimeInvalidation, useWallets } from "@/lib/data";
+import { updateProfile, useProfile, useRealtimeInvalidation, useWallets } from "@/lib/data";
 import { useQueryClient } from "@tanstack/react-query";
 import { tutorialBus } from "@/lib/tutorial-bus";
 
@@ -20,7 +20,6 @@ export const Route = createFileRoute("/_authenticated")({
   },
   component: Layout,
 });
-
 
 function Layout() {
   const { user, loading } = useAuth();
@@ -40,14 +39,23 @@ function Layout() {
 
   if (loading || !user) return <div className="min-h-dvh" />;
 
-  const auto = !sessionDone && profile?.tutorial_status === "unseen" && wallets !== undefined && wallets.length === 0;
+  const auto =
+    !sessionDone &&
+    profile?.tutorial_status === "unseen" &&
+    wallets !== undefined &&
+    wallets.length === 0;
 
   async function finish(result: "completed" | "dismissed") {
-    if (manual) { setManual(false); return; }
+    if (manual) {
+      setManual(false);
+      return;
+    }
     setSessionDone(true);
-    const { error } = await supabase.from("profiles").update({ tutorial_status: result }).eq("id", user!.id);
+    const { error } = await updateProfile({ tutorial_status: result });
     if (error) {
-      toast.error("Chưa lưu được trạng thái hướng dẫn.", { action: { label: "Thử lại", onClick: () => finish(result) } });
+      toast.error("Chưa lưu được trạng thái hướng dẫn.", {
+        action: { label: "Thử lại", onClick: () => finish(result) },
+      });
     } else qc.invalidateQueries({ queryKey: ["profile"] });
   }
 

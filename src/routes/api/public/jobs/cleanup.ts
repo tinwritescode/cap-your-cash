@@ -12,23 +12,46 @@ export const Route = createFileRoute("/api/public/jobs/cleanup")({
         if (authFailure) return authFailure;
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-        const { data: claimed, error: claimErr } = await supabaseAdmin.rpc("claim_expired_trash", { p_limit: 200 });
+        const { data: claimed, error: claimErr } = await supabaseAdmin.rpc("claim_expired_trash", {
+          p_limit: 200,
+        });
         if (claimErr) return Response.json({ error: claimErr.message }, { status: 500 });
 
         const { data: orphans } = await supabaseAdmin.rpc("find_orphan_objects", { p_limit: 200 });
         if (orphans && orphans.length) {
-          await supabaseAdmin.from("cleanup_jobs").insert({ kind: "orphan", object_paths: orphans.map((o: { name: string }) => o.name) });
+          await supabaseAdmin
+            .from("cleanup_jobs")
+            .insert({ kind: "orphan", object_paths: orphans.map((o: { name: string }) => o.name) });
         }
 
-        const { data: jobs } = await supabaseAdmin.from("cleanup_jobs").select("*").eq("state", "pending").lt("attempts", 10).limit(100);
+        const { data: jobs } = await supabaseAdmin
+          .from("cleanup_jobs")
+          .select("*")
+          .eq("state", "pending")
+          .lt("attempts", 10)
+          .limit(100);
         let done = 0;
         for (const j of jobs ?? []) {
           const paths = j.object_paths as string[];
-          const { error } = paths.length ? await supabaseAdmin.storage.from("photos").remove(paths) : { error: null };
-          await supabaseAdmin.from("cleanup_jobs").update(
-            error ? { attempts: j.attempts + 1, last_error: error.message, state: j.attempts + 1 >= 10 ? "failed" : "pending" }
-                  : { state: "done", completed_at: new Date().toISOString(), attempts: j.attempts + 1 },
-          ).eq("id", j.id);
+          const { error } = paths.length
+            ? await supabaseAdmin.storage.from("photos").remove(paths)
+            : { error: null };
+          await supabaseAdmin
+            .from("cleanup_jobs")
+            .update(
+              error
+                ? {
+                    attempts: j.attempts + 1,
+                    last_error: error.message,
+                    state: j.attempts + 1 >= 10 ? "failed" : "pending",
+                  }
+                : {
+                    state: "done",
+                    completed_at: new Date().toISOString(),
+                    attempts: j.attempts + 1,
+                  },
+            )
+            .eq("id", j.id);
           if (!error) done++;
         }
         return Response.json({ purged: claimed, jobsDone: done });

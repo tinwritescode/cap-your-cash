@@ -1,15 +1,37 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Camera, ImagePlus, Loader2, X, AlertTriangle, RotateCw } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useAuth, onAccountChange } from "@/lib/auth";
-import { invalidateFinance, rpcErrorMessage, useCategories, useWallets, type TxWithPhotos, type Category } from "@/lib/data";
+import {
+  invalidateFinance,
+  rpcErrorMessage,
+  useCategories,
+  useWallets,
+  type TxWithPhotos,
+  type Category,
+} from "@/lib/data";
 import { fromLocalInput, parseVnd, toLocalInput, formatVnd } from "@/lib/finance";
 import { checkFile, MAX_PHOTOS, prepareImage } from "@/lib/image";
 import { useOnline } from "@/hooks/use-online";
@@ -61,29 +83,62 @@ export function ComposerProvider({ children }: { children: ReactNode }) {
     setOpen(true);
   }, []);
 
-  useEffect(() => { const off = onAccountChange(() => { setOpen(false); setEditing(null); setDirty(false); setSession((s) => s + 1); }); return () => { off(); }; }, []);
+  useEffect(() => {
+    const off = onAccountChange(() => {
+      setOpen(false);
+      setEditing(null);
+      setDirty(false);
+      setSession((s) => s + 1);
+    });
+    return () => {
+      off();
+    };
+  }, []);
 
   useEffect(() => {
     if (!dirty) return;
-    const h = (e: BeforeUnloadEvent) => { e.preventDefault(); e.returnValue = ""; };
+    const h = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
     window.addEventListener("beforeunload", h);
     return () => window.removeEventListener("beforeunload", h);
   }, [dirty]);
 
   const ask = useConfirm();
   const close = async (force = false) => {
-    if (dirty && !force && !(await ask({ title: "Bỏ nội dung chưa lưu?", body: "Nội dung này chỉ nằm trong trang và sẽ mất.", ok: "Bỏ", cancel: "Tiếp tục ghi", destructive: true }))) return;
+    if (
+      dirty &&
+      !force &&
+      !(await ask({
+        title: "Bỏ nội dung chưa lưu?",
+        body: "Nội dung này chỉ nằm trong trang và sẽ mất.",
+        ok: "Bỏ",
+        cancel: "Tiếp tục ghi",
+        destructive: true,
+      }))
+    )
+      return;
     setOpen(false);
     setDirty(false);
   };
 
   return (
-    <ComposerCtx.Provider value={useMemo(() => ({ openNew, openEdit, dirty }), [openNew, openEdit, dirty])}>
+    <ComposerCtx.Provider
+      value={useMemo(() => ({ openNew, openEdit, dirty }), [openNew, openEdit, dirty])}
+    >
       {children}
       <Dialog open={open} onOpenChange={(o) => !o && close()}>
         <DialogContent className="overflow-y-auto rounded-[2rem] border-border bg-surface p-0 sm:max-w-lg [&>button:last-child]:hidden">
           {open && (
-            <TxForm key={session} editing={editing} initialType={initialType} onDirty={setDirty} onDone={() => close(true)} onCancel={() => close()} />
+            <TxForm
+              key={session}
+              editing={editing}
+              initialType={initialType}
+              onDirty={setDirty}
+              onDone={() => close(true)}
+              onCancel={() => close()}
+            />
           )}
         </DialogContent>
       </Dialog>
@@ -96,7 +151,19 @@ function catLabel(c: Category, all: Category[]) {
   return `${c.icon} ${p ? `${p.name} › ` : ""}${c.name}`;
 }
 
-function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: TxWithPhotos | null; initialType: TxType; onDirty: (d: boolean) => void; onDone: () => void; onCancel: () => void }) {
+function TxForm({
+  editing,
+  initialType,
+  onDirty,
+  onDone,
+  onCancel,
+}: {
+  editing: TxWithPhotos | null;
+  initialType: TxType;
+  onDirty: (d: boolean) => void;
+  onDone: () => void;
+  onCancel: () => void;
+}) {
   const { user } = useAuth();
   const qc = useQueryClient();
   const online = useOnline();
@@ -116,7 +183,13 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
       editing?.transaction_photos
         .slice()
         .sort((a, b) => a.sort_order - b.sort_order)
-        .map((p) => ({ id: p.id, existingThumb: p.thumb_path, original_path: p.original_path, thumb_path: p.thumb_path, uploaded: true })) ?? [],
+        .map((p) => ({
+          id: p.id,
+          existingThumb: p.thumb_path,
+          original_path: p.original_path,
+          thumb_path: p.thumb_path,
+          uploaded: true,
+        })) ?? [],
   );
   const [stage, setStage] = useState<"camera" | "form">(editing ? "form" : "camera");
   const [phase, setPhase] = useState<Phase>("idle");
@@ -127,7 +200,8 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
   const camRef = useRef<HTMLInputElement>(null);
 
   const locked = phase !== "idle";
-  const usable = (id: string, current?: string | null) => wallets.filter((w) => !w.archived_at || w.id === current);
+  const usable = (id: string, current?: string | null) =>
+    wallets.filter((w) => !w.archived_at || w.id === current);
 
   useEffect(() => {
     const changed = !!amount || !!note || photos.some((p) => p.blobs);
@@ -140,11 +214,14 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
     const active = wallets.filter((w) => !w.archived_at);
     if (!src && active[0] && (type === "expense" || type === "transfer")) setSrc(active[0].id);
     if (!dst && active[0] && type === "income") setDst(active[0].id);
-    if (type === "transfer" && active[1] && (!dst || dst === src)) setDst(active.find((w) => w.id !== (src || active[0].id))?.id ?? "");
+    if (type === "transfer" && active[1] && (!dst || dst === src))
+      setDst(active.find((w) => w.id !== (src || active[0].id))?.id ?? "");
   }, [wallets, type]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const catType = type === "income" ? "income" : "expense";
-  const catOptions = categories.filter((c) => c.type === catType && (!c.archived_at || c.id === editing?.category_id));
+  const catOptions = categories.filter(
+    (c) => c.type === catType && (!c.archived_at || c.id === editing?.category_id),
+  );
 
   async function addFiles(list: FileList | File[] | null) {
     if (!list || !user) return;
@@ -154,13 +231,19 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
     setPhase("preparing");
     for (const f of files.slice(0, room)) {
       const bad = checkFile(f);
-      if (bad) { toast.error(bad); continue; }
+      if (bad) {
+        toast.error(bad);
+        continue;
+      }
       try {
         setProgress(`Đang nén ${f.name}…`);
         const blobs = await prepareImage(f);
         const id = crypto.randomUUID();
         const base = `${user.id}/${txId.current}/${id}`;
-        setPhotos((p) => [...p, { id, original_path: `${base}.jpg`, thumb_path: `${base}_t.jpg`, blobs, uploaded: false }]);
+        setPhotos((p) => [
+          ...p,
+          { id, original_path: `${base}.jpg`, thumb_path: `${base}_t.jpg`, blobs, uploaded: false },
+        ]);
       } catch (e) {
         toast.error(e instanceof Error ? e.message : "Không đọc được ảnh");
       }
@@ -187,7 +270,12 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
       p_category: type === "transfer" ? null : cat || null,
       p_occurred_at: fromLocalInput(when).toISOString(),
       p_note: note.trim() || null,
-      p_photos: photos.map((p, i) => ({ id: p.id, original_path: p.original_path, thumb_path: p.thumb_path, sort_order: i })),
+      p_photos: photos.map((p, i) => ({
+        id: p.id,
+        original_path: p.original_path,
+        thumb_path: p.thumb_path,
+        sort_order: i,
+      })),
     };
   }
 
@@ -197,10 +285,16 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
     for (const p of pending) {
       i++;
       setProgress(`Đang tải ảnh ${i}/${pending.length}…`);
-      for (const [path, blob] of [[p.original_path, p.blobs!.original], [p.thumb_path, p.blobs!.thumb]] as const) {
-        const { error } = await supabase.storage.from("photos").upload(path, blob, { upsert: false, contentType: "image/jpeg" });
+      for (const [path, blob] of [
+        [p.original_path, p.blobs!.original],
+        [p.thumb_path, p.blobs!.thumb],
+      ] as const) {
+        const { error } = await supabase.storage
+          .from("photos")
+          .upload(path, blob, { upsert: false, contentType: "image/jpeg" });
         // Existing bytes are never replaced: an "already exists" on retry means this file is already there.
-        if (error && !/exists|Duplicate|409/i.test(error.message)) throw new Error(`Tải ảnh thất bại: ${error.message}`);
+        if (error && !/exists|Duplicate|409/i.test(error.message))
+          throw new Error(`Tải ảnh thất bại: ${error.message}`);
       }
       p.uploaded = true;
       setPhotos((all) => all.map((x) => (x.id === p.id ? { ...x, uploaded: true } : x)));
@@ -216,15 +310,22 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
       try {
         const q = editing
           ? supabase.rpc("update_transaction", {
-              p_id: payload.p_id as string, p_version: editing.version, p_amount: payload.p_amount as number,
-              p_source: payload.p_source as string, p_dest: payload.p_dest as string, p_category: payload.p_category as string,
-              p_occurred_at: payload.p_occurred_at as string, p_note: payload.p_note as string, p_photos: payload.p_photos as never,
+              p_id: payload.p_id as string,
+              p_version: editing.version,
+              p_amount: payload.p_amount as number,
+              p_source: payload.p_source as string,
+              p_dest: payload.p_dest as string,
+              p_category: payload.p_category as string,
+              p_occurred_at: payload.p_occurred_at as string,
+              p_note: payload.p_note as string,
+              p_photos: payload.p_photos as never,
             })
           : supabase.rpc("commit_transaction", payload as never);
         const { data, error } = await q.abortSignal(ctrl.signal);
         clearTimeout(timer);
         if (error) {
-          if (/VALIDATION|AUTH|violates|check constraint/i.test(error.message)) return { kind: "invalid" as const, message: rpcErrorMessage(error) };
+          if (/VALIDATION|AUTH|violates|check constraint/i.test(error.message))
+            return { kind: "invalid" as const, message: rpcErrorMessage(error) };
           lastErr = error;
         } else return { kind: "ok" as const, data: data as { status: string; message?: string } };
       } catch (e) {
@@ -238,16 +339,26 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
 
   async function submit() {
     setError(null);
-    if (!online) { setError("Bạn đang offline. Cần internet để lưu."); return; }
+    if (!online) {
+      setError("Bạn đang offline. Cần internet để lưu.");
+      return;
+    }
     if (!snapshot.current) {
       const p = buildPayload();
-      if (typeof p === "string") { setError(p); return; }
+      if (typeof p === "string") {
+        setError(p);
+        return;
+      }
       snapshot.current = Object.freeze(p);
     }
     const ownerAtStart = user?.id;
     try {
       const { data: u } = await supabase.auth.getUser();
-      if (!u.user || u.user.id !== ownerAtStart) { snapshot.current = null; setError("Tài khoản đã thay đổi. Nội dung cũ đã bị huỷ."); return; }
+      if (!u.user || u.user.id !== ownerAtStart) {
+        snapshot.current = null;
+        setError("Tài khoản đã thay đổi. Nội dung cũ đã bị huỷ.");
+        return;
+      }
       setPhase("uploading");
       await uploadAll();
     } catch (e) {
@@ -268,7 +379,9 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
     }
     if (r.kind === "unknown") {
       setPhase("unknown");
-      setError(`Chưa rõ kết quả (${r.message}). Bấm "Thử lại" để gửi lại đúng nội dung này — sẽ không tạo trùng.`);
+      setError(
+        `Chưa rõ kết quả (${r.message}). Bấm "Thử lại" để gửi lại đúng nội dung này — sẽ không tạo trùng.`,
+      );
       return;
     }
     if (r.data.status === "conflict") {
@@ -277,7 +390,13 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
       return;
     }
     invalidateFinance(qc);
-    toast.success(editing ? "Đã cập nhật" : r.data.status === "duplicate" ? "Giao dịch đã được lưu trước đó" : "Đã lưu");
+    toast.success(
+      editing
+        ? "Đã cập nhật"
+        : r.data.status === "duplicate"
+          ? "Giao dịch đã được lưu trước đó"
+          : "Đã lưu",
+    );
     photos.forEach((p) => p.blobs && URL.revokeObjectURL(p.blobs.preview));
     onDirty(false);
     onDone();
@@ -289,10 +408,21 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
       <>
         <DialogTitle className="sr-only">Chụp ảnh giao dịch</DialogTitle>
         <DialogDescription className="sr-only">Chụp ảnh rồi nhập số tiền.</DialogDescription>
-        <CameraCapture title={TYPES.find((t) => t.v === type)?.label ?? "Ghi"} onClose={onCancel}
-          onCapture={(f) => { setStage("form"); void addFiles([f]); }}
-          onPickFiles={(l) => { if (l?.length) { setStage("form"); void addFiles(l); } }}
-          onSkip={() => setStage("form")} />
+        <CameraCapture
+          title={TYPES.find((t) => t.v === type)?.label ?? "Ghi"}
+          onClose={onCancel}
+          onCapture={(f) => {
+            setStage("form");
+            void addFiles([f]);
+          }}
+          onPickFiles={(l) => {
+            if (l?.length) {
+              setStage("form");
+              void addFiles(l);
+            }
+          }}
+          onSkip={() => setStage("form")}
+        />
       </>
     );
   }
@@ -300,28 +430,60 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
   return (
     <div className="flex flex-col gap-4 p-5">
       <div className="flex items-center justify-between">
-        <button type="button" onClick={onCancel} aria-label="Đóng" className="grid size-11 place-items-center rounded-full bg-surface-2"><X className="size-5" /></button>
-        {!editing && <button type="button" disabled={locked} onClick={() => setStage("camera")} className="flex min-h-11 items-center gap-2 rounded-full bg-surface-2 px-4 text-sm font-medium"><Camera className="size-4" /> Chụp thêm</button>}
+        <button
+          type="button"
+          onClick={onCancel}
+          aria-label="Đóng"
+          className="grid size-11 place-items-center rounded-full bg-surface-2"
+        >
+          <X className="size-5" />
+        </button>
+        {!editing && (
+          <button
+            type="button"
+            disabled={locked}
+            onClick={() => setStage("camera")}
+            className="flex min-h-11 items-center gap-2 rounded-full bg-surface-2 px-4 text-sm font-medium"
+          >
+            <Camera className="size-4" /> Chụp thêm
+          </button>
+        )}
       </div>
       {hero && (
         <div className="relative mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-[2.5rem] bg-surface-2">
-          {hero.blobs ? <img src={hero.blobs.preview} alt="" className="size-full object-cover" /> : <PhotoThumb path={hero.existingThumb!} className="size-full" />}
+          {hero.blobs ? (
+            <img src={hero.blobs.preview} alt="" className="size-full object-cover" />
+          ) : (
+            <PhotoThumb path={hero.existingThumb!} className="size-full" />
+          )}
           {type !== "journal" && amount && (
-            <span className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-overlay px-4 py-1.5 text-base font-bold text-overlay-foreground">{formatVnd(parseVnd(amount) ?? 0)}</span>
+            <span className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-overlay px-4 py-1.5 text-base font-bold text-overlay-foreground">
+              {formatVnd(parseVnd(amount) ?? 0)}
+            </span>
           )}
         </div>
       )}
       <DialogHeader>
         <DialogTitle>{editing ? "Sửa giao dịch" : "Ghi giao dịch"}</DialogTitle>
-        <DialogDescription className="text-xs">Chưa lưu cho tới khi máy chủ xác nhận. Tải lại trang sẽ mất nội dung đang nhập.</DialogDescription>
+        <DialogDescription className="text-xs">
+          Chưa lưu cho tới khi máy chủ xác nhận. Tải lại trang sẽ mất nội dung đang nhập.
+        </DialogDescription>
       </DialogHeader>
 
       {!isEditingType && (
         <div className="grid grid-cols-4 gap-1 rounded-2xl bg-muted p-1" role="tablist">
           {TYPES.map((t) => (
-            <button key={t.v} role="tab" aria-selected={type === t.v} disabled={locked}
+            <button
+              key={t.v}
+              role="tab"
+              aria-selected={type === t.v}
+              disabled={locked}
               onClick={() => setType(t.v)}
-              className={cn("min-h-11 rounded-xl text-xs font-medium transition-colors", type === t.v ? "bg-primary text-primary-foreground" : "text-muted-foreground")}>
+              className={cn(
+                "min-h-11 rounded-xl text-xs font-medium transition-colors",
+                type === t.v ? "bg-primary text-primary-foreground" : "text-muted-foreground",
+              )}
+            >
               {t.label}
             </button>
           ))}
@@ -332,82 +494,214 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
         {type !== "journal" ? (
           <div>
             <Label htmlFor="amt">Số tiền (VND)</Label>
-            <Input id="amt" inputMode="numeric" autoFocus placeholder="0" className={cn("mt-1 h-16 rounded-2xl text-center text-3xl font-bold", type === "expense" ? "text-expense" : type === "income" ? "text-income" : "")}
-              value={amount ? (parseVnd(amount) ?? 0).toLocaleString("en-US") : ""} onChange={(e) => setAmount(e.target.value)} />
+            <Input
+              id="amt"
+              inputMode="numeric"
+              autoFocus
+              placeholder="0"
+              className={cn(
+                "mt-1 h-16 rounded-2xl text-center text-3xl font-bold",
+                type === "expense" ? "text-expense" : type === "income" ? "text-income" : "",
+              )}
+              value={amount ? (parseVnd(amount) ?? 0).toLocaleString("en-US") : ""}
+              onChange={(e) => setAmount(e.target.value)}
+            />
           </div>
         ) : (
-          <p className="rounded-xl bg-accent p-3 text-sm text-accent-foreground">Nhật ký ảnh luôn là 0đ và không ảnh hưởng số dư, thu chi hay ngân sách.</p>
+          <p className="rounded-xl bg-accent p-3 text-sm text-accent-foreground">
+            Nhật ký ảnh luôn là 0đ và không ảnh hưởng số dư, thu chi hay ngân sách.
+          </p>
         )}
 
         {(type === "expense" || type === "transfer" || type === "journal") && (
-          <Field label={type === "transfer" ? "Từ ví" : type === "journal" ? "Ví (tuỳ chọn)" : "Ví"}>
-            <AppSelect value={src} onChange={setSrc} placeholder="— Chọn ví —"
-              options={[...(type === "journal" ? [{ value: "", label: "— Không chọn —" }] : []), ...usable("src", editing?.source_wallet_id).map((w) => ({ value: w.id, label: `${w.name}${w.archived_at ? " (đã lưu trữ)" : ""}` }))]} />
+          <Field
+            label={type === "transfer" ? "Từ ví" : type === "journal" ? "Ví (tuỳ chọn)" : "Ví"}
+          >
+            <AppSelect
+              value={src}
+              onChange={setSrc}
+              placeholder="— Chọn ví —"
+              options={[
+                ...(type === "journal" ? [{ value: "", label: "— Không chọn —" }] : []),
+                ...usable("src", editing?.source_wallet_id).map((w) => ({
+                  value: w.id,
+                  label: `${w.name}${w.archived_at ? " (đã lưu trữ)" : ""}`,
+                })),
+              ]}
+            />
           </Field>
         )}
         {(type === "income" || type === "transfer") && (
           <Field label={type === "transfer" ? "Đến ví" : "Ví nhận"}>
-            <AppSelect value={dst} onChange={setDst} placeholder="— Chọn ví —"
-              options={usable("dst", editing?.dest_wallet_id).map((w) => ({ value: w.id, label: `${w.name}${w.archived_at ? " (đã lưu trữ)" : ""}` }))} />
+            <AppSelect
+              value={dst}
+              onChange={setDst}
+              placeholder="— Chọn ví —"
+              options={usable("dst", editing?.dest_wallet_id).map((w) => ({
+                value: w.id,
+                label: `${w.name}${w.archived_at ? " (đã lưu trữ)" : ""}`,
+              }))}
+            />
           </Field>
         )}
         {type !== "transfer" && (
           <Field label={type === "journal" ? "Danh mục (tuỳ chọn)" : "Danh mục"}>
-            <AppSelect value={cat} onChange={setCat} placeholder="— Chọn danh mục —"
-              options={[...(type === "journal" ? [{ value: "", label: "— Không chọn —" }] : []), ...catOptions.filter((c) => !c.parent_id).flatMap((p) => [p, ...catOptions.filter((c) => c.parent_id === p.id)]).map((c) => ({ value: c.id, label: catLabel(c, categories) }))]} />
+            <AppSelect
+              value={cat}
+              onChange={setCat}
+              placeholder="— Chọn danh mục —"
+              options={[
+                ...(type === "journal" ? [{ value: "", label: "— Không chọn —" }] : []),
+                ...catOptions
+                  .filter((c) => !c.parent_id)
+                  .flatMap((p) => [p, ...catOptions.filter((c) => c.parent_id === p.id)])
+                  .map((c) => ({ value: c.id, label: catLabel(c, categories) })),
+              ]}
+            />
           </Field>
         )}
         <Field label="Thời gian">
           <DateTimePicker value={when} onChange={setWhen} />
         </Field>
         <Field label="Ghi chú">
-          <Textarea maxLength={500} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Ví dụ: Cơm trưa với đồng nghiệp" />
+          <Textarea
+            maxLength={500}
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder="Ví dụ: Cơm trưa với đồng nghiệp"
+          />
         </Field>
 
         <div>
-          <Label>Ảnh {type === "journal" ? "(bắt buộc)" : "(tuỳ chọn)"} · {photos.length}/{MAX_PHOTOS}</Label>
+          <Label>
+            Ảnh {type === "journal" ? "(bắt buộc)" : "(tuỳ chọn)"} · {photos.length}/{MAX_PHOTOS}
+          </Label>
           <div className="mt-2 flex flex-wrap gap-2">
             {photos.map((p) => (
               <div key={p.id} className="relative size-20 overflow-hidden rounded-xl bg-muted">
-                {p.blobs ? <img src={p.blobs.preview} alt="" className="size-full object-cover" /> : <PhotoThumb path={p.existingThumb!} className="size-full" />}
-                {!p.uploaded && phase === "uploading" && <div className="absolute inset-0 grid place-items-center bg-overlay"><Loader2 className="size-5 animate-spin text-overlay-foreground" /></div>}
-                <button type="button" aria-label="Bỏ ảnh" onClick={() => setPhotos((all) => all.filter((x) => x.id !== p.id))}
-                  className="absolute right-1 top-1 grid size-7 place-items-center rounded-full bg-overlay text-overlay-foreground"><X className="size-4" /></button>
+                {p.blobs ? (
+                  <img src={p.blobs.preview} alt="" className="size-full object-cover" />
+                ) : (
+                  <PhotoThumb path={p.existingThumb!} className="size-full" />
+                )}
+                {!p.uploaded && phase === "uploading" && (
+                  <div className="absolute inset-0 grid place-items-center bg-overlay">
+                    <Loader2 className="size-5 animate-spin text-overlay-foreground" />
+                  </div>
+                )}
+                <button
+                  type="button"
+                  aria-label="Bỏ ảnh"
+                  onClick={() => setPhotos((all) => all.filter((x) => x.id !== p.id))}
+                  className="absolute right-1 top-1 grid size-7 place-items-center rounded-full bg-overlay text-overlay-foreground"
+                >
+                  <X className="size-4" />
+                </button>
               </div>
             ))}
             {photos.length < MAX_PHOTOS && (
               <>
-                <button type="button" onClick={() => camRef.current?.click()} className="grid size-20 place-items-center rounded-xl border border-dashed text-muted-foreground" aria-label="Chụp ảnh"><Camera /></button>
-                <button type="button" onClick={() => fileRef.current?.click()} className="grid size-20 place-items-center rounded-xl border border-dashed text-muted-foreground" aria-label="Chọn ảnh"><ImagePlus /></button>
+                <button
+                  type="button"
+                  onClick={() => camRef.current?.click()}
+                  className="grid size-20 place-items-center rounded-xl border border-dashed text-muted-foreground"
+                  aria-label="Chụp ảnh"
+                >
+                  <Camera />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => fileRef.current?.click()}
+                  className="grid size-20 place-items-center rounded-xl border border-dashed text-muted-foreground"
+                  aria-label="Chọn ảnh"
+                >
+                  <ImagePlus />
+                </button>
               </>
             )}
           </div>
-          <input ref={camRef} type="file" accept="image/jpeg,image/png,image/webp" capture="environment" hidden onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
-          <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp" multiple hidden onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
-          <p className="mt-1 text-xs text-muted-foreground">JPEG, PNG, WebP · tối đa 10 MB/ảnh. Nếu máy không mở được camera, hãy chọn ảnh từ thư viện.</p>
+          <Input
+            ref={camRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            capture="environment"
+            hidden
+            onChange={(e) => {
+              addFiles(e.target.files);
+              e.target.value = "";
+            }}
+          />
+          <Input
+            ref={fileRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+            hidden
+            onChange={(e) => {
+              addFiles(e.target.files);
+              e.target.value = "";
+            }}
+          />
+          <p className="mt-1 text-xs text-muted-foreground">
+            JPEG, PNG, WebP · tối đa 10 MB/ảnh. Nếu máy không mở được camera, hãy chọn ảnh từ thư
+            viện.
+          </p>
         </div>
       </fieldset>
 
-      {progress && <p className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />{progress}</p>}
+      {progress && (
+        <p className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Loader2 className="size-4 animate-spin" />
+          {progress}
+        </p>
+      )}
       {error && (
-        <div role="alert" className="flex gap-2 rounded-xl bg-destructive/15 p-3 text-sm text-destructive">
+        <div
+          role="alert"
+          className="flex gap-2 rounded-xl bg-destructive/15 p-3 text-sm text-destructive"
+        >
           <AlertTriangle className="size-4 shrink-0" /> <span>{error}</span>
         </div>
       )}
 
       <div className="flex gap-2">
         {phase === "unknown" ? (
-          <Button size="lg" className="h-12 flex-1 rounded-2xl" onClick={submit} disabled={!online}><RotateCw /> Thử lại cùng nội dung</Button>
+          <Button size="lg" className="h-12 flex-1 rounded-2xl" onClick={submit} disabled={!online}>
+            <RotateCw /> Thử lại cùng nội dung
+          </Button>
         ) : phase === "conflict" ? (
-          <Button size="lg" variant="secondary" className="h-12 flex-1 rounded-2xl" onClick={() => { invalidateFinance(qc); onDone(); }}>Đóng và tải lại</Button>
+          <Button
+            size="lg"
+            variant="secondary"
+            className="h-12 flex-1 rounded-2xl"
+            onClick={() => {
+              invalidateFinance(qc);
+              onDone();
+            }}
+          >
+            Đóng và tải lại
+          </Button>
         ) : (
-          <Button size="lg" className="h-12 flex-1 rounded-2xl" onClick={submit} disabled={locked || !online}>
+          <Button
+            size="lg"
+            className="h-12 flex-1 rounded-2xl"
+            onClick={submit}
+            disabled={locked || !online}
+          >
             {locked ? <Loader2 className="animate-spin" /> : null}
-            {editing ? "Lưu thay đổi" : type === "journal" ? "Lưu nhật ký" : `Lưu ${amount ? formatVnd(parseVnd(amount) ?? 0) : ""}`}
+            {editing
+              ? "Lưu thay đổi"
+              : type === "journal"
+                ? "Lưu nhật ký"
+                : `Lưu ${amount ? formatVnd(parseVnd(amount) ?? 0) : ""}`}
           </Button>
         )}
       </div>
-      {!online && <p className="text-center text-xs text-muted-foreground">Không có internet — không thể lưu.</p>}
+      {!online && (
+        <p className="text-center text-xs text-muted-foreground">
+          Không có internet — không thể lưu.
+        </p>
+      )}
     </div>
   );
 }

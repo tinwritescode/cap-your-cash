@@ -30,12 +30,24 @@ export function AppShell({ children }: { children: ReactNode }) {
           <img src="/icon-192.png" alt="" className="size-8 rounded-lg" /> CapMoney
         </div>
         {TABS.map((t) => (
-          <Link key={t.to} to={t.to} className={cn("flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm", isActive(t.to) ? "bg-sidebar-accent text-primary" : "text-sidebar-foreground/80 hover:bg-sidebar-accent")}>
+          <Link
+            key={t.to}
+            to={t.to}
+            className={cn(
+              "flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm",
+              isActive(t.to)
+                ? "bg-sidebar-accent text-primary"
+                : "text-sidebar-foreground/80 hover:bg-sidebar-accent",
+            )}
+          >
             <t.icon className="size-5" /> {t.label}
           </Link>
         ))}
         {online && hasWallet && (
-          <button onClick={() => openNew()} className="mt-4 flex min-h-11 items-center justify-center gap-2 rounded-xl bg-primary font-medium text-primary-foreground">
+          <button
+            onClick={() => openNew()}
+            className="mt-4 flex min-h-11 items-center justify-center gap-2 rounded-xl bg-primary font-medium text-primary-foreground"
+          >
             <Plus className="size-5" /> Ghi giao dịch
           </button>
         )}
@@ -47,17 +59,30 @@ export function AppShell({ children }: { children: ReactNode }) {
       </main>
 
       {online && hasWallet && (
-        <button aria-label="Ghi giao dịch" onClick={() => openNew()}
-          className="fixed bottom-[calc(6rem+env(safe-area-inset-bottom))] right-5 z-30 grid size-16 place-items-center rounded-full bg-primary text-primary-foreground shadow-fab md:hidden">
+        <button
+          aria-label="Ghi giao dịch"
+          onClick={() => openNew()}
+          className="fixed bottom-[calc(6rem+env(safe-area-inset-bottom))] right-5 z-30 grid size-16 place-items-center rounded-full bg-primary text-primary-foreground shadow-fab md:hidden"
+        >
           <Plus className="size-8" />
         </button>
       )}
 
-      <nav aria-label="Điều hướng chính" className="fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-30 md:hidden">
+      <nav
+        aria-label="Điều hướng chính"
+        className="fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-30 md:hidden"
+      >
         <div className="glass-nav mx-auto flex max-w-md items-center justify-between rounded-full p-1.5">
           {TABS.map((t) => (
-            <Link key={t.to} to={t.to} aria-label={t.label}
-              className={cn("flex min-h-12 flex-1 flex-col items-center justify-center rounded-full text-[10px]", isActive(t.to) ? "bg-background/60 text-primary" : "text-muted-foreground")}>
+            <Link
+              key={t.to}
+              to={t.to}
+              aria-label={t.label}
+              className={cn(
+                "flex min-h-12 flex-1 flex-col items-center justify-center rounded-full text-[10px]",
+                isActive(t.to) ? "bg-background/60 text-primary" : "text-muted-foreground",
+              )}
+            >
               <t.icon className="size-6" />
               <span className="sr-only sm:not-sr-only">{t.label}</span>
             </Link>
@@ -71,9 +96,14 @@ export function AppShell({ children }: { children: ReactNode }) {
 function Offline() {
   return (
     <div className="flex min-h-[70dvh] flex-col items-center justify-center gap-3 text-center">
-      <div className="grid size-16 place-items-center rounded-full bg-muted"><WifiOff className="size-8 text-muted-foreground" /></div>
+      <div className="grid size-16 place-items-center rounded-full bg-muted">
+        <WifiOff className="size-8 text-muted-foreground" />
+      </div>
       <h1 className="text-xl font-semibold">Không có kết nối internet</h1>
-      <p className="max-w-xs text-sm text-muted-foreground">CapMoney chỉ hiển thị và lưu dữ liệu tài chính khi có mạng. Không có dữ liệu nào được lưu trên máy. Hãy kết nối lại để tiếp tục.</p>
+      <p className="max-w-xs text-sm text-muted-foreground">
+        CapMoney chỉ hiển thị và lưu dữ liệu tài chính khi có mạng. Không có dữ liệu nào được lưu
+        trên máy. Hãy kết nối lại để tiếp tục.
+      </p>
     </div>
   );
 }
@@ -87,10 +117,24 @@ export function PageHeader({ title, right }: { title: string; right?: ReactNode 
   );
 }
 
-export function Empty({ title, body, action, icon }: { title: string; body: string; action?: ReactNode; icon?: ReactNode }) {
+export function Empty({
+  title,
+  body,
+  action,
+  icon,
+}: {
+  title: string;
+  body: string;
+  action?: ReactNode;
+  icon?: ReactNode;
+}) {
   return (
     <div className="flex flex-col items-center gap-1.5 rounded-3xl bg-surface p-7 text-center">
-      {icon && <div className="mb-2 grid size-14 place-items-center rounded-full bg-surface-2 text-muted-foreground">{icon}</div>}
+      {icon && (
+        <div className="mb-2 grid size-14 place-items-center rounded-full bg-surface-2 text-muted-foreground">
+          {icon}
+        </div>
+      )}
       <p className="text-base font-semibold">{title}</p>
       <p className="max-w-xs text-sm text-muted-foreground">{body}</p>
       {action && <div className="mt-4">{action}</div>}

@@ -184,17 +184,26 @@
   }
 }
 
-html, body {
+html,
+body {
   overscroll-behavior-y: none;
 }
 
 /* Shimmer skeleton: GPU-only translate of a soft highlight */
 @keyframes shimmer-move {
-  100% { transform: translateX(100%); }
+  100% {
+    transform: translateX(100%);
+  }
 }
 @keyframes fade-in-soft {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 @utility shimmer {
   position: relative;
@@ -204,7 +213,12 @@ html, body {
     position: absolute;
     inset: 0;
     transform: translateX(-100%);
-    background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--foreground) 7%, transparent), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--foreground) 7%, transparent),
+      transparent
+    );
     animation: shimmer-move 1.3s ease-in-out infinite;
   }
 }

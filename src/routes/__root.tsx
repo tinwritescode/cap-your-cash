@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
 import {
   Outlet,
   Link,
@@ -23,7 +24,10 @@ function NotFoundComponent() {
         <h1 className="text-7xl font-bold text-foreground">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">Không tìm thấy trang</h2>
         <div className="mt-6">
-          <Link to="/" className="inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">
+          <Link
+            to="/"
+            className="inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
+          >
             Về trang chủ
           </Link>
         </div>
@@ -43,12 +47,15 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold text-foreground">Trang không tải được</h1>
         <p className="mt-2 text-sm text-muted-foreground">Đã có lỗi xảy ra. Hãy thử lại.</p>
-        <button
-          onClick={() => { router.invalidate(); reset(); }}
+        <Button
+          onClick={() => {
+            router.invalidate();
+            reset();
+          }}
           className="mt-6 inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
         >
           Thử lại
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -65,18 +72,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
       { name: "apple-mobile-web-app-title", content: "CapMoney" },
       { title: "CapMoney — Quản lý chi tiêu bằng ảnh" },
-      { name: "description", content: "Ghi thu chi bằng ảnh, xem lịch chi tiêu và ngân sách tháng." },
+      {
+        name: "description",
+        content: "Ghi thu chi bằng ảnh, xem lịch chi tiêu và ngân sách tháng.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "CapMoney" },
       { property: "og:title", content: "CapMoney — Quản lý chi tiêu bằng ảnh" },
-      { property: "og:description", content: "Ghi thu chi bằng ảnh, xem lịch chi tiêu và ngân sách tháng." },
+      {
+        property: "og:description",
+        content: "Ghi thu chi bằng ảnh, xem lịch chi tiêu và ngân sách tháng.",
+      },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
+      },
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "icon", type: "image/png", href: "/favicon.png?v=3" },
       { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png?v=3" },

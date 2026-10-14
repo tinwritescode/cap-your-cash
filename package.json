@@ -9,6 +9,9 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
+    "lint:architecture": "node scripts/check-architecture.mjs",
+    "duplication:check": "node scripts/check-duplication.mjs",
+    "test:architecture": "bun run lint:architecture && bun run duplication:check",
     "format": "prettier --write .",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -89,6 +92,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^15.15.0",
+    "jscpd": "5.4.1",
     "jsdom": "^20.0.3",
     "nitro": "3.0.260603-beta",
     "postgres": "^3.4.9",

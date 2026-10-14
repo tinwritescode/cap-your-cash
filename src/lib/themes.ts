@@ -41,7 +41,8 @@ export function accentTokens(a: Accent, light: boolean) {
 
 /** WCAG relative luminance of an OKLCH colour (via OKLab → linear sRGB). */
 export function luminance([L, C, H]: Oklch) {
-  const a = C * Math.cos((H * Math.PI) / 180), b = C * Math.sin((H * Math.PI) / 180);
+  const a = C * Math.cos((H * Math.PI) / 180),
+    b = C * Math.sin((H * Math.PI) / 180);
   const l = (L + 0.3963377774 * a + 0.2158037573 * b) ** 3;
   const m = (L - 0.1055613458 * a - 0.0638541728 * b) ** 3;
   const s = (L - 0.0894841775 * a - 1.291485548 * b) ** 3;
@@ -69,7 +70,8 @@ export function checkAccent(a: Accent): ContrastIssue[] {
       ["Chữ màu chủ đạo", contrast(main, bg), 4.5],
       ["Cột biểu đồ", Math.min(contrast(main, bg), contrast(main, surface)), 3],
     ];
-    for (const [what, ratio, need] of checks) if (ratio < need) out.push({ mode, what, ratio, need });
+    for (const [what, ratio, need] of checks)
+      if (ratio < need) out.push({ mode, what, ratio, need });
   }
   return out;
 }
@@ -78,16 +80,23 @@ export function applyAccent(id: string | undefined, light: boolean) {
   const a = ACCENTS.find((x) => x.id === id) ?? ACCENTS[0];
   const s = document.documentElement.style;
   const { main: m, fg: f } = accentTokens(a, light);
-  const main = css(m), fg = css(f);
+  const main = css(m),
+    fg = css(f);
   const tint = (bgL: number, cMul: number) => `oklch(${bgL} ${(a.c * cMul).toFixed(3)} ${a.h})`;
-  for (const k of ["--primary", "--ring", "--sidebar-primary", "--sidebar-ring", "--chart-1"]) s.setProperty(k, main);
+  for (const k of ["--primary", "--ring", "--sidebar-primary", "--sidebar-ring", "--chart-1"])
+    s.setProperty(k, main);
   s.setProperty("--primary-foreground", fg);
   s.setProperty("--accent", light ? tint(0.92, 0.25) : tint(0.3, 0.25));
   s.setProperty("--accent-foreground", light ? tint(0.35, 0.7) : tint(0.9, 0.4));
 }
 
 // ---- Fonts (all with Vietnamese glyph support on Google Fonts) ----
-export type Font = { id: string; name: string; family: string; fallback: "sans-serif" | "serif" | "monospace" };
+export type Font = {
+  id: string;
+  name: string;
+  family: string;
+  fallback: "sans-serif" | "serif" | "monospace";
+};
 export const FONTS: Font[] = [
   { id: "jakarta", name: "Plus Jakarta Sans", family: "Plus Jakarta Sans", fallback: "sans-serif" },
   { id: "be-vietnam", name: "Be Vietnam Pro", family: "Be Vietnam Pro", fallback: "sans-serif" },
@@ -126,5 +135,8 @@ export function loadFont(f: Font) {
 export function applyFont(id: string | undefined) {
   const f = FONTS.find((x) => x.id === id) ?? FONTS[0];
   loadFont(f);
-  document.documentElement.style.setProperty("--font-sans", `"${f.family}", ui-${f.fallback === "monospace" ? "monospace" : f.fallback}, ${f.fallback}`);
+  document.documentElement.style.setProperty(
+    "--font-sans",
+    `"${f.family}", ui-${f.fallback === "monospace" ? "monospace" : f.fallback}, ${f.fallback}`,
+  );
 }

@@ -22,7 +22,9 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
     document.documentElement.classList.toggle("light", light);
     applyAccent(profile?.accent, light);
   }, [profile?.theme, profile?.accent]);
-  useEffect(() => { if (profile) applyFont(profile.font); }, [profile?.font]);
+  useEffect(() => {
+    if (profile) applyFont(profile.font);
+  }, [profile?.font]);
   const toggle = () => {
     const next = !hidden;
     setHidden(next);
@@ -32,10 +34,21 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
 }
 export const usePrefs = () => useContext(Ctx);
 
-export function Money({ value, className, sign }: { value: number; className?: string; sign?: "+" | "-" }) {
+export function Money({
+  value,
+  className,
+  sign,
+}: {
+  value: number;
+  className?: string;
+  sign?: "+" | "-";
+}) {
   const { hidden } = usePrefs();
   return (
-    <span className={cn("tabular-nums", hidden && "amount-hidden", className)} aria-label={hidden ? "Số tiền đã ẩn" : undefined}>
+    <span
+      className={cn("tabular-nums", hidden && "amount-hidden", className)}
+      aria-label={hidden ? "Số tiền đã ẩn" : undefined}
+    >
       {hidden ? "••••••" : `${sign && value !== 0 ? sign : ""}${formatVnd(value)}`}
     </span>
   );
