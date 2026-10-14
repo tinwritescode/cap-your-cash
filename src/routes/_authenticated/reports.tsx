@@ -24,6 +24,12 @@ export const Route = createFileRoute("/_authenticated/reports")({
 });
 
 const COLORS = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"];
+const TOOLTIP = {
+  cursor: { fill: "var(--surface-2)", radius: 8 },
+  contentStyle: { background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 12, color: "var(--popover-foreground)", fontSize: 12 },
+  labelStyle: { color: "var(--muted-foreground)" },
+  itemStyle: { color: "var(--popover-foreground)" },
+} as const;
 
 function Reports() {
   const { user } = useAuth();
