@@ -21,7 +21,7 @@ export function RouteProgress() {
   }, [loading]);
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[3px] pt-safe" style={{ opacity: visible ? 1 : 0, transition: "opacity 200ms" }}>
+    <div aria-hidden className="pointer-events-none fixed inset-x-0 top-[env(safe-area-inset-top)] z-[60] h-[3px]" style={{ opacity: visible ? 1 : 0, transition: "opacity 200ms" }}>
       <div className="h-full rounded-r-full bg-primary shadow-fab" style={{ width: `${width}%`, transition: "width 200ms ease-out" }} />
     </div>
   );
