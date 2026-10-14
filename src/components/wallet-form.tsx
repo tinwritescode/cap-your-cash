@@ -1,18 +1,15 @@
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createWallet, invalidateFinance } from "@/lib/data";
+import { invalidateFinance } from "@/lib/data";
 import { fromLocalInput, parseVnd, toLocalInput } from "@/lib/finance";
 import { DateTimePicker } from "./pickers";
 
-export const KIND_LABEL: Record<string, string> = {
-  cash: "💵 Tiền mặt",
-  bank: "🏦 Ngân hàng",
-  credit: "💳 Thẻ tín dụng",
-};
+export const KIND_LABEL: Record<string, string> = { cash: "💵 Tiền mặt", bank: "🏦 Ngân hàng", credit: "💳 Thẻ tín dụng" };
 
 export function WalletForm({ onDone }: { onDone?: () => void }) {
   const qc = useQueryClient();
@@ -30,12 +27,9 @@ export function WalletForm({ onDone }: { onDone?: () => void }) {
     const amt = opening ? parseVnd(opening) : 0;
     if (amt === null) return setErr("Số dư không hợp lệ.");
     setBusy(true);
-    const { error } = await createWallet({
-      p_name: name.trim(),
-      p_kind: kind,
-      p_opening_balance_vnd: negative ? -amt : amt,
-      p_opening_at: fromLocalInput(at).toISOString(),
-    });
+    const { error } = await supabase.from("wallets").insert({
+      name: name.trim(), kind, opening_balance_vnd: negative ? -amt : amt, opening_at: fromLocalInput(at).toISOString(),
+    } as never);
     setBusy(false);
     if (error) return setErr(error.message);
     toast.success("Đã tạo ví");
@@ -45,72 +39,27 @@ export function WalletForm({ onDone }: { onDone?: () => void }) {
 
   return (
     <div className="flex flex-col gap-3">
-      <div>
-        <Label htmlFor="wn">Tên ví</Label>
-        <Input
-          id="wn"
-          className="mt-1 h-11"
-          maxLength={40}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Ví dụ: Tiền mặt"
-        />
-      </div>
+      <div><Label htmlFor="wn">Tên ví</Label><Input id="wn" className="mt-1 h-11" maxLength={40} value={name} onChange={(e) => setName(e.target.value)} placeholder="Ví dụ: Tiền mặt" /></div>
       <div>
         <Label>Loại</Label>
         <div className="mt-1 grid grid-cols-3 gap-2">
           {Object.entries(KIND_LABEL).map(([k, l]) => (
-            <button
-              key={k}
-              type="button"
-              onClick={() => setKind(k)}
-              aria-pressed={kind === k}
-              className={`min-h-11 rounded-xl text-xs ${kind === k ? "bg-primary text-primary-foreground" : "bg-muted"}`}
-            >
-              {l}
-            </button>
+            <button key={k} type="button" onClick={() => setKind(k)} aria-pressed={kind === k}
+              className={`min-h-11 rounded-xl text-xs ${kind === k ? "bg-primary text-primary-foreground" : "bg-muted"}`}>{l}</button>
           ))}
         </div>
       </div>
       <div>
         <Label htmlFor="ob">Số dư ban đầu (VND)</Label>
         <div className="mt-1 flex gap-2">
-          <Button
-            type="button"
-            variant="secondary"
-            className="h-11 w-11"
-            onClick={() => setNegative(!negative)}
-            aria-label="Đổi dấu"
-          >
-            {negative ? "−" : "+"}
-          </Button>
-          <Input
-            id="ob"
-            inputMode="numeric"
-            className="h-11"
-            value={opening ? (parseVnd(opening) ?? 0).toLocaleString("en-US") : ""}
-            onChange={(e) => setOpening(e.target.value)}
-            placeholder="0"
-          />
+          <Button type="button" variant="secondary" className="h-11 w-11" onClick={() => setNegative(!negative)} aria-label="Đổi dấu">{negative ? "−" : "+"}</Button>
+          <Input id="ob" inputMode="numeric" className="h-11" value={opening ? (parseVnd(opening) ?? 0).toLocaleString("en-US") : ""} onChange={(e) => setOpening(e.target.value)} placeholder="0" />
         </div>
-        <p className="mt-1 text-xs text-muted-foreground">
-          Chỉ nhập lúc tạo. Sau này hãy dùng giao dịch để thay đổi.
-        </p>
+        <p className="mt-1 text-xs text-muted-foreground">Chỉ nhập lúc tạo. Sau này hãy dùng giao dịch để thay đổi.</p>
       </div>
-      <div>
-        <Label htmlFor="oa">Bắt đầu theo dõi từ</Label>
-        <div className="mt-1">
-          <DateTimePicker id="oa" value={at} onChange={setAt} />
-        </div>
-      </div>
-      {err && (
-        <p role="alert" className="text-sm text-destructive">
-          {err}
-        </p>
-      )}
-      <Button className="h-12 rounded-2xl" disabled={busy} onClick={save}>
-        Tạo ví
-      </Button>
+      <div><Label htmlFor="oa">Bắt đầu theo dõi từ</Label><div className="mt-1"><DateTimePicker id="oa" value={at} onChange={setAt} /></div></div>
+      {err && <p role="alert" className="text-sm text-destructive">{err}</p>}
+      <Button className="h-12 rounded-2xl" disabled={busy} onClick={save}>Tạo ví</Button>
     </div>
   );
 }

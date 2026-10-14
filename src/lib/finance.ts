@@ -43,10 +43,7 @@ export function localMidnightUtc(y: number, m: number, d: number): Date {
 }
 
 export function monthRange(y: number, m: number): { start: Date; end: Date } {
-  return {
-    start: localMidnightUtc(y, m, 1),
-    end: localMidnightUtc(m === 12 ? y + 1 : y, m === 12 ? 1 : m + 1, 1),
-  };
+  return { start: localMidnightUtc(y, m, 1), end: localMidnightUtc(m === 12 ? y + 1 : y, m === 12 ? 1 : m + 1, 1) };
 }
 
 export function daysInMonth(y: number, m: number) {
@@ -114,17 +111,7 @@ export function computeBudget(
     daysLeft = daysInMonth(y, m);
     daily = Math.floor(Math.max(remaining, 0) / daysLeft);
   }
-  return {
-    kind: "set",
-    budget,
-    spent,
-    remaining,
-    percent,
-    exceeded: spent > budget,
-    zeroBudget,
-    daily,
-    daysLeft,
-  };
+  return { kind: "set", budget, spent, remaining, percent, exceeded: spent > budget, zeroBudget, daily, daysLeft };
 }
 
 /** CSV cell: quote, escape, and neutralise spreadsheet formulas. */

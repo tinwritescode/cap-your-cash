@@ -36,18 +36,9 @@ function Reset() {
       <div className="flex w-full max-w-sm flex-col gap-3">
         <h1 className="text-2xl font-bold">Đặt mật khẩu mới</h1>
         <Label htmlFor="np">Mật khẩu mới</Label>
-        <Input
-          id="np"
-          type="password"
-          className="h-11"
-          value={pw}
-          onChange={(e) => setPw(e.target.value)}
-          autoComplete="new-password"
-        />
+        <Input id="np" type="password" className="h-11" value={pw} onChange={(e) => setPw(e.target.value)} autoComplete="new-password" />
         {err && <p className="text-sm text-destructive">{err}</p>}
-        <Button className="h-12 rounded-2xl" onClick={save}>
-          Lưu mật khẩu
-        </Button>
+        <Button className="h-12 rounded-2xl" onClick={save}>Lưu mật khẩu</Button>
       </div>
     </div>
   );
