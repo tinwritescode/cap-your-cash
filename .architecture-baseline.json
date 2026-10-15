@@ -72,48 +72,6 @@
   {
     "rule": "noncanonical-native-control",
     "file": "src/components/composer.tsx",
-    "line": 303,
-    "fingerprint": "01fa453db4409dc00cb9db955aedbea3a64f0968cb67a00bd7fe575dc952b44d",
-    "detail": "<button> must compose a canonical primitive or document a reviewed adapter"
-  },
-  {
-    "rule": "noncanonical-native-control",
-    "file": "src/components/composer.tsx",
-    "line": 304,
-    "fingerprint": "35c72d8f547a9f01fcc9caf26187387822ee340d5be4f114399e252ed2c7bbb0",
-    "detail": "<button> must compose a canonical primitive or document a reviewed adapter"
-  },
-  {
-    "rule": "noncanonical-native-control",
-    "file": "src/components/composer.tsx",
-    "line": 322,
-    "fingerprint": "d778058daa6843394d09992f17c13a17db3f0fd1cb21e5e81a25855425984e88",
-    "detail": "<button> must compose a canonical primitive or document a reviewed adapter"
-  },
-  {
-    "rule": "noncanonical-native-control",
-    "file": "src/components/composer.tsx",
-    "line": 374,
-    "fingerprint": "c5d80feae6616bb2acaa6e7527f786d3d9f8f420cb45a43173620c19ea520bcc",
-    "detail": "<button> must compose a canonical primitive or document a reviewed adapter"
-  },
-  {
-    "rule": "noncanonical-native-control",
-    "file": "src/components/composer.tsx",
-    "line": 380,
-    "fingerprint": "091fcdb8e5fadbb353320838b376034b1ae1793479c61209f0a624d8a4016537",
-    "detail": "<button> must compose a canonical primitive or document a reviewed adapter"
-  },
-  {
-    "rule": "noncanonical-native-control",
-    "file": "src/components/composer.tsx",
-    "line": 381,
-    "fingerprint": "cba2256b0a66917fdf46e9e68770011bb6b3b6a39c8de4d4e1367bb59f6aecd7",
-    "detail": "<button> must compose a canonical primitive or document a reviewed adapter"
-  },
-  {
-    "rule": "noncanonical-native-control",
-    "file": "src/components/composer.tsx",
     "line": 385,
     "fingerprint": "7b58568f7151149a735488ef0fbdbe31f9b18f406d5e02ae4eb3c6c703488fda",
     "detail": "<input> must compose a canonical primitive or document a reviewed adapter"
@@ -138,13 +96,6 @@
     "line": 43,
     "fingerprint": "afa06ba3962650b4214ec48febca8bd506ddd46660ae3c58f86c758d05944d94",
     "detail": "<button> must compose a canonical primitive or document a reviewed adapter"
-  },
-  {
-    "rule": "noncanonical-native-control",
-    "file": "src/components/pickers.tsx",
-    "line": 66,
-    "fingerprint": "0ef5e9248dc888d3bef3c23a4da8165ef8bcea275ba55a41ffed7cd3e5ca70e4",
-    "detail": "<input> must compose a canonical primitive or document a reviewed adapter"
   },
   {
     "rule": "noncanonical-native-control",

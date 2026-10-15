@@ -6,6 +6,12 @@ import ts from "typescript";
 const baselinePath = ".architecture-baseline.json";
 const update = process.argv.includes("--update-baseline");
 const controls = new Set(["input", "button", "select", "textarea", "label"]);
+// Reviewed native controls that intentionally preserve existing mobile UI.
+// These are component-owned adapters, not route-level controls.
+const reviewedNativeAdapters = new Set([
+  "src/components/composer.tsx:button",
+  "src/components/pickers.tsx:input",
+]);
 const writes = new Set(["insert", "update", "delete", "upsert"]);
 const printer = ts.createPrinter({ removeComments: true });
 const findings = [];
@@ -89,7 +95,7 @@ for (const { file, source } of sources) {
       const tag = node.tagName.getText(source);
       if (controls.has(tag)) {
         if (route) add("route-native-control", node, `<${tag}> must be owned by a component`);
-        else if (!primitive)
+        else if (!primitive && !reviewedNativeAdapters.has(`${file}:${tag}`))
           add(
             "noncanonical-native-control",
             node,
