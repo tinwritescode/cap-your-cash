@@ -138,17 +138,16 @@ function ProfilePage() {
           })()}
         </div>
         <div className="px-3 py-3">
-          <p className="mb-3 text-sm text-muted-foreground">Phông chữ</p>
-          <div className="grid grid-cols-2 gap-2">
+          <p className="mb-2 text-sm text-muted-foreground">Phông chữ</p>
+          <div className="flex flex-wrap gap-1.5">
             {FONTS.map((f) => {
               const on = (profile?.font ?? "jakarta") === f.id;
               return (
                 <button key={f.id} aria-pressed={on} onClick={() => update({ font: f.id })}
                   onPointerEnter={() => loadFont(f)} onFocus={() => loadFont(f)}
-                  className={`truncate rounded-2xl border px-3 py-2.5 text-left text-sm ${on ? "border-primary bg-accent text-accent-foreground" : "border-border bg-surface-2"}`}
+                  className={`max-w-full truncate rounded-full border px-2.5 py-1 text-xs ${on ? "border-primary bg-accent text-accent-foreground" : "border-border bg-surface-2"}`}
                   style={{ fontFamily: `"${f.family}", ${f.fallback}` }}>
                   {f.name}
-                  <span className="block text-xs opacity-70">Tiền chi 125.000đ</span>
                 </button>
               );
             })}
