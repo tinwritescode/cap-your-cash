@@ -1,2 +1,3 @@
 - [x] Noel theme on login
 - [x] Button tap sounds + on/off toggle
+- [x] Profile: rename "Màu chủ đạo" to "Theme", distinctive Christmas swatch
