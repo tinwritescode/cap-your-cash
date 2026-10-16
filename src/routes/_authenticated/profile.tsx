@@ -3,7 +3,7 @@ import { SettingsRow as Row } from "@/components/settings-row";
 import { TelegramLinkCard } from "@/components/telegram/telegram-link-card";
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { BookOpen, Bot, Check, ChevronRight, Download, LogOut, Moon, Smartphone, Trash2, Eye, TriangleAlert } from "lucide-react";
+import { BookOpen, Bot, Check, ChevronRight, Download, LogOut, Moon, Smartphone, Trash2, Eye, TriangleAlert, Volume2 } from "lucide-react";
 import { ACCENTS, FONTS, accentColor, checkAccent, loadFont } from "@/lib/themes";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -19,6 +19,7 @@ import { PhotoThumb } from "@/components/photo";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { SoundSwitch } from "@/components/sound-switch";
 import { checkFile, prepareImage } from "@/lib/image";
 
 export const Route = createFileRoute("/_authenticated/profile")({
@@ -97,6 +98,7 @@ function ProfilePage() {
 
       <div className="flex flex-col rounded-3xl bg-surface p-2">
         <Row icon={<Eye />} label="Ẩn số tiền"><Switch checked={hidden} onCheckedChange={toggle} /></Row>
+        <Row icon={<Volume2 />} label="Âm thanh khi bấm"><SoundSwitch /></Row>
         <Row icon={<Moon />} label="Giao diện tối"><Switch checked={profile?.theme !== "light"} onCheckedChange={(v) => update({ theme: v ? "dark" : "light" })} /></Row>
         <div className="px-3 py-3">
           <p className="mb-3 text-sm text-muted-foreground">Màu chủ đạo</p>

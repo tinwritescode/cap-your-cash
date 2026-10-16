@@ -48,3 +48,13 @@ export function SantaHat({ className = "" }: { className?: string }) {
     </svg>
   );
 }
+
+/** App logo with the Santa hat (shown when Noel is active), used on the sign-in screen. */
+export function FestiveLogo() {
+  return (
+    <div className="relative mb-4 size-16">
+      <img src="/icon-192.png?v=2" alt="" className="size-16 rounded-2xl object-cover" />
+      <SantaHat className="-left-4 -top-6 w-12 -rotate-12" />
+    </div>
+  );
+}

@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/lib/auth";
+import { NoelDecor, FestiveLogo } from "@/components/noel-decor";
+import { applyAccent } from "@/lib/themes";
 import { TelegramLogin } from "@/components/telegram/telegram-login";
 
 export const Route = createFileRoute("/auth")({
@@ -32,6 +34,8 @@ function AuthPage() {
   const [msg, setMsg] = useState<string | null>(null);
 
   useEffect(() => { if (user) nav({ to: "/" }); }, [user, nav]);
+  // Signed-out visitors always see the Christmas look; signed-in users get their saved accent.
+  useEffect(() => { if (!user) applyAccent("noel", document.documentElement.classList.contains("light")); }, [user]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -67,7 +71,8 @@ function AuthPage() {
   return (
     <div className="flex min-h-dvh items-center justify-center px-5 pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(1.25rem,env(safe-area-inset-bottom))]">
       <div className="w-full max-w-sm">
-        <img src="/icon-192.png?v=2" alt="" className="mb-4 size-16 rounded-2xl object-cover" />
+        <NoelDecor />
+        <FestiveLogo />
         <h1 className="text-3xl font-bold">CapMoney</h1>
         <p className="mb-6 mt-1 text-muted-foreground">Chụp lại, biết tiền đi đâu.</p>
         <form onSubmit={submit} className="flex flex-col gap-3">

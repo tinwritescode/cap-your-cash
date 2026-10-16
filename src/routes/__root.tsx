@@ -17,6 +17,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { ConfirmProvider } from "@/components/confirm";
 import { RouteProgress } from "@/components/route-progress";
 import { setupPwaCache } from "@/lib/pwa";
+import { installTapSounds } from "@/lib/sound";
 
 function NotFoundComponent() {
   return (
@@ -112,6 +113,7 @@ function RootComponent() {
   useEffect(() => {
     setupPwaCache().catch((error) => console.warn("PWA cache setup failed", error));
   }, []);
+  useEffect(() => installTapSounds(), []);
 
   return (
     <QueryClientProvider client={queryClient}>
