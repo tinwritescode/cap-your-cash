@@ -43,6 +43,13 @@
       "when": 1792164719549,
       "tag": "0005_agent_api_keys",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792166160809,
+      "tag": "0006_agent_api_photos",
+      "breakpoints": true
     }
   ]
 }
