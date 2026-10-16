@@ -28,7 +28,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="min-h-dvh md:flex">
       <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col gap-1 border-r bg-sidebar p-4 md:flex">
         <div className="mb-6 flex items-center gap-2 px-2 text-lg font-bold">
-          <span className="relative"><img src="/icon-192.png" alt="" className="size-8 rounded-lg" /><SantaHat className="-left-2 -top-3 w-7 -rotate-12" /></span> CapMoney
+          <span className="relative"><img src="/icon-192.png" alt="" className="size-8 rounded-lg" /><SantaHat className="-top-3.5 left-1/2 w-7 -translate-x-1/2" /></span> CapMoney
         </div>
         {TABS.map((t) => (
           <Link key={t.to} to={t.to} className={cn("flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm", isActive(t.to) ? "bg-sidebar-accent text-primary" : "text-sidebar-foreground/80 hover:bg-sidebar-accent")}>
