@@ -6,6 +6,7 @@ import { useOnline } from "@/hooks/use-online";
 import { useWallets } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { PullToRefresh } from "./pull-to-refresh";
+import { NoelDecor, SantaHat } from "./noel-decor";
 
 const TABS = [
   { to: "/", label: "Trang chủ", icon: Home },
@@ -27,7 +28,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="min-h-dvh md:flex">
       <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col gap-1 border-r bg-sidebar p-4 md:flex">
         <div className="mb-6 flex items-center gap-2 px-2 text-lg font-bold">
-          <img src="/icon-192.png" alt="" className="size-8 rounded-lg" /> CapMoney
+          <span className="relative"><img src="/icon-192.png" alt="" className="size-8 rounded-lg" /><SantaHat className="-left-2 -top-3 w-7 -rotate-12" /></span> CapMoney
         </div>
         {TABS.map((t) => (
           <Link key={t.to} to={t.to} className={cn("flex min-h-11 items-center gap-3 rounded-xl px-3 text-sm", isActive(t.to) ? "bg-sidebar-accent text-primary" : "text-sidebar-foreground/80 hover:bg-sidebar-accent")}>
@@ -41,6 +42,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         )}
       </aside>
 
+      <NoelDecor />
       {online && <PullToRefresh />}
       <main className="mx-auto w-full max-w-3xl px-4 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-[max(0.25rem,env(safe-area-inset-top))] md:pb-10">
         {online ? children : <Offline />}
