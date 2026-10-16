@@ -49,4 +49,4 @@ New violations fail review. Existing violations are migration work: do not add t
 ## Completion gate
 
 UI work is complete only when the touched routes use canonical components, touched components have one clear responsibility, no new same-responsibility duplication exists, protected writes use the data-layer RPC path, and architecture lint, duplication check, and relevant tests pass.
-- Thumbnails: app uploads store a real `_t.jpg`; bot/API uploads reuse the original and list views request a 360px storage transform via useSignedUrls(paths, true). Why: no image codec needed on the Worker.
+- Thumbnails: bot/API uploads reuse the original; lists request a 360px storage transform (useSignedUrls thumb). Why: no codec on Worker.
