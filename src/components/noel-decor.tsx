@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { NoelMusic } from "@/components/noel-music";
 
 /** True when the Noel accent is active (class set on <html> by applyAccent). */
 export function useNoel() {
@@ -26,12 +27,15 @@ export function NoelDecor() {
   const on = useNoel();
   if (!on) return null;
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-20 overflow-hidden">
-      <StringLights />
-      {FLAKES.map((f, i) => (
-        <span key={i} className="snowflake" style={{ left: `${f.left}%`, width: f.size, height: f.size, animationDuration: `${f.dur}s`, animationDelay: `${f.delay}s` }} />
-      ))}
-    </div>
+    <>
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-20 overflow-hidden">
+        <StringLights />
+        {FLAKES.map((f, i) => (
+          <span key={i} className="snowflake" style={{ left: `${f.left}%`, width: f.size, height: f.size, animationDuration: `${f.dur}s`, animationDelay: `${f.delay}s` }} />
+        ))}
+      </div>
+      <NoelMusic />
+    </>
   );
 }
 
