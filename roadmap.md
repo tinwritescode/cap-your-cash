@@ -1,3 +1,4 @@
 - [x] Noel theme on login
 - [x] Button tap sounds + on/off toggle
 - [x] Profile: rename "Màu chủ đạo" to "Theme", distinctive Christmas swatch
+- [x] Compact Phông chữ section into wrap chips; extract AccentSwatches/FontChips components
