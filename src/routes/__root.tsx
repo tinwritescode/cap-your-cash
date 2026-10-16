@@ -16,6 +16,7 @@ import { AuthProvider } from "@/lib/auth";
 import { Toaster } from "@/components/ui/sonner";
 import { ConfirmProvider } from "@/components/confirm";
 import { RouteProgress } from "@/components/route-progress";
+import { setupPwaCache } from "@/lib/pwa";
 
 function NotFoundComponent() {
   return (
@@ -108,6 +109,10 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useEffect(() => {
+    setupPwaCache().catch((error) => console.warn("PWA cache setup failed", error));
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>

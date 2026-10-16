@@ -18,6 +18,7 @@
 - No financial data in localStorage/IndexedDB/service worker caches; unsaved forms live only in memory. Why: online-only product requirement.
 - Storage photos live at <uid>/<txId>/<photoId>; cleanup/purge runs from /api/public/jobs/cleanup on a daily schedule. Why: owner-scoped RLS and retryable deletion.
 - Accent contrast is auto-tuned per light/dark mode and checked with WCAG ratios in src/lib/themes.ts; its BG values must mirror src/styles.css. Why: theme colours stay readable.
+- App-shell PWA caching uses vite-plugin-pwa behind src/lib/pwa.ts preview guards and excludes API/storage data. Why: published installs open faster without caching financial records or breaking Lovable preview.
 
 ## UI component rules
 
