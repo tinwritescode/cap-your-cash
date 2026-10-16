@@ -1,2 +1,2 @@
 - [x] Noel theme on login
-- [ ] Button tap sounds + on/off toggle
+- [x] Button tap sounds + on/off toggle
