@@ -135,91 +135,91 @@
   {
     "rule": "route-ui-style",
     "file": "src/routes/__root.tsx",
-    "line": 22,
-    "fingerprint": "de92649a3fa65333d4cd408310bbcdcf69c3eb953eaf105ec6e3d08a79c9b5af",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/__root.tsx",
     "line": 23,
-    "fingerprint": "9fee86a01e538c5615902745610ec84f25eec0ff91b218fee7d775f485a6ab4a",
+    "fingerprint": "de92649a3fa65333d4cd408310bbcdcf69c3eb953eaf105ec6e3d08a79c9b5af",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/__root.tsx",
     "line": 24,
-    "fingerprint": "e39a52845faa2e4cade19122aad4bbe396b5f1f235629de12d370ce3c15a4d17",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/__root.tsx",
-    "line": 25,
-    "fingerprint": "c74422cf579db8a171ff6736df0ccd6c3d5635b6c4c3ef655bb46bcf1274bcfa",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/__root.tsx",
-    "line": 26,
-    "fingerprint": "0b111c54ea9f6339b6063b9e68b39ca24df953bd54902bf89c637e1a8c266c96",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/__root.tsx",
-    "line": 27,
-    "fingerprint": "2d020fec3bda64d474a4b5b4e3640ca6deaf1d313f56c4806d82363ead96b639",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/__root.tsx",
-    "line": 43,
-    "fingerprint": "de92649a3fa65333d4cd408310bbcdcf69c3eb953eaf105ec6e3d08a79c9b5af",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/__root.tsx",
-    "line": 44,
     "fingerprint": "9fee86a01e538c5615902745610ec84f25eec0ff91b218fee7d775f485a6ab4a",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/__root.tsx",
+    "line": 25,
+    "fingerprint": "e39a52845faa2e4cade19122aad4bbe396b5f1f235629de12d370ce3c15a4d17",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/__root.tsx",
+    "line": 26,
+    "fingerprint": "c74422cf579db8a171ff6736df0ccd6c3d5635b6c4c3ef655bb46bcf1274bcfa",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/__root.tsx",
+    "line": 27,
+    "fingerprint": "0b111c54ea9f6339b6063b9e68b39ca24df953bd54902bf89c637e1a8c266c96",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/__root.tsx",
+    "line": 28,
+    "fingerprint": "2d020fec3bda64d474a4b5b4e3640ca6deaf1d313f56c4806d82363ead96b639",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/__root.tsx",
+    "line": 44,
+    "fingerprint": "de92649a3fa65333d4cd408310bbcdcf69c3eb953eaf105ec6e3d08a79c9b5af",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/__root.tsx",
     "line": 45,
-    "fingerprint": "61c164958627f1fc4e20d2494c58f04478202007cc67363f2dcd85af57f07124",
+    "fingerprint": "9fee86a01e538c5615902745610ec84f25eec0ff91b218fee7d775f485a6ab4a",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/__root.tsx",
     "line": 46,
+    "fingerprint": "61c164958627f1fc4e20d2494c58f04478202007cc67363f2dcd85af57f07124",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/__root.tsx",
+    "line": 47,
     "fingerprint": "a22d78a11eb47a8d3c77763b46810af5dd0956ab776659d5382236541d78ac19",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-native-control",
     "file": "src/routes/__root.tsx",
-    "line": 47,
+    "line": 48,
     "fingerprint": "bda0766d49d8b7c1c45ea0365bf0a2466da429e2a532226241ebcc1cce56a49e",
     "detail": "<button> must be owned by a component"
   },
   {
     "rule": "route-native-handler",
     "file": "src/routes/__root.tsx",
-    "line": 48,
+    "line": 49,
     "fingerprint": "31407ed30f5736be426813077b06a9475fd6376d1aede1687158f952854ad651",
     "detail": "Move native UI handlers into components"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/__root.tsx",
-    "line": 49,
+    "line": 50,
     "fingerprint": "a78d748b27b52b7559adde05cf3ce122348f43942b6b0dce2d283365adbd1c0d",
     "detail": "Use component variants instead of route styling"
   },
@@ -660,393 +660,358 @@
   {
     "rule": "direct-protected-write",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 60,
+    "line": 61,
     "fingerprint": "ce4cd068396168666f12280f5a98befc987ad756b56a322fb64f10262cab1cd8",
     "detail": "Use a data-layer SECURITY DEFINER RPC"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 82,
+    "line": 83,
     "fingerprint": "c331c1677c873e0ce59f4b456ed986f7ddb78c85487ac435d28203bef9d05c70",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 84,
+    "line": 85,
     "fingerprint": "69b1e71614bb2889776eaee5c22c4209b9ce30b5d354feaf9eaa887809f9872b",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-native-control",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 85,
+    "line": 86,
     "fingerprint": "ac7000baa8d89782e931349f71351906b3dcdf85ce0a2770aee0ec1ea69edf25",
     "detail": "<button> must be owned by a component"
   },
   {
     "rule": "route-native-handler",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 85,
+    "line": 86,
     "fingerprint": "2568e2ce2c05ab9511377bc77812eb764a3dd6fb47a3ede605d823439884bfd4",
     "detail": "Move native UI handlers into components"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 85,
+    "line": 86,
     "fingerprint": "bee6207be6814e18bd395fb58b49b67f1979d30d34913e17ab80ac226f99dc52",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 86,
+    "line": 87,
     "fingerprint": "6ba63876160ffdda52fa7dc551e2a485651a4eee2cb96c1877292a96c5e6399f",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 86,
+    "line": 87,
     "fingerprint": "52392f88e64945a4a50b4a2cc6267c9798c2e9531318036642d2b75b6d934f72",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-native-control",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 88,
+    "line": 89,
     "fingerprint": "889af03dabbab95787b6e5d163416fb9af88b6253a3cbc081bc99733cf63c992",
     "detail": "<input> must be owned by a component"
   },
   {
     "rule": "route-native-handler",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 88,
+    "line": 89,
     "fingerprint": "02274a655f3dcda5eee6bf8934577fe826dca1afa051103e130f9c061011d772",
     "detail": "Move native UI handlers into components"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 89,
+    "line": 90,
     "fingerprint": "1f4b2dd044830c21a2db87bf85c6770676649b2ad7d64e25a50f726b0adefcb0",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 90,
+    "line": 91,
     "fingerprint": "354ea2e28a9aeb9555fd0a5af873fdb48fd177ee2a1540470f0f01b798af0cfc",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 91,
+    "line": 92,
     "fingerprint": "8b06cbc82a2526b4a3b769a7974149f11861aab5445aa8f323e935716d23f6bf",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 96,
+    "line": 97,
     "fingerprint": "24864edc6e89dde8ebe8543e467f0091d154a9326121ebd51aa82ce805317849",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 99,
-    "fingerprint": "0fb58053fa687c366700f0c6a2ddbc998e41510f53a3efa76f8a3030d3bf95d9",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
     "line": 100,
-    "fingerprint": "43ac0ea9da6f5724a7c6e370e9df8c0af90fd507ec8aa8df744f422d948ac941",
+    "fingerprint": "0fb58053fa687c366700f0c6a2ddbc998e41510f53a3efa76f8a3030d3bf95d9",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
     "line": 101,
-    "fingerprint": "38fd9c5d2846e1764d54b393aa60b261f1d211049721c8c77b7b8a99bc1c0474",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-native-control",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 106,
-    "fingerprint": "8f943dcb015d38525bed1ab47f23874909bbb6722432a745234a98015d1f638b",
-    "detail": "<button> must be owned by a component"
-  },
-  {
-    "rule": "route-native-handler",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 106,
-    "fingerprint": "ad2ccef1c3b341b4a9d8f026f42970380bffc5741c8a811f4f91af15c28cae5e",
-    "detail": "Move native UI handlers into components"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 107,
-    "fingerprint": "8e0d9a555d72e57e872cd85f6b8d447c07b39e35ed8d7e5e56b2e01fff4aca5b",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 108,
-    "fingerprint": "4b022743c803de9fd8cb9078ea57da46994a08fa78c86ff6f767ed6ad3cf3624",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 109,
-    "fingerprint": "ebc295e25d9b1707734649a8d9d7c61366eab5e7f993eb4ea5127c45f64306d4",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 110,
-    "fingerprint": "492c731d17478e7dce77a2320471f5344d3d753603d0cf82ed4886f6c40dee7e",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 119,
-    "fingerprint": "8694e8344e7a26b5d2ccc0730c33aa62e551aa1238dbfe26811caaaa06a43ed7",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 121,
-    "fingerprint": "8c7cfeb53ea6a9968c10ecb127b95087de906a3e83b5ef8c672e69e60c73e2ea",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 122,
-    "fingerprint": "fcf9f93aa21d8ab773cc73f3e9076830a38111c8812245460bceeb68584aafbf",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 122,
-    "fingerprint": "a6fcc1b628a2c637e8088cb20489f6dd6881e8dd4f083aa739943d5703a755a6",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 123,
-    "fingerprint": "7d1ba381f4393d7e32bfb4db91c1e0ee6cfa62d64dbb4d28654ba7ab4c3affc1",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 125,
-    "fingerprint": "a4427c8363420cf4f12cc221ae6422160a9e6c7f312c266b280d7dfba611a5df",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 134,
-    "fingerprint": "0fb58053fa687c366700f0c6a2ddbc998e41510f53a3efa76f8a3030d3bf95d9",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 135,
     "fingerprint": "43ac0ea9da6f5724a7c6e370e9df8c0af90fd507ec8aa8df744f422d948ac941",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
+    "line": 102,
+    "fingerprint": "38fd9c5d2846e1764d54b393aa60b261f1d211049721c8c77b7b8a99bc1c0474",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-native-control",
+    "file": "src/routes/_authenticated/profile.tsx",
+    "line": 107,
+    "fingerprint": "8f943dcb015d38525bed1ab47f23874909bbb6722432a745234a98015d1f638b",
+    "detail": "<button> must be owned by a component"
+  },
+  {
+    "rule": "route-native-handler",
+    "file": "src/routes/_authenticated/profile.tsx",
+    "line": 107,
+    "fingerprint": "ad2ccef1c3b341b4a9d8f026f42970380bffc5741c8a811f4f91af15c28cae5e",
+    "detail": "Move native UI handlers into components"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/_authenticated/profile.tsx",
+    "line": 108,
+    "fingerprint": "8e0d9a555d72e57e872cd85f6b8d447c07b39e35ed8d7e5e56b2e01fff4aca5b",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/_authenticated/profile.tsx",
+    "line": 109,
+    "fingerprint": "4b022743c803de9fd8cb9078ea57da46994a08fa78c86ff6f767ed6ad3cf3624",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/_authenticated/profile.tsx",
+    "line": 110,
+    "fingerprint": "ebc295e25d9b1707734649a8d9d7c61366eab5e7f993eb4ea5127c45f64306d4",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/_authenticated/profile.tsx",
+    "line": 111,
+    "fingerprint": "492c731d17478e7dce77a2320471f5344d3d753603d0cf82ed4886f6c40dee7e",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/_authenticated/profile.tsx",
+    "line": 120,
+    "fingerprint": "8694e8344e7a26b5d2ccc0730c33aa62e551aa1238dbfe26811caaaa06a43ed7",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/_authenticated/profile.tsx",
+    "line": 122,
+    "fingerprint": "8c7cfeb53ea6a9968c10ecb127b95087de906a3e83b5ef8c672e69e60c73e2ea",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/_authenticated/profile.tsx",
+    "line": 123,
+    "fingerprint": "fcf9f93aa21d8ab773cc73f3e9076830a38111c8812245460bceeb68584aafbf",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/_authenticated/profile.tsx",
+    "line": 123,
+    "fingerprint": "a6fcc1b628a2c637e8088cb20489f6dd6881e8dd4f083aa739943d5703a755a6",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/_authenticated/profile.tsx",
+    "line": 124,
+    "fingerprint": "7d1ba381f4393d7e32bfb4db91c1e0ee6cfa62d64dbb4d28654ba7ab4c3affc1",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/_authenticated/profile.tsx",
+    "line": 126,
+    "fingerprint": "a4427c8363420cf4f12cc221ae6422160a9e6c7f312c266b280d7dfba611a5df",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/_authenticated/profile.tsx",
+    "line": 135,
+    "fingerprint": "0fb58053fa687c366700f0c6a2ddbc998e41510f53a3efa76f8a3030d3bf95d9",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/_authenticated/profile.tsx",
     "line": 136,
+    "fingerprint": "43ac0ea9da6f5724a7c6e370e9df8c0af90fd507ec8aa8df744f422d948ac941",
+    "detail": "Use component variants instead of route styling"
+  },
+  {
+    "rule": "route-ui-style",
+    "file": "src/routes/_authenticated/profile.tsx",
+    "line": 137,
     "fingerprint": "826ec3c267bf3c7a40c96d27302bdda86aafad083151700da15888ea3b3d87f3",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-native-control",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 140,
+    "line": 141,
     "fingerprint": "ebb020be51c9d99f6c7905b5b86049875f0167fe69a9566ef3028640de6997b4",
     "detail": "<button> must be owned by a component"
   },
   {
     "rule": "route-native-handler",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 140,
+    "line": 141,
     "fingerprint": "2261fd4b2dab9facee412d3e82aedd359a568d81e8d8cac78c441a7a10b5ac8a",
     "detail": "Move native UI handlers into components"
   },
   {
     "rule": "route-native-handler",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 141,
+    "line": 142,
     "fingerprint": "c2c9e0c9d6dea5eb2fddeaac4e435e147b6327fb6c130cd345e050063f435fcd",
     "detail": "Move native UI handlers into components"
   },
   {
     "rule": "route-native-handler",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 141,
+    "line": 142,
     "fingerprint": "38fba979162b4b3c58551a8440bb6d206f6f6482dfbe6292b5d6a71b47d40999",
     "detail": "Move native UI handlers into components"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 142,
+    "line": 143,
     "fingerprint": "6fa0b19eda316c8976ff904f0d55393a7b83112487c8ae59b507893a2e0b5d2b",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 143,
+    "line": 144,
     "fingerprint": "d66c47fdd9953a5e9c2e78ba88e8790b0283709ee4077da2a096be9090a33741",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 145,
+    "line": 146,
     "fingerprint": "914c05f116645319851f536687ef41f38c7dea551914a5c33351b52d703f9c76",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 151,
-    "fingerprint": "9bd2347d742cf79f50d63322a63d87252542fc995c00c69cceca5208759a3f5f",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 152,
-    "fingerprint": "9bd2347d742cf79f50d63322a63d87252542fc995c00c69cceca5208759a3f5f",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-native-control",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 153,
+    "line": 155,
     "fingerprint": "04bc20b263e3c21dbbb07b5405ed4143e1ecbdcab15b8b5025a96a2446b9cfff",
     "detail": "<button> must be owned by a component"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 153,
+    "line": 155,
     "fingerprint": "222236108427a6b6fbcc753dfc894d2dd88cca70649fa11b1ba71d03446913b0",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-native-handler",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 153,
+    "line": 155,
     "fingerprint": "d812707fd87ea23954aa63ad42e993da91a0de1154f626814cbbc9d4f90a8f1d",
     "detail": "Move native UI handlers into components"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 156,
+    "line": 158,
     "fingerprint": "c541c31a2c229f59c3ece421d500a19aac96d2f97ca8af34c44dbb05c6e5cc4c",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 157,
+    "line": 159,
     "fingerprint": "32a68a2604a39ed1586d49f96ae8662dc714dc3f33128814b99e3646990a5a8b",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 157,
+    "line": 159,
     "fingerprint": "0095d4f1d8eb3ae432f125b01d1d5f57b2557704645238a6a4248fc7b451bd80",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 159,
+    "line": 161,
     "fingerprint": "f4a0cee33f965e11255591d3b51019fd1068516650c798d3d9ad84272a3e5261",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 161,
+    "line": 163,
     "fingerprint": "c2f959e317fb232e56d4a9a11a8e2145074a4c71f6a9b08349f5343f98042046",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 168,
+    "line": 170,
     "fingerprint": "81cb7ba622827ba2c52433d67e55b5fe306c6cb19ef05b00cb2c2ad72e42ae9c",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 169,
+    "line": 171,
     "fingerprint": "929b22b60cc542a0f83a839233a7be0b34bd7058a4598e641e777c00149ce219",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 170,
+    "line": 172,
     "fingerprint": "929b22b60cc542a0f83a839233a7be0b34bd7058a4598e641e777c00149ce219",
     "detail": "Use component variants instead of route styling"
   },
   {
     "rule": "route-ui-style",
     "file": "src/routes/_authenticated/profile.tsx",
-    "line": 173,
+    "line": 175,
     "fingerprint": "106383c50030a119f8fc5e019be456ee5a1dfd3fee50941490308512744b9c7f",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 180,
-    "fingerprint": "eb49f4ed34a76e894bb561baa7964267d3b3a8c81fc5a3c350ba565d653a1fa6",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 181,
-    "fingerprint": "8467b7e5a1a260edd262db74c17dd99bf50c01d8d7d347adb22d10b4c6f84c38",
-    "detail": "Use component variants instead of route styling"
-  },
-  {
-    "rule": "route-ui-style",
-    "file": "src/routes/_authenticated/profile.tsx",
-    "line": 182,
-    "fingerprint": "284f91cfa3476d2a46cacc7251357b7382ceae309feb6df87d7bd7fbbb56d909",
     "detail": "Use component variants instead of route styling"
   },
   {
