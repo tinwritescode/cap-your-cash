@@ -165,3 +165,16 @@ export function rpcErrorMessage(e: unknown): string {
   if (/Failed to fetch|NetworkError|network/i.test(msg)) return "Mất kết nối mạng. Vui lòng thử lại.";
   return msg;
 }
+
+export type TelegramLink = Tables<"telegram_links">;
+
+/** The signed-in user's Telegram link (null when not linked). Poll while waiting for the bot. */
+export function useTelegramLink(poll = false) {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ["telegramLink"],
+    enabled: !!user,
+    refetchInterval: poll ? 2000 : false,
+    queryFn: async () => must(await supabase.from("telegram_links").select("*").eq("user_id", user!.id).maybeSingle()) as TelegramLink | null,
+  });
+}
