@@ -150,6 +150,7 @@ function ProfilePage() {
         </div>
         <Link to="/trash" className="contents"><Row icon={<Trash2 />} label="Thùng rác"><ChevronRight /></Row></Link>
         <Link to="/transactions" className="contents"><Row icon={<Download />} label="Xuất CSV (trong Giao dịch)"><ChevronRight /></Row></Link>
+        <Link to="/agents" className="contents"><Row icon={<Smartphone />} label="AI Agents & API key"><ChevronRight /></Row></Link>
         <button className="contents text-left" onClick={() => tutorialBus.open()}><Row icon={<BookOpen />} label="Hướng dẫn sử dụng"><ChevronRight /></Row></button>
       </div>
 
