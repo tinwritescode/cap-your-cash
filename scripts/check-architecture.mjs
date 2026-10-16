@@ -145,7 +145,11 @@ for (const { file, source } of sources) {
         const method = receiver.expression;
         if (method.name.text === "from") {
           const client = method.expression.getText(source);
+          const table = method.arguments[0]?.getText(source) ?? "";
+          // Passkey auth tables hold no financial data and are written only by service-role server fns.
+          const authOnly = client === "supabaseAdmin" && /^["'](passkeys|passkey_challenges)["']$/.test(table);
           if (
+            !authOnly &&
             !client.includes(".storage") &&
             /supabase/i.test(client) &&
             !file.startsWith("src/routes/api/")
