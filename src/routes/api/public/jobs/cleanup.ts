@@ -20,6 +20,7 @@ export const Route = createFileRoute("/api/public/jobs/cleanup")({
           await supabaseAdmin.from("cleanup_jobs").insert({ kind: "orphan", object_paths: orphans.map((o: { name: string }) => o.name) });
         }
 
+        await supabaseAdmin.from("passkey_challenges").delete().lt("expires_at", new Date(Date.now() - 86_400_000).toISOString());
         const { data: jobs } = await supabaseAdmin.from("cleanup_jobs").select("*").eq("state", "pending").lt("attempts", 10).limit(100);
         let done = 0;
         for (const j of jobs ?? []) {

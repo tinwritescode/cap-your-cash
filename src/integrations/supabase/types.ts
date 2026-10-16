@@ -157,6 +157,69 @@ export type Database = {
         }
         Relationships: []
       }
+      passkey_challenges: {
+        Row: {
+          challenge: string
+          expires_at: string
+          id: string
+          purpose: string
+          used_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          challenge: string
+          expires_at?: string
+          id?: string
+          purpose: string
+          used_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          challenge?: string
+          expires_at?: string
+          id?: string
+          purpose?: string
+          used_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      passkeys: {
+        Row: {
+          counter: number
+          created_at: string
+          credential_id: string
+          device_name: string
+          id: string
+          last_used_at: string | null
+          public_key: string
+          transports: string[]
+          user_id: string
+        }
+        Insert: {
+          counter?: number
+          created_at?: string
+          credential_id: string
+          device_name?: string
+          id?: string
+          last_used_at?: string | null
+          public_key: string
+          transports?: string[]
+          user_id: string
+        }
+        Update: {
+          counter?: number
+          created_at?: string
+          credential_id?: string
+          device_name?: string
+          id?: string
+          last_used_at?: string | null
+          public_key?: string
+          transports?: string[]
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           accent: string
@@ -583,6 +646,7 @@ export type Database = {
           income_vnd: number
         }[]
       }
+      passkey_delete: { Args: { p_id: string }; Returns: undefined }
       rename_wallet: {
         Args: { p_id: string; p_name: string }
         Returns: undefined

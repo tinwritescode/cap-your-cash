@@ -10,6 +10,7 @@ import { useAuth } from "@/lib/auth";
 import { NoelDecor, FestiveLogo } from "@/components/noel-decor";
 import { applyAccent } from "@/lib/themes";
 import { TelegramLogin } from "@/components/telegram/telegram-login";
+import { PasskeyLogin } from "@/components/passkey/passkey-login";
 
 export const Route = createFileRoute("/auth")({
   staticData: { sitemap: true },
@@ -88,6 +89,7 @@ function AuthPage() {
         {mode !== "forgot" && (
           <Button variant="secondary" className="mt-3 h-12 w-full rounded-2xl" onClick={google}>Tiếp tục với Google</Button>
         )}
+        {mode === "in" && <PasskeyLogin />}
         {mode === "in" && <TelegramLogin />}
         <div className="mt-5 flex flex-col items-center gap-2 text-sm">
           {mode === "in" && <button className="text-primary" onClick={() => setMode("forgot")}>Quên mật khẩu?</button>}

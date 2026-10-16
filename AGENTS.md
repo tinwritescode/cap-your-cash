@@ -17,7 +17,7 @@
 - Totals, balances and reports come from SQL functions using Asia/Ho_Chi_Minh boundaries; client helpers in src/lib/finance.ts mirror them for display only. Why: one source of financial truth.
 - No financial data in localStorage/IndexedDB/service worker caches; unsaved forms live only in memory. Why: online-only product requirement.
 - Storage photos live at <uid>/<txId>/<photoId>; cleanup/purge runs from /api/public/jobs/cleanup on a daily schedule. Why: owner-scoped RLS and retryable deletion.
-- Accent contrast is auto-tuned per light/dark mode and checked with WCAG ratios in src/lib/themes.ts; its BG values must mirror src/styles.css. Why: theme colours stay readable.
+- Subdirectories may have their own AGENTS.md (e.g. src/lib); read it before changing files there.
 - App-shell PWA caching uses vite-plugin-pwa behind src/lib/pwa.ts preview guards and excludes API/storage data. Why: published installs open faster without caching financial records or breaking Lovable preview.
 - Agent API (/api/public/v1/*, catalogue src/lib/agent-api.ts) and Telegram bot (src/lib/telegram/*) both act through service-only public._agent_dispatch impersonating the user; bot AI entries need in-chat confirmation. Why: one validated write path.
 
@@ -49,4 +49,5 @@ New violations fail review. Existing violations are migration work: do not add t
 ## Completion gate
 
 UI work is complete only when the touched routes use canonical components, touched components have one clear responsibility, no new same-responsibility duplication exists, protected writes use the data-layer RPC path, and architecture lint, duplication check, and relevant tests pass.
-- Thumbnails: bot/API uploads reuse the original; lists request a 360px storage transform (useSignedUrls thumb). Why: no codec on Worker.
+- Thumbnails: bot/API reuse originals; lists use a 360px storage transform. Why: no codec on Worker.
+- Passkey login verifies WebAuthn server-side, then reuses Telegram login's magiclink→verifyOtp session path. Why: one session path.
