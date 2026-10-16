@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { BookOpen, Check, ChevronRight, Download, LogOut, Moon, Smartphone, Trash2, Eye, TriangleAlert } from "lucide-react";
+import { BookOpen, Bot, Check, ChevronRight, Download, LogOut, Moon, Smartphone, Trash2, Eye, TriangleAlert } from "lucide-react";
 import { ACCENTS, FONTS, accentColor, checkAccent, loadFont } from "@/lib/themes";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -150,6 +150,7 @@ function ProfilePage() {
         </div>
         <Link to="/trash" className="contents"><Row icon={<Trash2 />} label="Thùng rác"><ChevronRight /></Row></Link>
         <Link to="/transactions" className="contents"><Row icon={<Download />} label="Xuất CSV (trong Giao dịch)"><ChevronRight /></Row></Link>
+        <Link to="/agents" className="contents"><Row icon={<Bot />} label="Agents & API"><ChevronRight /></Row></Link>
         <button className="contents text-left" onClick={() => tutorialBus.open()}><Row icon={<BookOpen />} label="Hướng dẫn sử dụng"><ChevronRight /></Row></button>
       </div>
 
