@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/lib/auth";
-import { NoelDecor, SantaHat } from "@/components/noel-decor";
+import { NoelDecor, FestiveLogo } from "@/components/noel-decor";
 import { applyAccent } from "@/lib/themes";
 import { TelegramLogin } from "@/components/telegram/telegram-login";
 
@@ -72,7 +72,7 @@ function AuthPage() {
     <div className="flex min-h-dvh items-center justify-center px-5 pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(1.25rem,env(safe-area-inset-bottom))]">
       <div className="w-full max-w-sm">
         <NoelDecor />
-        <div className="relative mb-4 size-16"><img src="/icon-192.png?v=2" alt="" className="size-16 rounded-2xl object-cover" /><SantaHat className="-left-4 -top-6 w-12 -rotate-12" /></div>
+        <FestiveLogo />
         <h1 className="text-3xl font-bold">CapMoney</h1>
         <p className="mb-6 mt-1 text-muted-foreground">Chụp lại, biết tiền đi đâu.</p>
         <form onSubmit={submit} className="flex flex-col gap-3">
