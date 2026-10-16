@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowLeftRight, Camera } from "lucide-react";
 import type { Category, TxWithPhotos, Wallet } from "@/lib/data";
 import { formatDateTime } from "@/lib/finance";
+import { cn } from "@/lib/utils";
 import { Money } from "@/lib/ui-prefs";
 import { PhotoThumb } from "./photo";
 
