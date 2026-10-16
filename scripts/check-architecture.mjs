@@ -11,6 +11,8 @@ const controls = new Set(["input", "button", "select", "textarea", "label"]);
 const reviewedNativeAdapters = new Set([
   "src/components/composer.tsx:button",
   "src/components/pickers.tsx:input",
+  // Appearance swatches/chips are single-color selector controls, not Button variants.
+  "src/components/appearance.tsx:button",
 ]);
 const writes = new Set(["insert", "update", "delete", "upsert"]);
 const printer = ts.createPrinter({ removeComments: true });

@@ -3,8 +3,9 @@ import { SettingsRow as Row } from "@/components/settings-row";
 import { TelegramLinkCard } from "@/components/telegram/telegram-link-card";
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { BookOpen, Bot, Check, ChevronRight, Download, LogOut, Moon, Smartphone, Trash2, Eye, TriangleAlert, Volume2 } from "lucide-react";
-import { ACCENTS, FONTS, accentColor, checkAccent, loadFont } from "@/lib/themes";
+import { BookOpen, Bot, ChevronRight, Download, LogOut, Moon, Smartphone, Trash2, Eye, Volume2 } from "lucide-react";
+import { FONTS, loadFont } from "@/lib/themes";
+import { AccentSwatches, FontChips } from "@/components/appearance";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
@@ -101,56 +102,12 @@ function ProfilePage() {
         <Row icon={<Volume2 />} label="Âm thanh khi bấm"><SoundSwitch /></Row>
         <Row icon={<Moon />} label="Giao diện tối"><Switch checked={profile?.theme !== "light"} onCheckedChange={(v) => update({ theme: v ? "dark" : "light" })} /></Row>
         <div className="px-3 py-3">
-          <p className="mb-3 text-sm text-muted-foreground">Màu chủ đạo</p>
-          <div className="grid grid-cols-5 gap-3">
-            {ACCENTS.map((a) => {
-              const on = (profile?.accent ?? "ocean") === a.id;
-              const warn = checkAccent(a).length > 0;
-              return (
-                <button key={a.id} aria-label={a.name + (warn ? " (độ tương phản thấp)" : "")} aria-pressed={on} title={a.name} onClick={() => update({ accent: a.id })}
-                  className={`relative mx-auto grid size-10 place-items-center rounded-full ring-offset-2 ring-offset-surface ${on ? "ring-2 ring-foreground" : ""}`}
-                  style={{ background: accentColor(a) }}>
-                  {on && <Check className="size-4 text-background" />}
-                  {warn && <span aria-hidden className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full bg-foreground text-background text-[10px] font-bold">!</span>}
-                </button>
-              );
-            })}
-          </div>
-          {(() => {
-            const a = ACCENTS.find((x) => x.id === (profile?.accent ?? "ocean")) ?? ACCENTS[0];
-            const issues = checkAccent(a);
-            const mode = profile?.theme === "light" ? "light" : "dark";
-            if (!issues.length) return <p className="mt-3 text-xs text-muted-foreground">✓ “{a.name}” dễ đọc ở cả chế độ sáng và tối.</p>;
-            return (
-              <div role="status" className="mt-3 rounded-2xl border border-border bg-surface-2 p-3 text-xs">
-                <p className="flex items-center gap-1.5 font-semibold"><TriangleAlert className="size-4" /> “{a.name}” có thể khó đọc</p>
-                <ul className="mt-1.5 flex flex-col gap-0.5 text-muted-foreground">
-                  {issues.map((i, k) => (
-                    <li key={k} className={i.mode === mode ? "text-foreground" : ""}>
-                      Chế độ {i.mode === "light" ? "sáng" : "tối"}{i.mode === mode ? " (đang dùng)" : ""} · {i.what}: {i.ratio.toFixed(1)}:1 (cần {i.need}:1)
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })()}
+          <p className="mb-3 text-sm text-muted-foreground">Theme</p>
+          <AccentSwatches value={profile?.accent} light={profile?.theme === "light"} onChange={(accent) => update({ accent })} />
         </div>
         <div className="px-3 py-3">
-          <p className="mb-3 text-sm text-muted-foreground">Phông chữ</p>
-          <div className="grid grid-cols-2 gap-2">
-            {FONTS.map((f) => {
-              const on = (profile?.font ?? "jakarta") === f.id;
-              return (
-                <button key={f.id} aria-pressed={on} onClick={() => update({ font: f.id })}
-                  onPointerEnter={() => loadFont(f)} onFocus={() => loadFont(f)}
-                  className={`truncate rounded-2xl border px-3 py-2.5 text-left text-sm ${on ? "border-primary bg-accent text-accent-foreground" : "border-border bg-surface-2"}`}
-                  style={{ fontFamily: `"${f.family}", ${f.fallback}` }}>
-                  {f.name}
-                  <span className="block text-xs opacity-70">Tiền chi 125.000đ</span>
-                </button>
-              );
-            })}
-          </div>
+          <p className="mb-2 text-sm text-muted-foreground">Phông chữ</p>
+          <FontChips value={profile?.font} onChange={(font) => update({ font })} />
         </div>
         <Row to="/trash" icon={<Trash2 />} label="Thùng rác"><ChevronRight /></Row>
         <Row to="/transactions" icon={<Download />} label="Xuất CSV (trong Giao dịch)"><ChevronRight /></Row>
