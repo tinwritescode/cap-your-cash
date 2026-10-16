@@ -101,16 +101,18 @@ function ProfilePage() {
         <Row icon={<Volume2 />} label="Âm thanh khi bấm"><SoundSwitch /></Row>
         <Row icon={<Moon />} label="Giao diện tối"><Switch checked={profile?.theme !== "light"} onCheckedChange={(v) => update({ theme: v ? "dark" : "light" })} /></Row>
         <div className="px-3 py-3">
-          <p className="mb-3 text-sm text-muted-foreground">Màu chủ đạo</p>
+          <p className="mb-3 text-sm text-muted-foreground">Theme</p>
           <div className="grid grid-cols-5 gap-3">
             {ACCENTS.map((a) => {
               const on = (profile?.accent ?? "ocean") === a.id;
               const warn = checkAccent(a).length > 0;
+              const noel = a.id === "noel";
               return (
                 <button key={a.id} aria-label={a.name + (warn ? " (độ tương phản thấp)" : "")} aria-pressed={on} title={a.name} onClick={() => update({ accent: a.id })}
                   className={`relative mx-auto grid size-10 place-items-center rounded-full ring-offset-2 ring-offset-surface ${on ? "ring-2 ring-foreground" : ""}`}
-                  style={{ background: accentColor(a) }}>
-                  {on && <Check className="size-4 text-background" />}
+                  style={noel ? { background: "linear-gradient(135deg, oklch(0.55 0.2 25) 50%, oklch(0.45 0.12 150) 50%)" } : { background: accentColor(a) }}>
+                  {noel ? <Snowflake className="size-4 text-background" /> : null}
+                  {!noel && on && <Check className="size-4 text-background" />}
                   {warn && <span aria-hidden className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full bg-foreground text-background text-[10px] font-bold">!</span>}
                 </button>
               );
