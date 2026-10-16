@@ -21,6 +21,7 @@ import { Route as AuthenticatedTrashRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedWalletsRouteImport } from './routes/_authenticated/wallets'
 import { Route as AuthenticatedTxIdRouteImport } from './routes/_authenticated/tx.$id'
 import { Route as ApiPublicJobsCleanupRouteImport } from './routes/api/public/jobs/cleanup'
+import { Route as ApiPublicV1SplatRouteImport } from './routes/api/public/v1/$'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
@@ -82,6 +83,11 @@ const ApiPublicJobsCleanupRoute = ApiPublicJobsCleanupRouteImport.update({
   path: '/api/public/jobs/cleanup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicV1SplatRoute = ApiPublicV1SplatRouteImport.update({
+  id: '/api/public/v1/$',
+  path: '/api/public/v1/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
@@ -95,6 +101,7 @@ export interface FileRoutesByFullPath {
   '/wallets': typeof AuthenticatedWalletsRoute
   '/tx/$id': typeof AuthenticatedTxIdRoute
   '/api/public/jobs/cleanup': typeof ApiPublicJobsCleanupRoute
+  '/api/public/v1/$': typeof ApiPublicV1SplatRoute
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
@@ -108,6 +115,7 @@ export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRoute
   '/tx/$id': typeof AuthenticatedTxIdRoute
   '/api/public/jobs/cleanup': typeof ApiPublicJobsCleanupRoute
+  '/api/public/v1/$': typeof ApiPublicV1SplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -123,6 +131,7 @@ export interface FileRoutesById {
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/tx/$id': typeof AuthenticatedTxIdRoute
   '/api/public/jobs/cleanup': typeof ApiPublicJobsCleanupRoute
+  '/api/public/v1/$': typeof ApiPublicV1SplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -138,6 +147,7 @@ export interface FileRouteTypes {
     | '/wallets'
     | '/tx/$id'
     | '/api/public/jobs/cleanup'
+    | '/api/public/v1/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
@@ -151,6 +161,7 @@ export interface FileRouteTypes {
     | '/'
     | '/tx/$id'
     | '/api/public/jobs/cleanup'
+    | '/api/public/v1/$'
   id:
     | '__root__'
     | '/_authenticated'
@@ -165,6 +176,7 @@ export interface FileRouteTypes {
     | '/_authenticated/'
     | '/_authenticated/tx/$id'
     | '/api/public/jobs/cleanup'
+    | '/api/public/v1/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -173,6 +185,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiPublicJobsCleanupRoute: typeof ApiPublicJobsCleanupRoute
+  ApiPublicV1SplatRoute: typeof ApiPublicV1SplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -261,6 +274,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicJobsCleanupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/v1/$': {
+      id: '/api/public/v1/$'
+      path: '/api/public/v1/$'
+      fullPath: '/api/public/v1/$'
+      preLoaderRoute: typeof ApiPublicV1SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -293,6 +313,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiPublicJobsCleanupRoute: ApiPublicJobsCleanupRoute,
+  ApiPublicV1SplatRoute: ApiPublicV1SplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
