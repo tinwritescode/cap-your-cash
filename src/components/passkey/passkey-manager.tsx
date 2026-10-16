@@ -40,7 +40,7 @@ export function PasskeyManager() {
     setBusy(true);
     try {
       const { challengeId, options } = await startPasskeyRegister();
-      const response = await startRegistration({ optionsJSON: options as never });
+      const response = await startRegistration({ optionsJSON: JSON.parse(options) });
       await finishPasskeyRegister({ data: { challengeId, response: response as never, deviceName: deviceName() } });
       toast.success("Đã thêm passkey.");
       qc.invalidateQueries({ queryKey: ["passkeys"] });

@@ -45,7 +45,7 @@ export const startPasskeyRegister = createServerFn({ method: "POST" })
     });
     const { data: row, error } = await supabaseAdmin.from("passkey_challenges").insert({ user_id: context.userId, challenge: options.challenge, purpose: "register" }).select("id").single();
     if (error) throw new Error("Không tạo được passkey");
-    return { challengeId: row.id, options: JSON.parse(JSON.stringify(options)) as Record<string, unknown> };
+    return { challengeId: row.id, options: JSON.stringify(options) };
   });
 
 export const finishPasskeyRegister = createServerFn({ method: "POST" })
@@ -75,7 +75,7 @@ export const startPasskeyLogin = createServerFn({ method: "POST" }).handler(asyn
   const options = await generateAuthenticationOptions({ rpID, userVerification: "preferred" });
   const { data: row, error } = await supabaseAdmin.from("passkey_challenges").insert({ challenge: options.challenge, purpose: "login" }).select("id").single();
   if (error) throw new Error("Không bắt đầu được đăng nhập passkey");
-  return { challengeId: row.id, options: JSON.parse(JSON.stringify(options)) as Record<string, unknown> };
+  return { challengeId: row.id, options: JSON.stringify(options) };
 });
 
 /** Public: verify the signed challenge and return a one-time sign-in token (same session path as Telegram login). */

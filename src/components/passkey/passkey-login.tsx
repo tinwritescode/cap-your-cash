@@ -16,7 +16,7 @@ export function PasskeyLogin() {
     setBusy(true);
     try {
       const { challengeId, options } = await startPasskeyLogin();
-      const response = await startAuthentication({ optionsJSON: options as never });
+      const response = await startAuthentication({ optionsJSON: JSON.parse(options) });
       const { token_hash } = await finishPasskeyLogin({ data: { challengeId, response: response as never } });
       const { error } = await supabase.auth.verifyOtp({ token_hash, type: "magiclink" });
       if (error) throw error;
