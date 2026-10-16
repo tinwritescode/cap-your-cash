@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowLeftRight, Camera } from "lucide-react";
 import type { Category, TxWithPhotos, Wallet } from "@/lib/data";
 import { formatDateTime } from "@/lib/finance";
+import { cn } from "@/lib/utils";
 import { Money } from "@/lib/ui-prefs";
 import { PhotoThumb } from "./photo";
 
@@ -21,10 +22,13 @@ export function TxRow({ tx, categories, wallets }: { tx: TxWithPhotos; categorie
         <p className="truncate text-xs text-muted-foreground">{formatDateTime(tx.occurred_at)}{tx.note ? ` · ${tx.note}` : ""}</p>
       </div>
       {tx.type === "journal" ? (
-        <span className="text-sm text-muted-foreground">0đ · Nhật ký</span>
+        <span className="shrink-0 whitespace-nowrap text-sm text-muted-foreground">0đ · Nhật ký</span>
       ) : (
         <Money value={Number(tx.amount_vnd)} sign={tx.type === "expense" ? "-" : tx.type === "income" ? "+" : undefined}
-          className={tx.type === "expense" ? "font-semibold text-expense" : tx.type === "income" ? "font-semibold text-income" : "font-semibold"} />
+          className={cn(
+            "shrink-0 whitespace-nowrap",
+            tx.type === "expense" ? "font-semibold text-expense" : tx.type === "income" ? "font-semibold text-income" : "font-semibold",
+          )} />
       )}
     </Link>
   );
