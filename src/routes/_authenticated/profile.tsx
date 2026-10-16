@@ -3,7 +3,7 @@ import { SettingsRow as Row } from "@/components/settings-row";
 import { TelegramLinkCard } from "@/components/telegram/telegram-link-card";
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { BookOpen, Bot, Check, ChevronRight, Download, LogOut, Moon, Smartphone, Trash2, Eye, TriangleAlert, Volume2 } from "lucide-react";
+import { BookOpen, Bot, Check, ChevronRight, Download, LogOut, Moon, Smartphone, Snowflake, Trash2, Eye, TriangleAlert, Volume2 } from "lucide-react";
 import { ACCENTS, FONTS, accentColor, checkAccent, loadFont } from "@/lib/themes";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
