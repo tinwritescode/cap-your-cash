@@ -51,7 +51,7 @@ export function ApiKeyManager({ onCreated }: { onCreated?: (key: string) => void
   }
 
   async function revoke(id: string, label: string) {
-    if (!(await ask({ title: `Thu hồi key "${label}"?`, description: "Mọi agent đang dùng key này sẽ mất quyền truy cập ngay.", confirmText: "Thu hồi", destructive: true }))) return;
+    if (!(await ask({ title: `Thu hồi key "${label}"?`, body: "Mọi agent đang dùng key này sẽ mất quyền truy cập ngay.", ok: "Thu hồi", destructive: true }))) return;
     const { error } = await supabase.rpc("revoke_api_key", { p_id: id });
     if (error) return toast.error(error.message);
     qc.invalidateQueries({ queryKey: ["api_keys"] });
