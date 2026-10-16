@@ -415,7 +415,7 @@ async function togglePref(db: Admin, uid: string, key: string, chatId: number, m
   if (!pref) return answer();
   const { data } = await db.from("telegram_links").select(pref[1]).eq("user_id", uid).single();
   const next = !(data as Record<string, boolean> | null)?.[pref[1]];
-  await db.from("telegram_links").update({ [pref[1]]: next }).eq("user_id", uid);
+  await db.from("telegram_links").update({ [pref[1]]: next } as never).eq("user_id", uid);
   await answer(next ? "Đã bật" : "Đã tắt");
   if (messageId) await tg("editMessageReplyMarkup", { chat_id: chatId, message_id: messageId, reply_markup: await prefsKeyboard(db, uid) }).catch(() => null);
 }

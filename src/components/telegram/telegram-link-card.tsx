@@ -25,7 +25,6 @@ export function TelegramLinkCard() {
   const [busy, setBusy] = useState(false);
   const { data: link } = useTelegramLink(!!url);
   const linked = link ?? null;
-  if (linked && url) setUrl(null);
 
   async function start() {
     setBusy(true);
