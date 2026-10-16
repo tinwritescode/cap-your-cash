@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { SettingsRow as Row } from "@/components/settings-row";
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { BookOpen, Bot, Check, ChevronRight, Download, LogOut, Moon, Smartphone, Trash2, Eye, TriangleAlert } from "lucide-react";
@@ -148,9 +149,9 @@ function ProfilePage() {
             })}
           </div>
         </div>
-        <Link to="/trash" className="contents"><Row icon={<Trash2 />} label="Thùng rác"><ChevronRight /></Row></Link>
-        <Link to="/transactions" className="contents"><Row icon={<Download />} label="Xuất CSV (trong Giao dịch)"><ChevronRight /></Row></Link>
-        <Link to="/agents" className="contents"><Row icon={<Bot />} label="Agents & API"><ChevronRight /></Row></Link>
+        <Row to="/trash" icon={<Trash2 />} label="Thùng rác"><ChevronRight /></Row>
+        <Row to="/transactions" icon={<Download />} label="Xuất CSV (trong Giao dịch)"><ChevronRight /></Row>
+        <Row to="/agents" icon={<Bot />} label="Agents & API"><ChevronRight /></Row>
         <button className="contents text-left" onClick={() => tutorialBus.open()}><Row icon={<BookOpen />} label="Hướng dẫn sử dụng"><ChevronRight /></Row></button>
       </div>
 
@@ -172,16 +173,6 @@ function ProfilePage() {
       </div>
 
       <Button variant="secondary" className="h-12 rounded-2xl text-destructive" onClick={logout}><LogOut /> Đăng xuất</Button>
-    </div>
-  );
-}
-
-function Row({ icon, label, children }: { icon: React.ReactNode; label: string; children: React.ReactNode }) {
-  return (
-    <div className="flex min-h-14 items-center gap-3 rounded-2xl px-3 hover:bg-surface-2">
-      <span className="text-muted-foreground [&_svg]:size-5">{icon}</span>
-      <span className="flex-1">{label}</span>
-      {children}
     </div>
   );
 }
