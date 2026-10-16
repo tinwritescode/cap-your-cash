@@ -196,6 +196,140 @@ export type Database = {
         }
         Relationships: []
       }
+      telegram_codes: {
+        Row: {
+          approved_user_id: string | null
+          code_hash: string
+          created_at: string
+          expires_at: string
+          poll_hash: string | null
+          purpose: string
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          approved_user_id?: string | null
+          code_hash: string
+          created_at?: string
+          expires_at?: string
+          poll_hash?: string | null
+          purpose: string
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          approved_user_id?: string | null
+          code_hash?: string
+          created_at?: string
+          expires_at?: string
+          poll_hash?: string | null
+          purpose?: string
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      telegram_drafts: {
+        Row: {
+          chat_id: number
+          created_at: string
+          draft: Json
+          id: string
+          message_id: number | null
+          user_id: string
+        }
+        Insert: {
+          chat_id: number
+          created_at?: string
+          draft: Json
+          id?: string
+          message_id?: number | null
+          user_id: string
+        }
+        Update: {
+          chat_id?: number
+          created_at?: string
+          draft?: Json
+          id?: string
+          message_id?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      telegram_links: {
+        Row: {
+          budget_alert_level: number
+          budget_alert_month: string | null
+          chat_id: number
+          first_name: string | null
+          last_daily_on: string | null
+          last_reminder_on: string | null
+          last_weekly_on: string | null
+          linked_at: string
+          notify_budget: boolean
+          notify_daily: boolean
+          notify_reminder: boolean
+          notify_weekly: boolean
+          user_id: string
+          username: string | null
+        }
+        Insert: {
+          budget_alert_level?: number
+          budget_alert_month?: string | null
+          chat_id: number
+          first_name?: string | null
+          last_daily_on?: string | null
+          last_reminder_on?: string | null
+          last_weekly_on?: string | null
+          linked_at?: string
+          notify_budget?: boolean
+          notify_daily?: boolean
+          notify_reminder?: boolean
+          notify_weekly?: boolean
+          user_id: string
+          username?: string | null
+        }
+        Update: {
+          budget_alert_level?: number
+          budget_alert_month?: string | null
+          chat_id?: number
+          first_name?: string | null
+          last_daily_on?: string | null
+          last_reminder_on?: string | null
+          last_weekly_on?: string | null
+          linked_at?: string
+          notify_budget?: boolean
+          notify_daily?: boolean
+          notify_reminder?: boolean
+          notify_weekly?: boolean
+          user_id?: string
+          username?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "telegram_links_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      telegram_updates: {
+        Row: {
+          created_at: string
+          update_id: number
+        }
+        Insert: {
+          created_at?: string
+          update_id: number
+        }
+        Update: {
+          created_at?: string
+          update_id?: number
+        }
+        Relationships: []
+      }
       transaction_photos: {
         Row: {
           created_at: string
@@ -348,6 +482,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _agent_dispatch: {
+        Args: { p_action: string; p_args: Json; uid: string }
+        Returns: Json
+      }
       _photos_validate: {
         Args: { _photos: Json; _tx: string; _uid: string }
         Returns: undefined
@@ -454,6 +592,16 @@ export type Database = {
         Returns: Json
       }
       revoke_api_key: { Args: { p_id: string }; Returns: undefined }
+      telegram_set_prefs: {
+        Args: {
+          p_budget: boolean
+          p_daily: boolean
+          p_reminder: boolean
+          p_weekly: boolean
+        }
+        Returns: undefined
+      }
+      telegram_unlink: { Args: never; Returns: undefined }
       trash_transaction: {
         Args: { p_id: string; p_version: number }
         Returns: Json

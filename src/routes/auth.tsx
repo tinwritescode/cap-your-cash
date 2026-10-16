@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/lib/auth";
+import { TelegramLogin } from "@/components/telegram/telegram-login";
 
 export const Route = createFileRoute("/auth")({
   staticData: { sitemap: true },
@@ -82,6 +83,7 @@ function AuthPage() {
         {mode !== "forgot" && (
           <Button variant="secondary" className="mt-3 h-12 w-full rounded-2xl" onClick={google}>Tiếp tục với Google</Button>
         )}
+        {mode === "in" && <TelegramLogin />}
         <div className="mt-5 flex flex-col items-center gap-2 text-sm">
           {mode === "in" && <button className="text-primary" onClick={() => setMode("forgot")}>Quên mật khẩu?</button>}
           <button className="text-muted-foreground" onClick={() => { setMode(mode === "up" ? "in" : "up"); setMsg(null); }}>

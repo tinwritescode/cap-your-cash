@@ -22,6 +22,8 @@ import { Route as AuthenticatedTrashRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedWalletsRouteImport } from './routes/_authenticated/wallets'
 import { Route as AuthenticatedTxIdRouteImport } from './routes/_authenticated/tx.$id'
 import { Route as ApiPublicJobsCleanupRouteImport } from './routes/api/public/jobs/cleanup'
+import { Route as ApiPublicJobsTelegramNotifyRouteImport } from './routes/api/public/jobs/telegram-notify'
+import { Route as ApiPublicTelegramWebhookRouteImport } from './routes/api/public/telegram/webhook'
 import { Route as ApiPublicV1SplatRouteImport } from './routes/api/public/v1/$'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -89,6 +91,18 @@ const ApiPublicJobsCleanupRoute = ApiPublicJobsCleanupRouteImport.update({
   path: '/api/public/jobs/cleanup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicJobsTelegramNotifyRoute =
+  ApiPublicJobsTelegramNotifyRouteImport.update({
+    id: '/api/public/jobs/telegram-notify',
+    path: '/api/public/jobs/telegram-notify',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicTelegramWebhookRoute =
+  ApiPublicTelegramWebhookRouteImport.update({
+    id: '/api/public/telegram/webhook',
+    path: '/api/public/telegram/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicV1SplatRoute = ApiPublicV1SplatRouteImport.update({
   id: '/api/public/v1/$',
   path: '/api/public/v1/$',
@@ -108,6 +122,8 @@ export interface FileRoutesByFullPath {
   '/wallets': typeof AuthenticatedWalletsRoute
   '/tx/$id': typeof AuthenticatedTxIdRoute
   '/api/public/jobs/cleanup': typeof ApiPublicJobsCleanupRoute
+  '/api/public/jobs/telegram-notify': typeof ApiPublicJobsTelegramNotifyRoute
+  '/api/public/telegram/webhook': typeof ApiPublicTelegramWebhookRoute
   '/api/public/v1/$': typeof ApiPublicV1SplatRoute
 }
 export interface FileRoutesByTo {
@@ -123,6 +139,8 @@ export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRoute
   '/tx/$id': typeof AuthenticatedTxIdRoute
   '/api/public/jobs/cleanup': typeof ApiPublicJobsCleanupRoute
+  '/api/public/jobs/telegram-notify': typeof ApiPublicJobsTelegramNotifyRoute
+  '/api/public/telegram/webhook': typeof ApiPublicTelegramWebhookRoute
   '/api/public/v1/$': typeof ApiPublicV1SplatRoute
 }
 export interface FileRoutesById {
@@ -140,6 +158,8 @@ export interface FileRoutesById {
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/tx/$id': typeof AuthenticatedTxIdRoute
   '/api/public/jobs/cleanup': typeof ApiPublicJobsCleanupRoute
+  '/api/public/jobs/telegram-notify': typeof ApiPublicJobsTelegramNotifyRoute
+  '/api/public/telegram/webhook': typeof ApiPublicTelegramWebhookRoute
   '/api/public/v1/$': typeof ApiPublicV1SplatRoute
 }
 export interface FileRouteTypes {
@@ -157,6 +177,8 @@ export interface FileRouteTypes {
     | '/wallets'
     | '/tx/$id'
     | '/api/public/jobs/cleanup'
+    | '/api/public/jobs/telegram-notify'
+    | '/api/public/telegram/webhook'
     | '/api/public/v1/$'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -172,6 +194,8 @@ export interface FileRouteTypes {
     | '/'
     | '/tx/$id'
     | '/api/public/jobs/cleanup'
+    | '/api/public/jobs/telegram-notify'
+    | '/api/public/telegram/webhook'
     | '/api/public/v1/$'
   id:
     | '__root__'
@@ -188,6 +212,8 @@ export interface FileRouteTypes {
     | '/_authenticated/'
     | '/_authenticated/tx/$id'
     | '/api/public/jobs/cleanup'
+    | '/api/public/jobs/telegram-notify'
+    | '/api/public/telegram/webhook'
     | '/api/public/v1/$'
   fileRoutesById: FileRoutesById
 }
@@ -198,6 +224,8 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiPublicJobsCleanupRoute: typeof ApiPublicJobsCleanupRoute
+  ApiPublicJobsTelegramNotifyRoute: typeof ApiPublicJobsTelegramNotifyRoute
+  ApiPublicTelegramWebhookRoute: typeof ApiPublicTelegramWebhookRoute
   ApiPublicV1SplatRoute: typeof ApiPublicV1SplatRoute
 }
 
@@ -294,6 +322,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicJobsCleanupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/jobs/telegram-notify': {
+      id: '/api/public/jobs/telegram-notify'
+      path: '/api/public/jobs/telegram-notify'
+      fullPath: '/api/public/jobs/telegram-notify'
+      preLoaderRoute: typeof ApiPublicJobsTelegramNotifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/telegram/webhook': {
+      id: '/api/public/telegram/webhook'
+      path: '/api/public/telegram/webhook'
+      fullPath: '/api/public/telegram/webhook'
+      preLoaderRoute: typeof ApiPublicTelegramWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/v1/$': {
       id: '/api/public/v1/$'
       path: '/api/public/v1/$'
@@ -334,6 +376,8 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiPublicJobsCleanupRoute: ApiPublicJobsCleanupRoute,
+  ApiPublicJobsTelegramNotifyRoute: ApiPublicJobsTelegramNotifyRoute,
+  ApiPublicTelegramWebhookRoute: ApiPublicTelegramWebhookRoute,
   ApiPublicV1SplatRoute: ApiPublicV1SplatRoute,
 }
 export const routeTree = rootRouteImport

@@ -50,6 +50,20 @@
       "when": 1792166160809,
       "tag": "0006_agent_api_photos",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1792166944752,
+      "tag": "0007_telegram_bot",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1792167330717,
+      "tag": "0008_fix_reports_range",
+      "breakpoints": true
     }
   ]
 }
