@@ -8,7 +8,7 @@ const result = spawnSync(
     "src",
     "drizzle",
     "--ignore",
-    "**/routeTree.gen.ts,**/integrations/supabase/**,**/drizzle/migrations/meta/**",
+    "**/routeTree.gen.ts,**/integrations/supabase/**,**/drizzle/migrations/**",
     "--reporters",
     "console",
     "--min-tokens",
