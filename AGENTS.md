@@ -50,3 +50,4 @@ New violations fail review. Existing violations are migration work: do not add t
 
 UI work is complete only when the touched routes use canonical components, touched components have one clear responsibility, no new same-responsibility duplication exists, protected writes use the data-layer RPC path, and architecture lint, duplication check, and relevant tests pass.
 - Thumbnails: bot/API uploads reuse the original; lists request a 360px storage transform (useSignedUrls thumb). Why: no codec on Worker.
+- Passkey sign-in (src/lib/passkey.functions.ts) verifies WebAuthn server-side and mints the session through the same admin magiclink → verifyOtp path as Telegram login. Why: one session-creation path, no client-trusted identity.
