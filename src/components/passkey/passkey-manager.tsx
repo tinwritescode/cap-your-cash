@@ -51,7 +51,7 @@ export function PasskeyManager() {
   }
 
   async function remove(id: string) {
-    if (!(await confirm({ title: "Xoá passkey?", description: "Thiết bị này sẽ không đăng nhập bằng passkey được nữa." }))) return;
+    if (!(await confirm({ title: "Xoá passkey?", body: "Thiết bị này sẽ không đăng nhập bằng passkey được nữa.", ok: "Xoá", destructive: true }))) return;
     const { error } = await supabase.rpc("passkey_delete", { p_id: id });
     if (error) toast.error("Chưa xoá được passkey.");
     else qc.invalidateQueries({ queryKey: ["passkeys"] });
