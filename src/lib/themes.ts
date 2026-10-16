@@ -13,7 +13,7 @@ export const ACCENTS: Accent[] = [
   { id: "indigo", name: "Chàm", l: 0.58, c: 0.2, h: 272 },
   { id: "lime", name: "Chanh", l: 0.8, c: 0.18, h: 128 },
   { id: "mono", name: "Đơn sắc", l: 0.8, c: 0, h: 260 },
-  { id: "noel", name: "Giáng sinh", l: 0.64, c: 0.2, h: 25 },
+  { id: "noel", name: "Giáng sinh", l: 0.5, c: 0.14, h: 15 },
 ];
 
 const css = ([l, c, h]: Oklch) => `oklch(${l} ${+c.toFixed(3)} ${h})`;

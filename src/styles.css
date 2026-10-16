@@ -231,3 +231,7 @@ html, body {
 }
 .noel main { padding-top: max(3.25rem, env(safe-area-inset-top)); }
 @media (prefers-reduced-motion: reduce) { .snowflake { display: none; } }
+.noel [data-slot="button"], .noel button.bg-primary { filter: saturate(0.9) brightness(0.96); }
+@keyframes bulb-twinkle { 0%,100% { opacity: 1; } 50% { opacity: 0.45; } }
+.bulb { animation: bulb-twinkle 3.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .bulb { animation: none; } }
