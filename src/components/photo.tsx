@@ -3,7 +3,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 export function PhotoThumb({ path, className, alt = "" }: { path: string; className?: string; alt?: string }) {
-  const { data } = useSignedUrls([path]);
+  const { data } = useSignedUrls([path], true);
   const url = data?.[path];
   const [loaded, setLoaded] = useState(false);
   return (

@@ -141,19 +141,33 @@ export function useRealtimeInvalidation() {
   }, [user, qc]);
 }
 
-/** Signed URLs (short lived, memory only). */
-export function useSignedUrls(paths: string[]) {
+/** Photos uploaded by the app have a real small "_t.jpg" preview; others (bot/API) get resized on the fly. */
+export const needsResize = (path: string) => !path.endsWith("_t.jpg");
+
+/** Signed URLs (short lived, memory only). With `thumb`, full-size photos are served as 360px previews. */
+export function useSignedUrls(paths: string[], thumb = false) {
   const { user } = useAuth();
   const key = [...paths].sort().join("|");
   return useQuery({
-    queryKey: ["signed", key],
+    queryKey: ["signed", thumb ? "t" : "o", key],
     enabled: !!user && paths.length > 0,
     staleTime: 45 * 60 * 1000,
     gcTime: 50 * 60 * 1000,
     queryFn: async () => {
-      const { data, error } = await supabase.storage.from("photos").createSignedUrls(paths, 3600);
-      if (error) throw error;
-      return Object.fromEntries((data ?? []).filter((d) => d.signedUrl).map((d) => [d.path!, d.signedUrl])) as Record<string, string>;
+      const bucket = supabase.storage.from("photos");
+      const resize = thumb ? paths.filter(needsResize) : [];
+      const plain = paths.filter((p) => !resize.includes(p));
+      const out: Record<string, string> = {};
+      if (plain.length) {
+        const { data, error } = await bucket.createSignedUrls(plain, 3600);
+        if (error) throw error;
+        for (const d of data ?? []) if (d.signedUrl) out[d.path!] = d.signedUrl;
+      }
+      await Promise.all(resize.map(async (p) => {
+        const { data } = await bucket.createSignedUrl(p, 3600, { transform: { width: 360, height: 360, resize: "cover", quality: 70 } });
+        if (data?.signedUrl) out[p] = data.signedUrl;
+      }));
+      return out;
     },
   });
 }
