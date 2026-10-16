@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { SettingsRow as Row } from "@/components/settings-row";
+import { TelegramLinkCard } from "@/components/telegram/telegram-link-card";
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { BookOpen, Bot, Check, ChevronRight, Download, LogOut, Moon, Smartphone, Trash2, Eye, TriangleAlert } from "lucide-react";
@@ -154,6 +155,8 @@ function ProfilePage() {
         <Row to="/agents" icon={<Bot />} label="Agents & API"><ChevronRight /></Row>
         <button className="contents text-left" onClick={() => tutorialBus.open()}><Row icon={<BookOpen />} label="Hướng dẫn sử dụng"><ChevronRight /></Row></button>
       </div>
+
+      <TelegramLinkCard />
 
       <div className="rounded-3xl bg-surface p-4">
         <p className="flex items-center gap-2 font-semibold"><Smartphone className="size-5" /> Cài ứng dụng</p>

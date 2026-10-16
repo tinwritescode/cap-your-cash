@@ -43,7 +43,7 @@ export function TelegramLinkCard() {
   }
 
   async function unlink() {
-    if (!(await confirm({ title: "Huỷ liên kết Telegram?", description: "Bot sẽ ngừng gửi thông báo và không ghi chép được nữa.", confirmText: "Huỷ liên kết", destructive: true }))) return;
+    if (!(await confirm({ title: "Huỷ liên kết Telegram?", body: "Bot sẽ ngừng gửi thông báo và không ghi chép được nữa.", ok: "Huỷ liên kết", destructive: true }))) return;
     const { error } = await supabase.rpc("telegram_unlink");
     if (error) return toast.error("Không huỷ được liên kết");
     qc.invalidateQueries({ queryKey: ["telegramLink"] });
