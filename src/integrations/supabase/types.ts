@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      api_keys: {
+        Row: {
+          created_at: string
+          id: string
+          key_hash: string
+          last_used_at: string | null
+          name: string
+          owner_id: string
+          prefix: string
+          revoked_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          key_hash: string
+          last_used_at?: string | null
+          name: string
+          owner_id?: string
+          prefix: string
+          revoked_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          key_hash?: string
+          last_used_at?: string | null
+          name?: string
+          owner_id?: string
+          prefix?: string
+          revoked_at?: string | null
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           archived_at: string | null
@@ -335,6 +368,18 @@ export type Database = {
         }
         Returns: undefined
       }
+      api_dispatch: {
+        Args: { p_action: string; p_args: Json; p_key: string }
+        Returns: Json
+      }
+      archive_category: {
+        Args: { p_archived: boolean; p_id: string }
+        Returns: undefined
+      }
+      archive_wallet: {
+        Args: { p_archived: boolean; p_id: string }
+        Returns: undefined
+      }
       claim_expired_trash: { Args: { p_limit?: number }; Returns: number }
       commit_transaction: {
         Args: {
@@ -350,6 +395,26 @@ export type Database = {
         }
         Returns: Json
       }
+      create_api_key: { Args: { p_name: string }; Returns: Json }
+      create_category: {
+        Args: {
+          p_icon: string
+          p_name: string
+          p_parent_id: string
+          p_type: string
+        }
+        Returns: string
+      }
+      create_wallet: {
+        Args: {
+          p_kind: string
+          p_name: string
+          p_opening_at: string
+          p_opening_balance_vnd: number
+        }
+        Returns: string
+      }
+      delete_monthly_budget: { Args: { p_month: string }; Returns: undefined }
       find_orphan_objects: {
         Args: { p_limit?: number }
         Returns: {
@@ -380,14 +445,20 @@ export type Database = {
           income_vnd: number
         }[]
       }
+      rename_wallet: {
+        Args: { p_id: string; p_name: string }
+        Returns: undefined
+      }
       restore_transaction: {
         Args: { p_id: string; p_version: number }
         Returns: Json
       }
+      revoke_api_key: { Args: { p_id: string }; Returns: undefined }
       trash_transaction: {
         Args: { p_id: string; p_version: number }
         Returns: Json
       }
+      update_profile: { Args: { p_patch: Json }; Returns: undefined }
       update_transaction: {
         Args: {
           p_amount: number
@@ -401,6 +472,10 @@ export type Database = {
           p_version: number
         }
         Returns: Json
+      }
+      upsert_monthly_budget: {
+        Args: { p_amount_vnd: number; p_month: string }
+        Returns: string
       }
       wallet_balances: {
         Args: never
