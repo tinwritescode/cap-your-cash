@@ -71,6 +71,13 @@
       "when": 1792168642696,
       "tag": "0009_noel_accent",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1792192845791,
+      "tag": "0010_passkeys",
+      "breakpoints": true
     }
   ]
 }
