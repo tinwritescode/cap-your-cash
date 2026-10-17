@@ -13,7 +13,7 @@ export function TxRow({ tx, categories, wallets }: { tx: TxWithPhotos; categorie
   const title =
     tx.type === "transfer" ? `${w(tx.source_wallet_id)} → ${w(tx.dest_wallet_id)}` : cat?.name ?? (tx.type === "journal" ? "Nhật ký ảnh" : "");
   return (
-    <Link to="/tx/$id" params={{ id: tx.id }} className="flex min-h-14 items-center gap-3 rounded-2xl p-2 hover:bg-surface-2">
+    <Link to="/tx/$id" params={{ id: tx.id }} className="flex w-full min-w-0 min-h-14 items-center gap-3 rounded-2xl p-2 hover:bg-surface-2">
       <div className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-xl bg-surface-2 text-xl">
         {photo ? <PhotoThumb path={photo.thumb_path} className="size-full" /> : tx.type === "transfer" ? <ArrowLeftRight className="size-5" /> : cat?.icon ?? <Camera className="size-5" />}
       </div>
