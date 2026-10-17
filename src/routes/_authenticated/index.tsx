@@ -147,7 +147,7 @@ function Home() {
       )}
 
       <Dialog open={!!openDay} onOpenChange={(o) => !o && setOpenDay(null)}>
-        <DialogContent className="max-h-[80dvh] overflow-y-auto rounded-3xl bg-surface">
+        <DialogContent className="max-h-[80dvh] overflow-y-auto overflow-x-hidden rounded-3xl bg-surface">
           <DialogTitle>{openDay?.split("-").reverse().join("/")}</DialogTitle>
           {(byDay.get(openDay ?? "") ?? []).map((t) => <TxRow key={t.id} tx={t} categories={categories} wallets={wallets ?? []} />)}
           {(byDay.get(openDay ?? "") ?? []).length === 0 && <p className="text-sm text-muted-foreground">Không có giao dịch.</p>}

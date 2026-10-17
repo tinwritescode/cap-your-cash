@@ -25,7 +25,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const isActive = (to: string) => (to === "/" ? path === "/" : path.startsWith(to));
 
   return (
-    <div className="min-h-dvh md:flex">
+    <div className="min-h-dvh overflow-x-clip md:flex">
       <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col gap-1 border-r bg-sidebar p-4 md:flex">
         <div className="mb-6 flex items-center gap-2 px-2 text-lg font-bold">
           <span className="relative"><img src="/icon-192.png" alt="" className="size-8 rounded-lg" /><SantaHat className="-top-3.5 left-1/2 w-7 -translate-x-1/2" /></span> CapMoney
@@ -44,7 +44,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <NoelDecor />
       {online && <PullToRefresh />}
-      <main className="mx-auto w-full max-w-3xl px-4 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-[max(0.25rem,env(safe-area-inset-top))] md:pb-10">
+      <main className="mx-auto w-full min-w-0 max-w-3xl px-4 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-[max(0.25rem,env(safe-area-inset-top))] md:pb-10">
         {online ? children : <Offline />}
       </main>
 
