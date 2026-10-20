@@ -35,7 +35,7 @@ export function VoiceCapture({ onResult, onClose, onCamera, onManual, kind, onKi
   const rec = useRef<MediaRecorder | null>(null);
   const stream = useRef<MediaStream | null>(null);
   const raf = useRef(0);
-  const timer = useRef<ReturnType<typeof setTimeout>>();
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const cleanup = () => {
     cancelAnimationFrame(raf.current);

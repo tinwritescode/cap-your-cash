@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-const Input = z.object({
+const VoiceInput = z.object({
   audio: z.string().min(100).max(8_000_000), // base64, ~6MB
   mime: z.string().regex(/^audio\/[a-z0-9.+-]+(;.*)?$/i),
 });
@@ -11,7 +11,7 @@ export type VoiceResult =
   | { ok: true; text: string; type: "expense" | "income" | null; amount: number | null; categoryId: string | null; walletId: string | null; note: string | null; occurredAt: string | null }
   | { ok: false; error: string };
 
-async function transcribe(audio: Uint8Array, mime: string, apiKey: string): Promise<string> {
+async function transcribe(audio: Uint8Array<ArrayBuffer>, mime: string, apiKey: string): Promise<string> {
   const ext = mime.includes("mp4") || mime.includes("m4a") ? "m4a" : mime.includes("ogg") ? "ogg" : mime.includes("wav") ? "wav" : "webm";
   const fd = new FormData();
   fd.append("file", new Blob([audio], { type: mime.split(";")[0] }), `voice.${ext}`);
@@ -61,7 +61,7 @@ const statusMessage = (s?: number) =>
 /** Signed-in user: speech → text → draft transaction fields. Never saves anything; audio is not stored. */
 export const parseVoice = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) => Input.parse(d))
+  .inputValidator((d: unknown) => VoiceInput.parse(d))
   .handler(async ({ data, context }): Promise<VoiceResult> => {
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) return { ok: false, error: "Chưa cấu hình AI." };
