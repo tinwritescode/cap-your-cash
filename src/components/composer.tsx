@@ -17,6 +17,7 @@ import { PhotoThumb } from "./photo";
 import { cn } from "@/lib/utils";
 import { useConfirm } from "./confirm";
 import { CameraCapture } from "./camera-capture";
+import { VoiceCapture } from "./voice-capture";
 import { AppSelect, DateTimePicker } from "./pickers";
 
 type TxType = "expense" | "income" | "transfer" | "journal";
@@ -118,7 +119,7 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
         .sort((a, b) => a.sort_order - b.sort_order)
         .map((p) => ({ id: p.id, existingThumb: p.thumb_path, original_path: p.original_path, thumb_path: p.thumb_path, uploaded: true })) ?? [],
   );
-  const [stage, setStage] = useState<"camera" | "form">(editing ? "form" : "camera");
+  const [stage, setStage] = useState<"camera" | "voice" | "form">(editing ? "form" : "camera");
   const [phase, setPhase] = useState<Phase>("idle");
   const [progress, setProgress] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -284,6 +285,26 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
   }
 
   const isEditingType = !!editing;
+  if (stage === "voice") {
+    return (
+      <>
+        <DialogTitle className="sr-only">Ghi bằng giọng nói</DialogTitle>
+        <DialogDescription className="sr-only">Nói khoản thu chi, app sẽ điền sẵn để bạn kiểm tra.</DialogDescription>
+        <VoiceCapture kind={type === "income" ? "income" : "expense"} onKind={(k) => setType(k)} onClose={onCancel}
+          onCamera={() => setStage("camera")} onManual={() => setStage("form")}
+          onResult={(r) => {
+            const t = r.type ?? (type === "income" ? "income" : "expense");
+            setType(t);
+            if (r.amount) setAmount(String(r.amount));
+            if (r.categoryId) setCat(r.categoryId);
+            if (r.walletId) (t === "income" ? setDst : setSrc)(r.walletId);
+            setNote(r.note || r.text);
+            if (r.occurredAt && !Number.isNaN(Date.parse(r.occurredAt))) setWhen(toLocalInput(r.occurredAt));
+            setStage("form");
+          }} />
+      </>
+    );
+  }
   if (stage === "camera") {
     return (
       <>
@@ -292,7 +313,7 @@ function TxForm({ editing, initialType, onDirty, onDone, onCancel }: { editing: 
         <CameraCapture title={TYPES.find((t) => t.v === type)?.label ?? "Ghi"} onClose={onCancel}
           onCapture={(f) => { setStage("form"); void addFiles([f]); }}
           onPickFiles={(l) => { if (l?.length) { setStage("form"); void addFiles(l); } }}
-          onSkip={() => setStage("form")} />
+          onSkip={() => setStage("form")} onVoice={type === "journal" ? undefined : () => setStage("voice")} />
       </>
     );
   }

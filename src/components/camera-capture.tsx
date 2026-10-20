@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { ImagePlus, RefreshCcw, X, Zap, ZapOff, PenLine } from "lucide-react";
+import { ImagePlus, RefreshCcw, X, Zap, ZapOff, PenLine, Mic } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
  * Locket-style live camera. Captures a square frame and hands it back as a File.
  * Nothing is persisted locally — the File only lives in memory until upload.
  */
-export function CameraCapture({ onCapture, onPickFiles, onSkip, onClose, title }: {
+export function CameraCapture({ onCapture, onPickFiles, onSkip, onClose, onVoice, title }: {
+  onVoice?: () => void;
   onCapture: (f: File) => void;
   onPickFiles: (files: FileList | null) => void;
   onSkip: () => void;
@@ -95,7 +96,10 @@ export function CameraCapture({ onCapture, onPickFiles, onSkip, onClose, title }
         </button>
         <button type="button" onClick={() => setFacing((f) => (f === "user" ? "environment" : "user"))} aria-label="Đổi camera" className="grid size-14 place-items-center rounded-full bg-surface-2"><RefreshCcw className="size-6" /></button>
       </div>
-      <button type="button" onClick={onSkip} className="mx-auto mt-5 flex min-h-11 items-center gap-2 rounded-full px-4 text-sm text-muted-foreground"><PenLine className="size-4" /> Ghi không cần ảnh</button>
+      <div className="mx-auto mt-5 flex items-center gap-2">
+        <button type="button" onClick={onSkip} className="flex min-h-11 items-center gap-2 rounded-full px-4 text-sm text-muted-foreground"><PenLine className="size-4" /> Ghi không cần ảnh</button>
+        {onVoice && <button type="button" onClick={onVoice} className="flex min-h-11 items-center gap-2 rounded-full bg-surface-2 px-4 text-sm font-medium"><Mic className="size-4" /> Giọng nói</button>}
+      </div>
       <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp" multiple hidden onChange={(e) => { onPickFiles(e.target.files); e.target.value = ""; }} />
     </div>
   );
