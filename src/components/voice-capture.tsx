@@ -98,7 +98,7 @@ export function VoiceCapture({ onResult, onClose, onCamera, onManual, kind, onKi
         <Button type="button" variant="ghost" onClick={onClose} aria-label="Đóng" className="grid size-11 shrink-0 place-items-center rounded-full bg-surface-2"><X className="size-5" /></Button>
         <div className="grid flex-1 grid-cols-2 rounded-full bg-surface-2 p-1" role="tablist">
           {(["expense", "income"] as const).map((k) => (
-            <button key={k} type="button" role="tab" aria-selected={kind === k} onClick={() => onKind(k)}
+            <Button key={k} type="button" variant="ghost" role="tab" aria-selected={kind === k} onClick={() => onKind(k)}
               className={cn("min-h-10 rounded-full text-sm font-medium", kind === k ? "bg-surface font-semibold" : "text-muted-foreground")}>
               {k === "expense" ? "Chi tiêu" : "Thu nhập"}
             </Button>
