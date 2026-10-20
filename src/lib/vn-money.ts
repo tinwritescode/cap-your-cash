@@ -12,7 +12,7 @@ const UNITS: Record<string, number> = {
 /** Returns VND, or null when no amount is found. */
 export function parseSpokenVnd(input: string): number | null {
   const s = input.toLowerCase().normalize("NFC");
-  const re = /(\d+(?:[.,]\d+)?|không|một|mốt|hai|ba|bốn|tư|năm|lăm|sáu|bảy|tám|chín|mười)\s*(k|nghìn|ngàn|cành|chục|xị|lít|trăm|củ|chai|triệu|tr|m|tỷ|tỉ)\b(?:\s*(rưỡi|\d|một|mốt|hai|ba|bốn|tư|năm|lăm|sáu|bảy|tám|chín))?/u;
+  const re = /(\d+(?:[.,]\d+)?|không|một|mốt|hai|ba|bốn|tư|năm|lăm|sáu|bảy|tám|chín|mười)\s*(k|nghìn|ngàn|cành|chục|xị|lít|trăm|củ|chai|triệu|tr|m|tỷ|tỉ)(?!\p{L})(?:\s*(rưỡi|\d|một|mốt|hai|ba|bốn|tư|năm|lăm|sáu|bảy|tám|chín))?/u;
   const m = s.match(re);
   if (!m) return null;
   const n = /\d/.test(m[1]) ? Number(m[1].replace(",", ".")) : DIGITS[m[1]];
