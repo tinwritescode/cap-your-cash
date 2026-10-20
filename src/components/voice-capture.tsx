@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Camera, Loader2, Mic, PenLine, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { parseVoice, type VoiceResult } from "@/lib/voice.functions";
 
 const TICKS = 60;
@@ -94,19 +95,19 @@ export function VoiceCapture({ onResult, onClose, onCamera, onManual, kind, onKi
   return (
     <div className="flex min-h-[86dvh] flex-col bg-background px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-5">
       <div className="mb-5 flex items-center gap-3">
-        <button type="button" onClick={onClose} aria-label="Đóng" className="grid size-11 shrink-0 place-items-center rounded-full bg-surface-2"><X className="size-5" /></button>
+        <Button type="button" variant="ghost" onClick={onClose} aria-label="Đóng" className="grid size-11 shrink-0 place-items-center rounded-full bg-surface-2"><X className="size-5" /></Button>
         <div className="grid flex-1 grid-cols-2 rounded-full bg-surface-2 p-1" role="tablist">
           {(["expense", "income"] as const).map((k) => (
             <button key={k} type="button" role="tab" aria-selected={kind === k} onClick={() => onKind(k)}
               className={cn("min-h-10 rounded-full text-sm font-medium", kind === k ? "bg-surface font-semibold" : "text-muted-foreground")}>
               {k === "expense" ? "Chi tiêu" : "Thu nhập"}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center gap-8">
-        <button type="button" onClick={toggle} disabled={state === "working"} aria-label={state === "recording" ? "Dừng ghi âm" : "Bắt đầu nói"}
+        <Button type="button" variant="ghost" onClick={toggle} disabled={state === "working"} aria-label={state === "recording" ? "Dừng ghi âm" : "Bắt đầu nói"}
           className="relative grid size-72 place-items-center rounded-full">
           {Array.from({ length: TICKS }).map((_, i) => {
             const wobble = state === "recording" ? level * (0.6 + 0.4 * Math.sin(i * 1.7 + level * 9)) : 0;
@@ -118,7 +119,7 @@ export function VoiceCapture({ onResult, onClose, onCamera, onManual, kind, onKi
           <span className={cn("grid size-20 place-items-center rounded-full border border-border transition-transform", state === "recording" && "scale-110")}>
             {state === "working" ? <Loader2 className="size-6 animate-spin text-muted-foreground" /> : <span className={cn("size-4 rounded-full bg-expense", state === "recording" && "animate-pulse")} />}
           </span>
-        </button>
+        </Button>
         <p className="min-h-12 max-w-xs text-center text-sm text-muted-foreground">
           {error ? <span className="text-destructive">{error}</span>
             : state === "recording" ? "Đang nghe… bấm lần nữa để dừng"
@@ -129,9 +130,9 @@ export function VoiceCapture({ onResult, onClose, onCamera, onManual, kind, onKi
       </div>
 
       <div className="mx-auto mt-6 grid w-full max-w-md grid-cols-3 text-xs">
-        <button type="button" onClick={onManual} className="flex min-h-14 flex-col items-center justify-center gap-1 text-muted-foreground"><PenLine className="size-5" />Nhập tay</button>
+        <Button type="button" variant="ghost" onClick={onManual} className="flex min-h-14 flex-col items-center justify-center gap-1 text-muted-foreground"><PenLine className="size-5" />Nhập tay</Button>
         <span className="flex min-h-14 flex-col items-center justify-center gap-1 font-semibold"><Mic className="size-5" />Giọng nói</span>
-        <button type="button" onClick={onCamera} className="flex min-h-14 flex-col items-center justify-center gap-1 text-muted-foreground"><Camera className="size-5" />Hình ảnh</button>
+        <Button type="button" variant="ghost" onClick={onCamera} className="flex min-h-14 flex-col items-center justify-center gap-1 text-muted-foreground"><Camera className="size-5" />Hình ảnh</Button>
       </div>
     </div>
   );
