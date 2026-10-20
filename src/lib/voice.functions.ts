@@ -91,7 +91,7 @@ export const parseVoice = createServerFn({ method: "POST" })
         text: `${text}\n(${SLANG_HINT})`,
         wallets: ws.map((w) => w.name),
         categories: cs.map((c) => ({ name: c.name, type: c.type })),
-        nowLocal: vnClock(new Date()).label ?? new Date().toISOString(),
+        nowLocal: (() => { const c = vnClock(new Date()); return `${c.date} ${c.hour}h`; })(),
       });
     } catch (e) {
       if (fallback) return { ok: true, text, type: "expense", amount: fallback, categoryId: null, walletId: null, note: text, occurredAt: null };
