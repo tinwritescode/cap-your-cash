@@ -26,6 +26,7 @@ const HELP = `<b>CapMoney bot</b> — ghi chép và xem chi tiêu ngay trong Tel
 
 ✍️ Nhắn kiểu: <i>cà phê 35k ví tiền mặt</i>, <i>đổ xăng 70k</i>, <i>lương 15tr</i>
 📸 Gửi ảnh hoá đơn/biên lai để bot tự đọc số tiền
+🎙 Gửi tin nhắn thoại: <i>tiền nhà ba củ</i>
 ❓ Hỏi: <i>tháng này chi bao nhiêu?</i>, <i>còn bao nhiêu tiền?</i>
 
 Lệnh nhanh:
@@ -60,6 +61,8 @@ type TgMessage = {
   caption?: string;
   photo?: { file_id: string; file_size?: number; width: number }[];
   document?: { file_id: string; mime_type?: string; file_size?: number };
+  voice?: { file_id: string; mime_type?: string; file_size?: number; duration?: number };
+  audio?: { file_id: string; mime_type?: string; file_size?: number; duration?: number };
 };
 type TgUpdate = {
   update_id: number;
@@ -88,7 +91,7 @@ async function linkFor(db: Admin, chatId: number): Promise<Link | null> {
 
 async function onMessage(db: Admin, msg: TgMessage) {
   const chatId = msg.chat.id;
-  const text = (msg.text ?? msg.caption ?? "").trim();
+  let text = (msg.text ?? msg.caption ?? "").trim();
 
   if (text.startsWith("/start")) {
     const payload = text.split(/\s+/)[1] ?? "";
@@ -110,6 +113,21 @@ async function onMessage(db: Admin, msg: TgMessage) {
   if (cmd === "/thongbao") return sendPrefs(db, chatId, uid);
 
   const photo = msg.photo?.length ? msg.photo[msg.photo.length - 1] : msg.document?.mime_type?.startsWith("image/") ? msg.document : null;
+  const voice = msg.voice ?? msg.audio ?? null;
+  if (voice && !photo) {
+    if ((voice.file_size ?? 0) > 8 * 1024 * 1024 || (voice.duration ?? 0) > 120) throw new UserError("Tin thoại quá dài (tối đa 2 phút).");
+    await tg("sendChatAction", { chat_id: chatId, action: "typing" }).catch(() => null);
+    const apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) throw new Error("LOVABLE_API_KEY is not configured");
+    const { transcribe } = await import("../stt.server");
+    const audio = await downloadFile(voice.file_id);
+    let heard: string;
+    try { heard = await transcribe(new Uint8Array(audio), voice.mime_type ?? "audio/ogg", apiKey); }
+    catch (e) { throw new AiError((e as { status?: number }).status ?? 500); }
+    if (!heard) throw new UserError("Không nghe rõ, bạn nói lại nhé.");
+    await sendMessage(chatId, `🎙 <i>${escapeHtml(heard)}</i>`);
+    text = heard;
+  }
   if (!photo && !text) return sendMessage(chatId, HELP);
   if (photo && (photo.file_size ?? 0) > 10 * 1024 * 1024) throw new UserError("Ảnh quá lớn (tối đa 10MB).");
 

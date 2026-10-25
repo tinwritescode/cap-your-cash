@@ -1,6 +1,6 @@
 // Understands bot messages (text or receipt photo) with Lovable AI (Responses API, streamed).
 const GATEWAY = "https://ai.gateway.lovable.dev/v1/responses";
-const MODEL = "openai/gpt-6-astra";
+const MODEL = "openai/gpt-6.1-sol";
 
 export type Intent = {
   intent: "record" | "query" | "help" | "chat";
