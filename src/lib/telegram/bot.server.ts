@@ -28,6 +28,7 @@ const HELP = `<b>CapMoney bot</b> — ghi chép và xem chi tiêu ngay trong Tel
 📸 Gửi ảnh hoá đơn/biên lai để bot tự đọc số tiền
 🎙 Gửi tin nhắn thoại: <i>tiền nhà ba củ</i>
 ❓ Hỏi: <i>tháng này chi bao nhiêu?</i>, <i>còn bao nhiêu tiền?</i>
+⚡ Thêm <b>/no-confirm</b> để lưu luôn không hỏi lại: <i>400k ăn /no-confirm</i>
 
 Lệnh nhanh:
 /sodu — số dư các ví
@@ -92,6 +93,9 @@ async function linkFor(db: Admin, chatId: number): Promise<Link | null> {
 async function onMessage(db: Admin, msg: TgMessage) {
   const chatId = msg.chat.id;
   let text = (msg.text ?? msg.caption ?? "").trim();
+  const NO_CONFIRM = /(^|\s)\/no[-_]?confirm(@\w+)?(?=\s|$)/i;
+  const noConfirm = NO_CONFIRM.test(text);
+  if (noConfirm) text = text.replace(NO_CONFIRM, " ").replace(/\s+/g, " ").trim();
 
   if (text.startsWith("/start")) {
     const payload = text.split(/\s+/)[1] ?? "";
@@ -158,7 +162,7 @@ async function onMessage(db: Admin, msg: TgMessage) {
     nowLocal: formatDateTime(now),
   });
 
-  if (intent.intent === "record") return createDraft(db, chatId, uid, intent, activeW, activeC, bytes);
+  if (intent.intent === "record") return createDraft(db, chatId, link, intent, activeW, activeC, bytes, noConfirm);
   if (intent.intent === "query") {
     if (intent.query === "balance") return sendMessage(chatId, await balanceText(db, uid));
     if (intent.query === "budget") return sendMessage(chatId, await budgetText(db, uid));
@@ -209,7 +213,8 @@ function pickCategory(cats: Category[], name: string | null, type: string) {
   return (n && list.find((c) => c.name.toLowerCase() === n)) || list.find((c) => /khác/i.test(c.name)) || list[0] || null;
 }
 
-async function createDraft(db: Admin, chatId: number, uid: string, it: Intent, wallets: Wallet[], cats: Category[], photo: Uint8Array | null) {
+async function createDraft(db: Admin, chatId: number, link: Link, it: Intent, wallets: Wallet[], cats: Category[], photo: Uint8Array | null, noConfirm = false) {
+  const uid = link.user_id;
   const type = it.type ?? "expense";
   if (!it.amount_vnd || it.amount_vnd <= 0) throw new UserError("Mình chưa thấy số tiền. Thử lại kiểu “cà phê 35k” nhé.");
   if (!wallets.length) throw new UserError("Bạn chưa có ví nào. Tạo ví trong app trước nhé.");
@@ -235,6 +240,20 @@ async function createDraft(db: Admin, chatId: number, uid: string, it: Intent, w
     const path = `${uid}/${draft.tx_id}/${photoId}.jpg`;
     const { error } = await db.storage.from("photos").upload(path, photo, { contentType: "image/jpeg", upsert: false });
     if (!error) draft.photos.push({ id: photoId, original_path: path, thumb_path: path, sort_order: 0 });
+  }
+  if (noConfirm) {
+    try {
+      await dispatch(db, uid, "transactions.create", {
+        id: draft.tx_id, type: draft.type, amount_vnd: draft.amount_vnd, source_wallet_id: draft.source_wallet_id, dest_wallet_id: draft.dest_wallet_id,
+        category_id: draft.category_id, occurred_at: draft.occurred_at, note: draft.note, photos: draft.photos,
+      });
+    } catch (e) {
+      if (draft.photos.length) await db.storage.from("photos").remove(draft.photos.map((p) => p.original_path));
+      throw e;
+    }
+    await sendMessage(chatId, draftText(draft, wallets, cats, "✅ Đã lưu"));
+    if (draft.type === "expense" && link.notify_budget) await checkBudget(db, link);
+    return;
   }
   const { data: row, error } = await db.from("telegram_drafts").insert({ user_id: uid, chat_id: chatId, draft: draft as never }).select("id").single();
   if (error) throw error;
