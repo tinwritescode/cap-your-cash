@@ -28,6 +28,7 @@ const HELP = `<b>CapMoney bot</b> — ghi chép và xem chi tiêu ngay trong Tel
 📸 Gửi ảnh hoá đơn/biên lai để bot tự đọc số tiền
 🎙 Gửi tin nhắn thoại: <i>tiền nhà ba củ</i>
 ❓ Hỏi: <i>tháng này chi bao nhiêu?</i>, <i>còn bao nhiêu tiền?</i>
+⚡ Thêm <b>/no-confirm</b> để lưu luôn không hỏi lại: <i>400k ăn /no-confirm</i>
 
 Lệnh nhanh:
 /sodu — số dư các ví
@@ -92,6 +93,9 @@ async function linkFor(db: Admin, chatId: number): Promise<Link | null> {
 async function onMessage(db: Admin, msg: TgMessage) {
   const chatId = msg.chat.id;
   let text = (msg.text ?? msg.caption ?? "").trim();
+  const NO_CONFIRM = /(^|\s)\/no[-_]?confirm(@\w+)?(?=\s|$)/i;
+  const noConfirm = NO_CONFIRM.test(text);
+  if (noConfirm) text = text.replace(NO_CONFIRM, " ").replace(/\s+/g, " ").trim();
 
   if (text.startsWith("/start")) {
     const payload = text.split(/\s+/)[1] ?? "";
@@ -158,7 +162,7 @@ async function onMessage(db: Admin, msg: TgMessage) {
     nowLocal: formatDateTime(now),
   });
 
-  if (intent.intent === "record") return createDraft(db, chatId, uid, intent, activeW, activeC, bytes);
+  if (intent.intent === "record") return createDraft(db, chatId, link, intent, activeW, activeC, bytes, noConfirm);
   if (intent.intent === "query") {
     if (intent.query === "balance") return sendMessage(chatId, await balanceText(db, uid));
     if (intent.query === "budget") return sendMessage(chatId, await budgetText(db, uid));
